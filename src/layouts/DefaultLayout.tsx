@@ -4,6 +4,7 @@ import EventIcon from '@mui/icons-material/Event';
 import HubIcon from '@mui/icons-material/Hub';
 import {AppProvider, Navigation} from '@toolpad/core/AppProvider';
 import {DashboardLayout} from '@toolpad/core/DashboardLayout';
+import {browserRouter} from '../pages/router';
 
 
 const NAVIGATION: Navigation = [
@@ -34,6 +35,7 @@ export const DefaultLayout = ({children}: { children: React.ReactNode }) => {
         logo: <img src="/logo.svg" alt="logo"/>,
       }}
       navigation={NAVIGATION}
+      router={browserRouter}
     >
       <DashboardLayout>
         <div style={{padding: 20}}>
