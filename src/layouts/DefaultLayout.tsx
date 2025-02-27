@@ -2,9 +2,9 @@ import * as React from 'react';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import EventIcon from '@mui/icons-material/Event';
 import HubIcon from '@mui/icons-material/Hub';
-import {AppProvider, Navigation} from '@toolpad/core/AppProvider';
-import {DashboardLayout} from '@toolpad/core/DashboardLayout';
-import {browserRouter} from '../pages/router';
+import { AppProvider, Navigation, Router } from '@toolpad/core/AppProvider';
+import { DashboardLayout } from '@toolpad/core/DashboardLayout';
+import { browserRouter } from '~/pages/router';
 
 
 const NAVIGATION: Navigation = [
@@ -26,7 +26,7 @@ const NAVIGATION: Navigation = [
 ];
 
 
-export const DefaultLayout = ({children}: { children: React.ReactNode }) => {
+export const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
   //
   return (
     <AppProvider
@@ -35,10 +35,10 @@ export const DefaultLayout = ({children}: { children: React.ReactNode }) => {
         logo: <img src="/logo.svg" alt="logo"/>,
       }}
       navigation={NAVIGATION}
-      router={browserRouter}
+      router={browserRouter as unknown as Router}
     >
       <DashboardLayout>
-        <div style={{padding: 20}}>
+        <div style={{ padding: 20 }}>
           <React.Suspense fallback={<>loading screen</>}>
             {children}
           </React.Suspense>
@@ -46,4 +46,4 @@ export const DefaultLayout = ({children}: { children: React.ReactNode }) => {
       </DashboardLayout>
     </AppProvider>
   );
-}
+};

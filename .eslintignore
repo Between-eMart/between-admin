@@ -1,0 +1,4 @@
+**/.changeset
+**/node_modules
+**/global.d.ts
+**/vite.config.ts
