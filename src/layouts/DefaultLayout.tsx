@@ -1,49 +1,50 @@
 import * as React from 'react';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import EventIcon from '@mui/icons-material/Event';
-import HubIcon from '@mui/icons-material/Hub';
-import { AppProvider, Navigation, Router } from '@toolpad/core/AppProvider';
-import { DashboardLayout } from '@toolpad/core/DashboardLayout';
-import { browserRouter } from '~/pages/router';
-
-
-const NAVIGATION: Navigation = [
-  {
-    segment: 'dashboard',
-    title: 'Dashboard',
-    icon: <DashboardIcon/>,
-  },
-  {
-    segment: 'my-events',
-    title: 'My Events',
-    icon: <EventIcon/>,
-  },
-  {
-    segment: 'connections',
-    title: 'Connections',
-    icon: <HubIcon/>,
-  },
-];
+import { alpha } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import AppTheme from '~/theme/AppTheme';
+import { useAuth } from '~/context';
+import { AppNavbar, Header, LoginForm, SideMenu } from '~/layouts/components';
 
 
 export const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
   //
-  return (
-    <AppProvider
-      branding={{
-        title: 'Between Business',
-        logo: <img src="/logo.svg" alt="logo"/>,
-      }}
-      navigation={NAVIGATION}
-      router={browserRouter as unknown as Router}
-    >
-      <DashboardLayout>
-        <div style={{ padding: 20 }}>
-          <React.Suspense fallback={<>loading screen</>}>
-            {children}
-          </React.Suspense>
-        </div>
-      </DashboardLayout>
-    </AppProvider>
+  const { user } = useAuth();
+
+  return user ? (
+    <>
+      <AppTheme>
+        <CssBaseline enableColorScheme/>
+        <Box sx={{ display: 'flex' }}>
+          <SideMenu/>
+          <AppNavbar/>
+          {/* Main content */}
+          <Box
+            component="main"
+            sx={(theme) => ({
+              flexGrow: 1,
+              backgroundColor: alpha(theme.palette.background.default, 1),
+              overflow: 'auto',
+            })}
+          >
+            <Stack
+              spacing={2}
+              sx={{
+                alignItems: 'center',
+                mx: 3,
+                pb: 5,
+                mt: { xs: 8, md: 0 },
+              }}
+            >
+              <Header/>
+              {children}
+            </Stack>
+          </Box>
+        </Box>
+      </AppTheme>
+    </>
+  ) : (
+    <LoginForm/>
   );
 };

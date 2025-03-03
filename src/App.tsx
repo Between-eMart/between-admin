@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { SnackbarProvider } from 'notistack';
 import axios from 'axios';
+import { AuthProvider } from '~/context';
 
 const App = () => {
   //
@@ -22,11 +23,13 @@ const App = () => {
 
   return (
     <>
-      <QueryClientProvider client={queryClient}>
-        <SnackbarProvider>
-          <RouterProvider router={router}/>
-        </SnackbarProvider>
-      </QueryClientProvider>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <SnackbarProvider>
+            <RouterProvider router={router}/>
+          </SnackbarProvider>
+        </QueryClientProvider>
+      </AuthProvider>
     </>
   );
 };
