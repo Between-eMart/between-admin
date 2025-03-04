@@ -1,7 +1,6 @@
 import { InquiryCategory, InquiryRespondForm, InquirySubject } from '~/models/aggregate/support/vo';
-import { DomainEntity } from '~/models/aggregate/shared';
 
-export interface Inquiry extends DomainEntity {
+export interface InquiryCdo {
   authorName: string;
   authorSurname: string;
   email: string;
@@ -11,4 +10,3 @@ export interface Inquiry extends DomainEntity {
   subject: InquirySubject;
   inquiryRespondForm: InquiryRespondForm;
 }
-

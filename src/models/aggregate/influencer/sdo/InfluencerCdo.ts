@@ -1,7 +1,6 @@
 import { Gender } from '~/models/aggregate/influencer/vo';
-import { DomainEntity } from '~/models/aggregate/shared';
 
-export interface Influencer extends DomainEntity {
+export interface InfluencerCdo {
   name: string;
   surname: string;
   birthday?: string;
@@ -16,7 +15,4 @@ export interface Influencer extends DomainEntity {
   isActive: boolean;
   hasAcceptedUserPolicy: boolean;
   profileCreateRequestId?: number;
-  profileHealthId?: number;
-  completedEventTaskIds?: number[];
 }
-
