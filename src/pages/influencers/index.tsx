@@ -1,7 +1,7 @@
+import {InfluencerList} from '~/components';
+
 export const IndexPage = () => {
-  return (
-    <>
-      Influencers
-    </>
-  );
+  //
+
+  return (<InfluencerList/>);
 };
