@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {styled} from '@mui/material/styles';
-import MuiDrawer, {drawerClasses} from '@mui/material/Drawer';
+import { styled } from '@mui/material/styles';
+import MuiDrawer, { drawerClasses } from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import {MenuContent} from '~/layouts';
+import { MenuContent } from '~/layouts';
 
 const drawerWidth = 240;
 
@@ -24,7 +24,7 @@ export default function SideMenu() {
     <Drawer
       variant="permanent"
       sx={{
-        display: {xs: 'none', md: 'block'},
+        display: { xs: 'none', md: 'block' },
         [`& .${drawerClasses.paper}`]: {
           backgroundColor: 'background.paper',
         },
@@ -33,21 +33,20 @@ export default function SideMenu() {
       <Box
         sx={{
           display: 'flex',
-          mt: 'calc(var(--template-frame-height, 0px) + 4px)',
-          p: 1.5,
-          gap: 3,
+          flexDirection: 'column',
+          p: 3,
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
         <img src={'/logo.svg'} alt="logo" height={30}/>
         <Typography
-          variant="h6"
+          variant="h4"
           noWrap
           component="a"
           sx={{
             mr: 2,
-            display: {xs: 'none', md: 'flex'},
+            display: { xs: 'none', md: 'flex' },
             fontFamily: 'monospace',
             fontWeight: 700,
             letterSpacing: '.3rem',
@@ -55,9 +54,9 @@ export default function SideMenu() {
             textDecoration: 'none',
           }}
         >
-          Between<br/>
-          Admin
+          BETWEEN
         </Typography>
+        <span>EST.2024</span>
       </Box>
       <Divider/>
       <Box

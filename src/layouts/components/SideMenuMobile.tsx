@@ -6,8 +6,7 @@ import Drawer, { drawerClasses } from '@mui/material/Drawer';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
-import { MenuButton, MenuContent } from '~/layouts';
+import { MenuContent } from '~/layouts';
 import { useAuth } from '~/context';
 
 interface SideMenuMobileProps {
@@ -45,17 +44,13 @@ export default function SideMenuMobile({ open, toggleDrawer }: SideMenuMobilePro
           >
             <Avatar
               sizes="small"
-              alt="Riley Carter"
-              src="/static/images/avatar/7.jpg"
+              alt="Business Owner"
               sx={{ width: 24, height: 24 }}
             />
             <Typography component="p" variant="h6">
-              Riley Carter
+              Business Owner
             </Typography>
           </Stack>
-          <MenuButton showBadge>
-            <NotificationsRoundedIcon/>
-          </MenuButton>
         </Stack>
         <Divider/>
         <Stack sx={{ flexGrow: 1 }}>

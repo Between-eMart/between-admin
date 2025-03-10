@@ -1,7 +1,7 @@
 export const IndexPage = () => {
   return (
     <>
-      Connections
+      Support
     </>
   );
 };

@@ -1,7 +1,6 @@
+import { Dashboard } from '~/components';
+
 export const IndexPage = () => {
-  return (
-    <>
-      DASHBOARD
-    </>
-  );
+  //
+  return (<Dashboard/>);
 };

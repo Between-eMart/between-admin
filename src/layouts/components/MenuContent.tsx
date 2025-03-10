@@ -7,13 +7,19 @@ import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
-import HubRoundedIcon from '@mui/icons-material/HubRounded';
+import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
+import BusinessCenterRoundedIcon from '@mui/icons-material/BusinessCenterRounded';
+import SupportRoundedIcon from '@mui/icons-material/SupportRounded';
+import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import { useNavigate } from 'react-router-dom';
 
 const mainListItems = [
-  { text: 'Home', path: '/dashboard', icon: <HomeRoundedIcon/> },
-  { text: 'My Events', path: '/my-events', icon: <EventRoundedIcon/> },
-  { text: 'Connections', path: '/connections', icon: <HubRoundedIcon/> },
+  { text: 'Dashboard', path: '/dashboard', icon: <HomeRoundedIcon/> },
+  { text: 'Influencers', path: '/influencers', icon: <PeopleRoundedIcon/> },
+  { text: 'Organizations', path: '/organizations', icon: <BusinessCenterRoundedIcon/> },
+  { text: 'Events', path: '/events', icon: <EventRoundedIcon/> },
+  { text: 'Support', path: '/support', icon: <SupportRoundedIcon/> },
+  { text: 'Settings', path: '/settings', icon: <SettingsRoundedIcon/> },
 ];
 
 export default function MenuContent() {
