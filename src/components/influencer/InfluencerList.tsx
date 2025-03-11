@@ -1,12 +1,12 @@
 import React, { SyntheticEvent, useState } from 'react';
-import { Box, Button, Pagination, Paper, TextField } from '@mui/material';
-import { FilterList, Search } from '@mui/icons-material';
+import { Box, Pagination, Paper, TextField } from '@mui/material';
+import { Search } from '@mui/icons-material';
 import { useInfluencerRdos } from './hooks';
 import {
   InfluencerDetailDialogView,
   InfluencerFilterPanelView,
   InfluencerTableView,
-  ProfileCreateRequestTableView
+  ProfileCreateRequestTableView,
 } from './views';
 import TabList from '@mui/lab/TabList';
 import Tab from '@mui/material/Tab';
@@ -27,10 +27,12 @@ export const InfluencerList = () => {
     applyFilters,
     clearFilters,
   } = useInfluencerRdos(tabValue != '1');
+
   const handleTabValueChange = (event: SyntheticEvent, newValue: string) => {
     //
     setTabValue(newValue);
   };
+
   return (
     <>
       <Paper sx={{ width: '100%', p: 3, borderRadius: 2 }}>

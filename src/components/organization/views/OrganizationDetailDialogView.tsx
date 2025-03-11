@@ -27,7 +27,7 @@ export const OrganizationDetailDialogView = ({ organization, onClose }) => {
       <DialogContent>
         <Grid container spacing={2} alignItems="center">
           <Grid item>
-            <Avatar sx={{ width: 64, height: 64 }} />
+            <Avatar sx={{ width: 64, height: 64 }}> </Avatar>
           </Grid>
           <Grid item xs>
             <Typography color="text.secondary">

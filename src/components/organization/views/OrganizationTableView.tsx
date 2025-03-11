@@ -18,13 +18,13 @@ const statusColors = {
 };
 
 
-export const OrganizationTableView = ({organizations, onDetail}) => {
+export const OrganizationTableView = ({ organizations, onDetail }) => {
   //
   return (
     <>
       <TableContainer>
         <Table>
-          <TableHead sx={{backgroundColor: '#f5f5f5'}}>
+          <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
             <TableRow>
               <TableCell><b>Name</b></TableCell>
               <TableCell><b>Contact</b></TableCell>
@@ -38,7 +38,7 @@ export const OrganizationTableView = ({organizations, onDetail}) => {
               <TableRow key={index}>
                 <TableCell onClick={() => onDetail(organization)}>
                   <Box display="flex" alignItems="center" gap={2}>
-                    <Avatar sx={{bgcolor: '#ccc'}}>{organization.name[0]}</Avatar>
+                    <Avatar sx={{ bgcolor: '#ccc' }}> </Avatar>
                     <Typography color="primary" fontWeight="medium">{organization.name}</Typography>
                   </Box>
                 </TableCell>
