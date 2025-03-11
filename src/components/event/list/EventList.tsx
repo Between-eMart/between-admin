@@ -1,10 +1,16 @@
 import React from 'react';
-import {Box, Pagination, Paper, TextField} from '@mui/material';
-import {Search} from '@mui/icons-material';
-import {useEventRdos} from './hooks';
-import {EventFilterPanelView, EventTableView} from './views';
+import { Box, Pagination, Paper, TextField } from '@mui/material';
+import { Search } from '@mui/icons-material';
+import { useEventRdos } from './hooks';
+import { EventFilterPanelView, EventTableView } from './views';
 
-export const EventList = () => {
+export const EventList = (
+  {
+    onDetail,
+  }:{
+    onDetail: (eventId: string) => void;
+  },
+) => {
   //
   const {
     search,
@@ -18,7 +24,7 @@ export const EventList = () => {
   } = useEventRdos();
 
   return (
-    <Paper sx={{width: '100%', p: 3, borderRadius: 2}}>
+    <Paper sx={{ width: '100%', p: 3, borderRadius: 2 }}>
       {/* Search & Filters */}
       <Box display="flex" gap={2} mt={2} mb={3}>
         <TextField
@@ -28,7 +34,7 @@ export const EventList = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           InputProps={{
-            startAdornment: <Search color="disabled" sx={{mr: 1}}/>,
+            startAdornment: <Search color="disabled" sx={{ mr: 1 }}/>,
           }}
           fullWidth
         />
@@ -41,8 +47,7 @@ export const EventList = () => {
       {/* Table */}
       <EventTableView
         events={paginatedEvents}
-        onDetail={_ => {
-        }}
+        onDetail={event => onDetail(event.id)}
       />
 
       {/* Pagination */}
