@@ -21,7 +21,7 @@ export const ProfileCreateRequestTableView = ({ influencers, onDetail }) => {
         <Table>
           <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
             <TableRow>
-              <TableCell><b>Users name</b></TableCell>
+              <TableCell><b>Name</b></TableCell>
               <TableCell><b>Instagram</b></TableCell>
               <TableCell><b>Followers</b></TableCell>
               <TableCell/>

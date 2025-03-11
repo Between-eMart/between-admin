@@ -5,32 +5,71 @@ import {
   Chip,
   Drawer,
   FormControl,
-  FormControlLabel,
   InputLabel,
   MenuItem,
   OutlinedInput,
-  Radio,
-  RadioGroup,
   Select,
   Typography,
 } from '@mui/material';
 import { FilterList } from '@mui/icons-material';
 
-const interestsList = [
-  'Beauty', 'Art and design', 'Relax', 'Cars and transport', 'Food',
-  'Fitness', 'Books', 'Gym', 'Fashion', 'Activity', 'Shooting',
-  'Finance', 'Games', 'Cure', 'Concerts and festivals', 'IT technology',
-  'Lifestyle', 'Marketing', 'Psychology', 'Music', 'Nature',
-  'News and media', 'Personal growth', 'Photography', 'Politics',
-  'Property', 'Travelling', 'TV and films',
+const categoriesList = [
+  "Restaurant",
+  "Cafe",
+  "Barbershop",
+  "Beauty Salon",
+  "Spa & Wellness",
+  "Grocery Store",
+  "Clothing Store",
+  "Shoe Store",
+  "Jewelry Store",
+  "IT Services",
+  "Fitness Center",
+  "Car Repair",
+  "Bookstore",
+  "Pet Store",
+  "Pharmacy",
+  "Electronics Store",
+  "Home Appliances",
+  "Furniture Store",
+  "Real Estate Agency",
+  "Legal Services",
+  "Medical Clinic",
+  "Dentist",
+  "Event Planning",
+  "Photography Studio",
+  "Printing Services",
+  "Marketing Agency",
+  "Travel Agency",
+  "Hotel",
+  "Courier Service",
+  "Coworking Space",
+  "Laundry Service",
+  "Tattoo Studio",
+  "Florist",
+  "Handmade Crafts",
+  "Toy Store",
+  "Automobile Dealership",
+  "Construction Services",
+  "Architectural Firm",
+  "Financial Consulting",
+  "Language School",
+  "Music School",
+  "Dance Studio",
+  "Martial Arts School",
+  "Bicycle Shop",
+  "Gaming Lounge",
+  "Bar & Lounge",
+  "Fast Food",
+  "Organic Food Store",
+  "Vegan Restaurant"
 ];
 
-export const InfluencerFilterPanelView = ({ onApplyFilters, onClearFilters }) => {
+export const OrganizationFilterPanelView = ({ onApplyFilters, onClearFilters }) => {
   //
   const [open, setOpen] = useState(false);
   const [filters, setFilters] = useState({
-    interests: [] as string[],
-    gender: '',
+    categories: [] as string[],
   });
 
   const handleFilterChange = (key, value) => {
@@ -46,7 +85,7 @@ export const InfluencerFilterPanelView = ({ onApplyFilters, onClearFilters }) =>
   };
 
   const clearFilters = () => {
-    setFilters({ interests: [], gender: '' });
+    setFilters({ categories: [] });
     onClearFilters();
   };
 
@@ -62,12 +101,12 @@ export const InfluencerFilterPanelView = ({ onApplyFilters, onClearFilters }) =>
 
           {/* Interest Dropdown */}
           <FormControl fullWidth margin="normal">
-            <InputLabel>Interests</InputLabel>
+            <InputLabel>Categories</InputLabel>
             <Select
               multiple
-              value={filters.interests}
-              onChange={(e) => handleFilterChange('interests', e.target.value)}
-              input={<OutlinedInput label="Interests"/>}
+              value={filters.categories}
+              onChange={(e) => handleFilterChange('categories', e.target.value)}
+              input={<OutlinedInput label="Categories"/>}
               renderValue={(selected) => (
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                   {selected.map((value) => (
@@ -76,21 +115,11 @@ export const InfluencerFilterPanelView = ({ onApplyFilters, onClearFilters }) =>
                 </Box>
               )}
             >
-              {interestsList.map((item) => (
+              {categoriesList.map((item) => (
                 <MenuItem key={item} value={item}>{item}</MenuItem>
               ))}
             </Select>
           </FormControl>
-
-          {/* Gender Selection */}
-          <Typography variant="subtitle1" mt={2}>Gender</Typography>
-          <RadioGroup
-            value={filters.gender}
-            onChange={(e) => handleFilterChange('gender', e.target.value)}
-          >
-            <FormControlLabel value="male" control={<Radio/>} label="Male"/>
-            <FormControlLabel value="female" control={<Radio/>} label="Female"/>
-          </RadioGroup>
 
           {/* Apply Filters Button */}
           <Button
