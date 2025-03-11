@@ -1,1 +1,1 @@
-export * from './InfluencerList';
+export * from './list';

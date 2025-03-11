@@ -1,1 +1,1 @@
-export * from './OrganizationList';
+export * from './list';
