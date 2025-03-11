@@ -2,7 +2,12 @@ import React, { SyntheticEvent, useState } from 'react';
 import { Box, Button, Pagination, Paper, TextField } from '@mui/material';
 import { FilterList, Search } from '@mui/icons-material';
 import { useInfluencerRdos } from './hooks';
-import { InfluencerDetailDialogView, InfluencerTableView, ProfileCreateRequestTableView } from './views';
+import {
+  InfluencerDetailDialogView,
+  InfluencerFilterPanelView,
+  InfluencerTableView,
+  ProfileCreateRequestTableView
+} from './views';
 import TabList from '@mui/lab/TabList';
 import Tab from '@mui/material/Tab';
 import TabPanel from '@mui/lab/TabPanel';
@@ -19,6 +24,8 @@ export const InfluencerList = () => {
     setPage,
     paginatedInfluencers,
     totalPages,
+    applyFilters,
+    clearFilters,
   } = useInfluencerRdos(tabValue != '1');
   const handleTabValueChange = (event: SyntheticEvent, newValue: string) => {
     //
@@ -47,9 +54,10 @@ export const InfluencerList = () => {
               }}
               fullWidth
             />
-            <Button variant="outlined" startIcon={<FilterList/>}>
-              Filters
-            </Button>
+            <InfluencerFilterPanelView
+              onApplyFilters={applyFilters}
+              onClearFilters={clearFilters}
+            />
           </Box>
 
           {/* Table */}

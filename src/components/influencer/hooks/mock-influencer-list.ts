@@ -6,6 +6,7 @@ export const mockInfluencerList = [
     contact: '(+998) 91 456 78 90',
     gender: 'Male',
     location: 'Yunusobod 12, Tashkent',
+    interests: ['Politics'],
     status: 'Confirm',
   },
   {
@@ -15,6 +16,7 @@ export const mockInfluencerList = [
     contact: '(+998) 93 987 65 43',
     gender: 'Male',
     location: 'Chilonzor 3, Tashkent',
+    interests: ['Psychology'],
     status: 'Banned',
   },
   {
@@ -24,6 +26,7 @@ export const mockInfluencerList = [
     contact: '(+998) 95 345 67 89',
     gender: 'Female',
     location: 'Mirabad 5, Tashkent',
+    interests: ['Beauty'],
     status: 'Request',
   },
   {
@@ -33,6 +36,7 @@ export const mockInfluencerList = [
     contact: '(+998) 99 876 54 32',
     gender: 'Female',
     location: 'Shayxontoxur 8, Tashkent',
+    interests: ['Fitness'],
     status: 'Confirm',
   },
   {
@@ -42,6 +46,7 @@ export const mockInfluencerList = [
     contact: '(+998) 97 234 56 78',
     gender: 'Male',
     location: 'Olmazor 14, Tashkent',
+    interests: ['Gym'],
     status: 'Banned',
   },
   {
@@ -51,6 +56,7 @@ export const mockInfluencerList = [
     contact: '(+998) 88 654 32 10',
     gender: 'Female',
     location: 'Uchtepa 7, Tashkent',
+    interests: ['Photography'],
     status: 'Request',
   },
   {
@@ -60,6 +66,7 @@ export const mockInfluencerList = [
     contact: '(+998) 94 321 45 67',
     gender: 'Male',
     location: 'Yakkasaroy 15, Tashkent',
+    interests: ['Nature'],
     status: 'Pending',
   },
   {
@@ -69,6 +76,7 @@ export const mockInfluencerList = [
     contact: '(+998) 90 765 43 21',
     gender: 'Female',
     location: 'Sergeli 9, Tashkent',
+    interests: ['Shooting'],
     status: 'Confirm',
   },
   {
@@ -78,6 +86,7 @@ export const mockInfluencerList = [
     contact: '(+998) 91 678 90 12',
     gender: 'Male',
     location: 'Mirobod 4, Tashkent',
+    interests: ['Activity'],
     status: 'Banned',
   },
   {
@@ -87,6 +96,7 @@ export const mockInfluencerList = [
     contact: '(+998) 93 890 12 34',
     gender: 'Female',
     location: 'Bektemir 6, Tashkent',
+    interests: ['Fashion'],
     status: 'Reject',
   },
   {
@@ -96,6 +106,7 @@ export const mockInfluencerList = [
     contact: '(+998) 95 432 10 98',
     gender: 'Male',
     location: 'Chilonzor 22, Tashkent',
+    interests: ['Books'],
     status: 'Confirm',
   },
   {
@@ -105,6 +116,7 @@ export const mockInfluencerList = [
     contact: '(+998) 97 210 98 76',
     gender: 'Female',
     location: 'Mirzo-Ulugbek 11, Tashkent',
+    interests: ['Food'],
     status: 'Request',
   },
   {
@@ -114,6 +126,7 @@ export const mockInfluencerList = [
     contact: '(+998) 99 567 89 01',
     gender: 'Male',
     location: 'Shayxontoxur 13, Tashkent',
+    interests: ['Relax'],
     status: 'Banned',
   },
 ];

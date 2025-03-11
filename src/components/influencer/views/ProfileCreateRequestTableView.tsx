@@ -9,9 +9,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography
-} from "@mui/material";
-import React from "react";
+  Typography,
+} from '@mui/material';
+import React from 'react';
 
 export const ProfileCreateRequestTableView = ({ influencers, onDetail }) => {
   //
@@ -53,5 +53,5 @@ export const ProfileCreateRequestTableView = ({ influencers, onDetail }) => {
         </Table>
       </TableContainer>
     </>
-  )
-}
+  );
+};
