@@ -17,19 +17,19 @@ export const useEventCategoryMutation = () => {
     defaultEventCategory,
     mutation: {
       registerEventCategory: useMutation<
-        AxiosResponse<CommandResponse>,
+        AxiosResponse<CommandResponse<any>>,
         unknown,
         FirstParameter<typeof EventCategoryFlowApi.registerEventCategory>
       >(EventCategoryFlowApi.registerEventCategory as any, {}),
 
       modifyEventCategory: useMutation<
-        AxiosResponse<CommandResponse>,
+        AxiosResponse<CommandResponse<any>>,
         unknown,
         FirstParameter<typeof EventCategoryFlowApi.modifyEventCategory>
       >(EventCategoryFlowApi.modifyEventCategory as any, {}),
 
       removeEventCategory: useMutation<
-        AxiosResponse<CommandResponse>,
+        AxiosResponse<CommandResponse<any>>,
         unknown,
         FirstParameter<typeof EventCategoryFlowApi.removeEventCategory>
       >(EventCategoryFlowApi.removeEventCategory as any, {}),

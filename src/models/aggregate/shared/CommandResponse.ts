@@ -1,6 +1,6 @@
-export interface CommandResponse {
+export interface CommandResponse<T> {
   //
-  response?: any;
+  response?: T;
   requestFailed?: boolean;
   failureMessage?: {
     exceptionName?: string;

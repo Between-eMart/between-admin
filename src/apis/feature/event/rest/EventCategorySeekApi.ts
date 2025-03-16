@@ -5,13 +5,13 @@ import { FindAllEventCategoriesQuery, FindEventCategoryByIdQuery } from '../quer
 const url = (path: string) => `/api/feature/event-category/${path}`;
 
 const findEventCategoryById = async (query: FindEventCategoryByIdQuery): Promise<QueryResponse<EventCategory>> => {
-  const response = await axios.post<QueryResponse<EventCategory>>(url('/find-event-category-by-id/query'), query);
+  const response = await axios.post<QueryResponse<EventCategory>>(url('find-event-category-by-id/query'), query);
   return response.data;
 };
 
 const findAllEventCategories = async (query: FindAllEventCategoriesQuery): Promise<QueryResponse<EventCategory[]>> => {
   const response = await axios.post<QueryResponse<EventCategory[]>>(
-    url('/find-all-event-categories/query'),
+    url('find-all-event-categories/query'),
     query,
   );
   return response.data;

@@ -27,19 +27,19 @@ export const useEventMutation = () => {
 
     mutation: {
       registerEvent: useMutation<
-        AxiosResponse<CommandResponse>,
+        AxiosResponse<CommandResponse<any>>,
         unknown,
         FirstParameter<typeof EventFlowApi.registerEvent>
       >(EventFlowApi.registerEvent as any, {}),
 
       modifyEvent: useMutation<
-        AxiosResponse<CommandResponse>,
+        AxiosResponse<CommandResponse<any>>,
         unknown,
         FirstParameter<typeof EventFlowApi.modifyEvent>
       >(EventFlowApi.modifyEvent as any, {}),
 
       removeEvent: useMutation<
-        AxiosResponse<CommandResponse>,
+        AxiosResponse<CommandResponse<any>>,
         unknown,
         FirstParameter<typeof EventFlowApi.removeEvent>
       >(EventFlowApi.removeEvent as any, {}),

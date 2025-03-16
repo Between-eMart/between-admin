@@ -17,7 +17,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://between.io',
+        target: 'http://localhost:9093',
         rewrite: (path) => path.replace('/api', '/api'),
         changeOrigin: true,
         ws: true,
