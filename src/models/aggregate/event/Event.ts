@@ -1,7 +1,9 @@
 import { DomainEntity } from '~/models/aggregate/shared';
 import { EventStatus } from '~/models/aggregate/event/vo';
+import { EventBanner, EventTask } from '~/models';
 
 export interface Event extends DomainEntity {
+  //
   name: string;
   description?: string;
   organizers?: string;
@@ -22,4 +24,6 @@ export interface Event extends DomainEntity {
   attendRequestIds?: number[];
   establishmentId?: number;
   completedTaskIds?: number[];
+  banners?: EventBanner[];
+  tasks?: EventTask[];
 }
