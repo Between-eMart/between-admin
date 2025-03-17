@@ -3,16 +3,17 @@ import { FindEventByIdQuery } from '~/apis';
 import { QueryResponse } from '~/models';
 import eventSeekApi from '~/apis/feature/event/rest/EventSeekApi';
 
-export const useEvent = (eventId: number) => {
+export const useEvent = (id: string) => {
+  const eventId = parseInt(id);
   const query: FindEventByIdQuery = { eventId };
   const { data, isLoading, error, refetch }: UseQueryResult<QueryResponse<Event>> = useQuery(
-    ['events', 'detail', eventId],
+    ['events', 'detail', id],
     () => eventSeekApi.findEventById(query),
     {
-      enabled: !!eventId,
+      enabled: !!id,
     },
   );
-  
+
   return {
     event: data?.result,
     isLoading,

@@ -1,31 +1,27 @@
-import {Avatar, Box, Button, Card, CardContent, Grid2 as Grid, Stack, Typography} from '@mui/material';
-import {useEventRdo} from './hooks';
+import { Avatar, Box, Button, Card, CardContent, Grid2 as Grid, Stack, Typography } from '@mui/material';
+import { useEventRdo } from './hooks';
 import * as React from 'react';
+import { useEvent, useEventsByCategory } from '~/hooks';
 
-export const EventDetail = ({
-                              eventId,
-                              onBack,
-                            }: {
-  eventId?: string;
-  onBack: () => void;
-}) => {
-  const {eventRdo} = useEventRdo(eventId);
+export const EventDetail = ({ eventId, onBack }: { eventId?: string; onBack: () => void }) => {
+  
+  const {event: eventRdo} = useEvent(eventId || '');
 
   if (!eventRdo) return <Typography>Loading event details...</Typography>;
 
   return (
     <Stack spacing={2}>
-      <Card variant="outlined" sx={{borderLeft: '4px solid #1976d2', p: 2}}>
+      <Card variant="outlined" sx={{ borderLeft: '4px solid #1976d2', p: 2 }}>
         <Grid container spacing={2} alignItems="center" padding={5}>
           <Grid size={12}>
-            <Stack spacing={2} direction={"row"} alignItems="center">
-              <Avatar sx={{width: 60, height: 60}}> </Avatar>
+            <Stack spacing={2} direction={'row'} alignItems="center">
+              <Avatar sx={{ width: 60, height: 60 }}> </Avatar>
               <Typography variant="h5">{eventRdo.name || 'Event name'}</Typography>
             </Stack>
           </Grid>
           <Grid size={4}>
             <Typography variant="body2">
-              <strong>Business:</strong> {eventRdo.organizationName || 'Business name'}
+              <strong>Business:</strong> {eventRdo.establishmentId || 'Business name'}
             </Typography>
           </Grid>
           <Grid size={4}>
@@ -45,7 +41,7 @@ export const EventDetail = ({
           </Grid>
           <Grid size={4}>
             <Typography variant="body2">
-              <strong>Age:</strong> {eventRdo.age || '21+'}
+              <strong>Age:</strong> {eventRdo.ageRestriction || '21+'}
             </Typography>
           </Grid>
           <Grid size={4}>
@@ -60,19 +56,23 @@ export const EventDetail = ({
           </Grid>
           <Grid size={4}>
             <Typography variant="body2">
-              <strong>Location:</strong> {eventRdo.location || 'Ifithor 31 Mirzo-Ulugbeck tumani'}
+              <strong>Location:</strong> {eventRdo.venue || 'Ifithor 31 Mirzo-Ulugbeck tumani'}
             </Typography>
           </Grid>
         </Grid>
       </Card>
 
-      <Card variant="outlined" sx={{borderLeft: '4px solid #1976d2', p: 2}}>
-        <CardContent style={{padding: 25, height: '100%'}}>
+      <Card variant="outlined" sx={{ borderLeft: '4px solid #1976d2', p: 2 }}>
+        <CardContent style={{ padding: 25, height: '100%' }}>
           <Stack spacing={2}>
-            <Box sx={{display: 'flex', alignItems: 'center'}}>
-              <Typography gutterBottom variant="h5" component="div"
-                          style={{display: 'flex', alignItems: 'center', gap: 10}}>
-                <img src={'/icon-check.svg'} alt="check" height={30}/>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="div"
+                style={{ display: 'flex', alignItems: 'center', gap: 10 }}
+              >
+                <img src={'/icon-check.svg'} alt="check" height={30} />
                 Description
               </Typography>
             </Box>
@@ -83,13 +83,17 @@ export const EventDetail = ({
         </CardContent>
       </Card>
 
-      <Card variant="outlined" sx={{borderLeft: '4px solid #1976d2', p: 2}}>
-        <CardContent style={{padding: 25, height: '100%'}}>
+      <Card variant="outlined" sx={{ borderLeft: '4px solid #1976d2', p: 2 }}>
+        <CardContent style={{ padding: 25, height: '100%' }}>
           <Stack spacing={2}>
-            <Box sx={{display: 'flex', alignItems: 'center'}}>
-              <Typography gutterBottom variant="h5" component="div"
-                          style={{display: 'flex', alignItems: 'center', gap: 10}}>
-                <img src={'/icon-check.svg'} alt="check" height={30}/>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="div"
+                style={{ display: 'flex', alignItems: 'center', gap: 10 }}
+              >
+                <img src={'/icon-check.svg'} alt="check" height={30} />
                 Rules
               </Typography>
             </Box>
@@ -100,18 +104,22 @@ export const EventDetail = ({
         </CardContent>
       </Card>
 
-      <Card variant="outlined" sx={{borderLeft: '4px solid #1976d2', p: 2}}>
-        <CardContent style={{padding: 25, height: '100%'}}>
+      <Card variant="outlined" sx={{ borderLeft: '4px solid #1976d2', p: 2 }}>
+        <CardContent style={{ padding: 25, height: '100%' }}>
           <Stack spacing={2}>
-            <Box sx={{display: 'flex', alignItems: 'center'}}>
-              <Typography gutterBottom variant="h5" component="div"
-                          style={{display: 'flex', alignItems: 'center', gap: 10}}>
-                <img src={'/icon-check.svg'} alt="check" height={30}/>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="div"
+                style={{ display: 'flex', alignItems: 'center', gap: 10 }}
+              >
+                <img src={'/icon-check.svg'} alt="check" height={30} />
                 Proposed offers for members
               </Typography>
             </Box>
             <Typography variant="body1" component="p">
-              {eventRdo.proposedOffersForMembers}
+              {eventRdo.adviceForAttenders}
             </Typography>
           </Stack>
         </CardContent>

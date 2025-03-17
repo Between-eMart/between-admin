@@ -28,7 +28,8 @@ export const EventTableView = ({ events, onDetail }) => {
           <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
             <TableRow>
               <TableCell><b>Name</b></TableCell>
-              <TableCell><b>Organization</b></TableCell>
+              <TableCell><b>Description</b></TableCell>
+              <TableCell><b>Venue</b></TableCell>
               <TableCell><b>Applied</b></TableCell>
               <TableCell><b>Confirmed</b></TableCell>
               <TableCell><b>Visited</b></TableCell>
@@ -46,10 +47,11 @@ export const EventTableView = ({ events, onDetail }) => {
                     </Box>
                   </Box>
                 </TableCell>
-                <TableCell>{event.organizationName}</TableCell>
-                <TableCell>{event.appliedCount}</TableCell>
-                <TableCell>{event.confirmedCount}</TableCell>
-                <TableCell>{event.visitedCount}</TableCell>
+                <TableCell>{event.description}</TableCell>
+                <TableCell>{event.venue}</TableCell>
+                <TableCell>{event.date}</TableCell>
+                <TableCell>{event.time}</TableCell>
+                <TableCell>{event.location}</TableCell>
               </TableRow>
             ))}
           </TableBody>

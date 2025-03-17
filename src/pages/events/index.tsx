@@ -1,8 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { EventList } from '~/components';
-import { Paper, Tabs } from '@mui/material';
+import { Tabs } from '@mui/material';
 import { EventCategoryList } from '~/components/event-category/list';
-import TabPanel from '@mui/lab/TabPanel';
 import Tab from '@mui/material/Tab';
 import { useState } from 'react';
 

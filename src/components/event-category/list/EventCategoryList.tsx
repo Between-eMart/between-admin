@@ -1,16 +1,15 @@
 import { Box, Button, Paper } from '@mui/material';
-
-import React from 'react';
+import React, { useState } from 'react';
 import { EventCategoryTableView } from '~/components/event-category/list/views';
 import { useEventCategories } from '~/hooks';
-import AddIcon from "@mui/icons-material/Add";
-import RegisterEventCategoryModal from '~/components/event-category/list/views/RegisterEventCategoryModal';
+import AddIcon from '@mui/icons-material/Add';
+import RegisterEventCategoryModal from '~/components/event-category/form/RegisterEventCategoryModal';
 
 
 export const EventCategoryList = () => {
   //
   const { categories } = useEventCategories();
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   
   const handleClose = () => {
     //
