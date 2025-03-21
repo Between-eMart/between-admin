@@ -1,5 +1,5 @@
 import { Offset } from '~/models/aggregate/shared/Offset';
-import { defaultOffset } from './useEvents';
+import { defaultOffset } from '~/hooks';
 import { FindEventsByEstablishmentQuery } from '~/apis';
 import eventSeekApi from '~/apis/feature/event/rest/EventSeekApi';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';

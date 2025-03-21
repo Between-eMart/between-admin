@@ -6,25 +6,8 @@ import { AxiosResponse } from 'axios';
 export type FirstParameter<F extends Function> = F extends (firstArgs: infer U, ...restArgs: any[]) => any ? U : any;
 
 export const useEventMutation = () => {
-  // Default values for creating a new event
-  const defaultEvent: EventCdo = {
-    name: '',
-    description: '',
-    date: '',
-    time: '',
-    venue: '',
-    location: '',
-    dressCode: '',
-    adviceForAttenders: '',
-    rules: '',
-    ageRestriction: '',
-    isRepeatable: false,
-    establishmentId: 0,
-  };
-
+  //
   return {
-    defaultEvent,
-
     mutation: {
       registerEvent: useMutation<
         AxiosResponse<CommandResponse<any>>,

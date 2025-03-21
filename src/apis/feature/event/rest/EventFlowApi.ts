@@ -1,17 +1,22 @@
 import { CommandResponse } from '~/models';
-import { ModifyEventCommand, RegisterEventCommand, RemoveEventCommand } from '../command';
+import { ModifyEventCommand, RegisterEventCommand, RemoveEventCommand } from '~/apis';
 import axios from 'axios';
 
 const url = (path: string) => `/api/feature/event/${path}`;
 
-const registerEvent = async (command: RegisterEventCommand, banners?: File[]): Promise<CommandResponse<Event>> => {
+const registerEvent = async (command: RegisterEventCommand): Promise<CommandResponse<Event>> => {
+  //
   const formData = new FormData();
   const commandBlob = new Blob([JSON.stringify(command)], { type: 'application/json' });
   formData.append('command', commandBlob);
   
-  if (banners && banners.length > 0) {
-    banners.forEach((banner) => formData.append('banners', banner));
+  if (command.eventCdo.banners && command.eventCdo.banners.length > 0) {
+    command.eventCdo.banners.forEach((banner) => formData.append('banners', banner));
   }
+  else {
+    alert("Empty file liest")
+  }
+  
   
   const response = await axios.post<CommandResponse<Event>>(url('/register-event/command'), formData, {
     headers: {

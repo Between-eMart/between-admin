@@ -13,7 +13,7 @@ const App = () => {
 
   axios.interceptors.request.use(
     config => {
-      const accessToken = window.sessionStorage.getItem('access_token') || 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqc29uYm91cm5lIiwiaWF0IjoxNzQyMTE1MjQ5LCJleHAiOjE3NDI0MTUyNDl9.b19RXnI1tJ40EffSSPiJyo2BqjOOmIk1ngJt4-YOI38';
+      const accessToken = window.sessionStorage.getItem('access_token') || 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqc29uYm91cm5lIiwiaWF0IjoxNzQyNTQxMDI4LCJleHAiOjE3NDI4NDEwMjh9.6sY0nf9Fv3K3I197uTkdjEyWwTi5izJAyddkgVSGEhU';
       if (!!accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }

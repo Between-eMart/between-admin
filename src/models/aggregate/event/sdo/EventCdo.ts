@@ -13,4 +13,5 @@ export interface EventCdo {
   isRepeatable: boolean;
   categoryIds: number[];
   establishmentId: number;
+  banners: File[],
 }

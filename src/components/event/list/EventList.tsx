@@ -7,11 +7,10 @@ import AddIcon from '@mui/icons-material/Add';
 import RegisterEventModal from '~/components/event/form/RegisterEventModal';
 import { useIncomingEvents } from '~/hooks';
 
-
 export const EventList = ({ onDetail }: { onDetail: (eventId: string) => void }) => {
   //
   const { search, setSearch, page, setPage, paginatedEvents, totalPages, applyFilters, clearFilters } = useEventRdos();
-  const{events} = useIncomingEvents();
+  const { events } = useIncomingEvents();
 
   const [isOpen, setIsOpen] = useState(false);
 
