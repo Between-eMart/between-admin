@@ -14,11 +14,11 @@ const registerEvent = async (command: RegisterEventCommand): Promise<CommandResp
     command.eventCdo.banners.forEach((banner) => formData.append('banners', banner));
   }
   else {
-    alert("Empty file liest")
+    alert('Empty file liest');
   }
   
   
-  const response = await axios.post<CommandResponse<Event>>(url('/register-event/command'), formData, {
+  const response = await axios.post<CommandResponse<Event>>(url('register-event/command'), formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -27,12 +27,13 @@ const registerEvent = async (command: RegisterEventCommand): Promise<CommandResp
 };
 
 const modifyEvent = async (command: ModifyEventCommand): Promise<CommandResponse<Event>> => {
-  const response = await axios.post<CommandResponse<Event>>(url('/modify-event/command'), command);
+  //
+  const response = await axios.post<CommandResponse<Event>>(url('modify-event/command'), command);
   return response.data;
 };
 
 const removeEvent = async (command: RemoveEventCommand): Promise<CommandResponse<number>> => {
-  const response = await axios.post<CommandResponse<number>>(url('/event/remove-event/command'), command);
+  const response = await axios.post<CommandResponse<number>>(url('event/remove-event/command'), command);
   return response.data;
 };
 

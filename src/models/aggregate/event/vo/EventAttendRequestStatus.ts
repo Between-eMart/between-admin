@@ -1,6 +1,6 @@
 export enum EventAttendRequestStatus {
-  REQUESTED = "Requested",
-  APPROVED = "Approved",
-  REJECTED = "Rejected",
-  EXPIRED = "Expired"
+  REQUESTED = "REQUESTED",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+  EXPIRED = "EXPIRED"
 }

@@ -1,6 +1,7 @@
-import { DomainEntity } from '~/models/aggregate/shared';
+import { DomainEntity, IdNameValue } from '~/models/aggregate/shared';
 
 export interface EventTaskCompletion extends DomainEntity {
-  eventId: string;
-  influencers: number[];
+  //
+  event: IdNameValue;
+  influencers: IdNameValue[];
 }

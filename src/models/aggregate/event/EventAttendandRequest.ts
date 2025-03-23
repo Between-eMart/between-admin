@@ -1,10 +1,10 @@
 import { EventAttendRequestStatus } from '~/models/aggregate/event/vo';
-import { DomainEntity } from '~/models/aggregate/shared';
+import { DomainEntity, IdNameValue } from '~/models/aggregate/shared';
 
 export interface EventAttendRequest extends DomainEntity {
   //
   status: EventAttendRequestStatus;
   approvedBy?: string;
-  influencerId: number;
-  eventId: number;
+  influencer: IdNameValue;
+  event: IdNameValue;
 }

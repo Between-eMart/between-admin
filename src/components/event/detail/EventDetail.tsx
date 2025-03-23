@@ -1,133 +1,128 @@
-import { Avatar, Box, Button, Card, CardContent, Grid2 as Grid, Stack, Typography } from '@mui/material';
-import { useEventRdo } from './hooks';
+import {
+  Accordion,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  AccordionSummary,
+  Stack,
+  AccordionDetails,
+  Typography,
+  ButtonGroup,
+} from '@mui/material';
 import * as React from 'react';
-import { useEvent, useEventsByCategory } from '~/hooks';
+import { useEvent } from '~/hooks';
+import { ExpandMore } from '@mui/icons-material';
+import { EventInfoDetail } from '~/components/event/detail/views';
+import EventAttendRequestList from '~/components/event/detail/views/EventAttendRequestList';
+import { useState } from 'react';
+import { EventTaskList } from '~/components/event/detail/views/EventTaskList';
+import { EventInviteList } from '~/components/event/detail/views/EventInviteList';
+import { EventBannerList } from '~/components/event/detail/views/EventBannerList';
 
 export const EventDetail = ({ eventId, onBack }: { eventId?: string; onBack: () => void }) => {
-  
-  const {event: eventRdo} = useEvent(eventId || '');
+  //
+  const { eventInfo } = useEvent(eventId || '');
 
-  if (!eventRdo) return <Typography>Loading event details...</Typography>;
+  const [bannersExpanded, setBannersExpanded] = useState<boolean>(false);
+  const [tasksExpanded, setTasksExpanded] = useState<boolean>(false);
+  const [compTasksExpanded, setCompTasksExpanded] = useState<boolean>(false);
+  const [attendListExpanded, setAttendListExpanded] = useState<boolean>(false);
+  const [inviteListExpanded, setInviteListExpanded] = useState<boolean>(false);
+
+  if (!eventInfo) return <Typography>Loading event details...</Typography>;
+
+  const handleAttendListExpand = () => {
+    //
+    setAttendListExpanded(!attendListExpanded);
+  };
+
+  const handleTasksExpand = () => {
+    //
+    setTasksExpanded(!tasksExpanded);
+  };
 
   return (
     <Stack spacing={2}>
       <Card variant="outlined" sx={{ borderLeft: '4px solid #1976d2', p: 2 }}>
-        <Grid container spacing={2} alignItems="center" padding={5}>
-          <Grid size={12}>
-            <Stack spacing={2} direction={'row'} alignItems="center">
-              <Avatar sx={{ width: 60, height: 60 }}> </Avatar>
-              <Typography variant="h5">{eventRdo.name || 'Event name'}</Typography>
-            </Stack>
-          </Grid>
-          <Grid size={4}>
-            <Typography variant="body2">
-              <strong>Business:</strong> {eventRdo.establishmentId || 'Business name'}
-            </Typography>
-          </Grid>
-          <Grid size={4}>
-            <Typography variant="body2">
-              <strong>Date:</strong> {eventRdo.date || '21.02.2025'}
-            </Typography>
-          </Grid>
-          <Grid size={4}>
-            <Typography variant="body2">
-              <strong>Time:</strong> {eventRdo.time || '10:00 - 22:00'}
-            </Typography>
-          </Grid>
-          <Grid size={4}>
-            <Typography variant="body2">
-              <strong>Dress-code:</strong> {eventRdo.dressCode || 'Black and white'}
-            </Typography>
-          </Grid>
-          <Grid size={4}>
-            <Typography variant="body2">
-              <strong>Age:</strong> {eventRdo.ageRestriction || '21+'}
-            </Typography>
-          </Grid>
-          <Grid size={4}>
-            <Typography variant="body2">
-              <strong>Category:</strong> {eventRdo.category || 'Fun'}
-            </Typography>
-          </Grid>
-          <Grid size={4}>
-            <Typography variant="body2" mt={1}>
-              <strong>Repeats:</strong> {eventRdo.repeats || 'Weekly'}
-            </Typography>
-          </Grid>
-          <Grid size={4}>
-            <Typography variant="body2">
-              <strong>Location:</strong> {eventRdo.venue || 'Ifithor 31 Mirzo-Ulugbeck tumani'}
-            </Typography>
-          </Grid>
-        </Grid>
+        <EventInfoDetail event={eventInfo.event} categories={eventInfo.categories} />
       </Card>
 
       <Card variant="outlined" sx={{ borderLeft: '4px solid #1976d2', p: 2 }}>
-        <CardContent style={{ padding: 25, height: '100%' }}>
-          <Stack spacing={2}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                style={{ display: 'flex', alignItems: 'center', gap: 10 }}
-              >
-                <img src={'/icon-check.svg'} alt="check" height={30} />
-                Description
-              </Typography>
-            </Box>
-            <Typography variant="body1" component="p">
-              {eventRdo.description}
-            </Typography>
-          </Stack>
-        </CardContent>
+        <Accordion
+          expanded={bannersExpanded}
+          onChange={() => {
+            setBannersExpanded(!bannersExpanded);
+          }}
+        >
+          <AccordionSummary expandIcon={<ExpandMore />}>
+            <Typography variant="h6">Banners</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <EventBannerList banners={eventInfo.event.banners || []}/>
+          </AccordionDetails>
+        </Accordion>
       </Card>
 
       <Card variant="outlined" sx={{ borderLeft: '4px solid #1976d2', p: 2 }}>
-        <CardContent style={{ padding: 25, height: '100%' }}>
-          <Stack spacing={2}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                style={{ display: 'flex', alignItems: 'center', gap: 10 }}
-              >
-                <img src={'/icon-check.svg'} alt="check" height={30} />
-                Rules
-              </Typography>
-            </Box>
-            <Typography variant="body1" component="p">
-              {eventRdo.rules}
-            </Typography>
-          </Stack>
-        </CardContent>
+        <Accordion expanded={tasksExpanded} onChange={handleTasksExpand}>
+          <AccordionSummary expandIcon={<ExpandMore />}>
+            <Typography variant="h6">Event Tasks </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <EventTaskList />
+          </AccordionDetails>
+        </Accordion>
       </Card>
 
       <Card variant="outlined" sx={{ borderLeft: '4px solid #1976d2', p: 2 }}>
-        <CardContent style={{ padding: 25, height: '100%' }}>
-          <Stack spacing={2}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                style={{ display: 'flex', alignItems: 'center', gap: 10 }}
-              >
-                <img src={'/icon-check.svg'} alt="check" height={30} />
-                Proposed offers for members
-              </Typography>
-            </Box>
-            <Typography variant="body1" component="p">
-              {eventRdo.adviceForAttenders}
-            </Typography>
-          </Stack>
-        </CardContent>
+        <Accordion
+          expanded={compTasksExpanded}
+          onChange={() => {
+            setCompTasksExpanded(!compTasksExpanded);
+          }}
+        >
+          <AccordionSummary expandIcon={<ExpandMore />}>
+            <Typography variant="h6">Completed Tasks</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+          </AccordionDetails>
+        </Accordion>
       </Card>
 
-      <Box textAlign="center" mt={3}>
-        <Button variant="contained" onClick={onBack}>
+      <Card variant="outlined" sx={{ borderLeft: '4px solid #1976d2', p: 2 }}>
+        <Accordion expanded={attendListExpanded} onChange={handleAttendListExpand}>
+          <AccordionSummary expandIcon={<ExpandMore />}>
+            <Typography variant="h6">Event Attend Requests</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <EventAttendRequestList attendRequests={eventInfo.attendRequests} />
+          </AccordionDetails>
+        </Accordion>
+      </Card>
+
+      <Card variant="outlined" sx={{ borderLeft: '4px solid #1976d2', p: 2 }}>
+        <Accordion
+          expanded={inviteListExpanded}
+          onChange={() => {
+            setInviteListExpanded(!inviteListExpanded);
+          }}
+        >
+          <AccordionSummary expandIcon={<ExpandMore />}>
+            <Typography variant="h6">Invitation List</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <EventInviteList inviteRequests={eventInfo.inviteRequests}/>
+          </AccordionDetails>
+        </Accordion>
+      </Card>
+
+      <Box textAlign="center" mt={1} margin={5}>
+        <Button variant="contained" onClick={onBack} style={{marginRight: 10}}>
           Back
+        </Button>
+        <Button variant="outlined" color="error">
+          Delete
         </Button>
       </Box>
     </Stack>

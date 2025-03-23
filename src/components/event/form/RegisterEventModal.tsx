@@ -19,7 +19,7 @@ import {
   Autocomplete,
   Chip,
   Paper,
-  Box, InputAdornment,
+  Box,
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { EventCdo, QueryResponse } from '~/models';
@@ -27,10 +27,7 @@ import Divider from '@mui/material/Divider';
 import { useEventCategories, useEventMutation } from '~/hooks';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { AxiosError } from 'axios';
-import { DatePicker, TimePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 
 interface RegisterEventModalProps {
@@ -145,8 +142,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                   sx={{
                     p: 2,
                     borderRadius: 2,
-                  }}
-                >
+                  }}>
                   <Typography variant="h6" gutterBottom fontWeight="500" color="primary">
                     Basic Information
                   </Typography>

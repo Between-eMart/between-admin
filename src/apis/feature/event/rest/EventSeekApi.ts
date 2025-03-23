@@ -9,6 +9,7 @@ import {
   FindEventsByNameQuery,
   FindIncomingEventsQuery,
 } from '~/apis';
+import { EventRdo } from '~/hooks/rdo/EventRdo';
 
 const url = (path: string) => `/api/feature/event/${path}`;
 
@@ -17,8 +18,9 @@ const findAllEvents = async (query: FindAllEventsQuery): Promise<QueryResponse<E
   return response.data;
 };
 
-const findEventById = async (query: FindEventByIdQuery): Promise<QueryResponse<Event>> => {
-  const response = await axios.post<QueryResponse<Event>>(url('find-event-by-id/query'), query);
+const findEventById = async (query: FindEventByIdQuery): Promise<QueryResponse<EventRdo>> => {
+  //
+  const response = await axios.post<QueryResponse<EventRdo>>(url('find-event-by-id/query'), query);
   return response.data;
 };
 
