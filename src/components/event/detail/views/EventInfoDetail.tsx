@@ -54,6 +54,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
     await modifyEvent.mutateAsync({ event: data }, {
       onSuccess: async () => {
         setLoading(false);
+        alert("Changes have been saved.");
       },
       onError: (error) => {
         setLoading(false);

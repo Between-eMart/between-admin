@@ -70,7 +70,7 @@ export const EventDetail = ({ eventId, onBack }: { eventId?: string; onBack: () 
             <Typography variant="h6">Event Tasks </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <EventTaskList />
+            <EventTaskList eventId={eventInfo.event.id} tasks={eventInfo.event.tasks || []}/>
           </AccordionDetails>
         </Accordion>
       </Card>

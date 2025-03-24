@@ -4,3 +4,6 @@ export * from './RegisterEventCommand';
 export * from './RegisterEventCategoryCommand';
 export * from './RemoveEventCategoryCommand';
 export * from './RemoveEventCommand';
+export * from './AddTasksToEventCommand';
+export * from './ModifyEventBannersCommand';
+export * from './RemoveEventTaskCommand';

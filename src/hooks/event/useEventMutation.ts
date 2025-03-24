@@ -26,6 +26,24 @@ export const useEventMutation = () => {
         unknown,
         FirstParameter<typeof EventFlowApi.removeEvent>
       >(EventFlowApi.removeEvent as any, {}),
+      
+      removeEventTask: useMutation<
+        AxiosResponse<CommandResponse<any>>,
+        unknown,
+        FirstParameter<typeof EventFlowApi.removeEventTask>
+      >(EventFlowApi.removeEventTask as any, {}),
+      
+      addTasksToEvent: useMutation<
+        AxiosResponse<CommandResponse<any>>,
+        unknown,
+        FirstParameter<typeof EventFlowApi.addTasksToEvent>
+      >(EventFlowApi.addTasksToEvent as any, {}),
+      
+      modifyEventBanners: useMutation<
+        AxiosResponse<CommandResponse<any>>,
+        unknown,
+        FirstParameter<typeof EventFlowApi.modifyEventBanners>
+      >(EventFlowApi.modifyEventBanners as any, {}),
     },
   };
 };
