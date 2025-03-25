@@ -9,7 +9,7 @@ export const EventDetailPage = () => {
 
   const routeBack = () => {
     //
-    navigate(`${pathname}/..`);
+    navigate(-1);
   };
 
   return (

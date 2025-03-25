@@ -15,8 +15,9 @@ const attendToEvent = async (command: AttendToEventCommand): Promise<CommandResp
   return response.data;
 };
 
-const inviteToEvent = async (command: InviteToEventCommand): Promise<CommandResponse<EventInviteRequest>> => {
-  const response = await axios.post<CommandResponse<EventInviteRequest>>(url('invite-event/command'), command);
+const inviteToEvent = async (command: InviteToEventCommand): Promise<CommandResponse<EventInviteRequest[]>> => {
+  //
+  const response = await axios.post<CommandResponse<EventInviteRequest[]>>(url('invite-event/command'), command);
   return response.data;
 };
 

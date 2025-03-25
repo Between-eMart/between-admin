@@ -3,7 +3,7 @@ import {
   Box,
   Button,
   Modal,
-  Paper,
+  Paper, Stack,
   Table,
   TableBody,
   TableCell,
@@ -80,7 +80,7 @@ export const EventTaskList = ({ eventId, tasks }: { eventId: number; tasks: Even
   
   return (
     <Paper>
-      <TableContainer component={Paper}>
+      <TableContainer >
         <Table size="small">
           <TableHead>
             <TableRow style={{ backgroundColor: 'darkgrey' }}>
@@ -108,9 +108,11 @@ export const EventTaskList = ({ eventId, tasks }: { eventId: number; tasks: Even
           </TableBody>
         </Table>
       </TableContainer>
-      <Button variant="contained" color="primary" onClick={handleAddRow} sx={{ marginTop: 2, alignItems: 'center' }}>
-        Add
-      </Button>
+      <Stack alignItems="center" style={{padding: 10}}>
+        <Button variant="contained" color="primary" onClick={handleAddRow}>
+          Add New Task
+        </Button>
+      </Stack>
 
       <Modal open={isOpen}>
         <Box
@@ -133,7 +135,7 @@ export const EventTaskList = ({ eventId, tasks }: { eventId: number; tasks: Even
             <TextField fullWidth label="Name" {...register('name', { required: true })} margin="normal" />
             <TextField fullWidth label="Description" {...register('description')} margin="normal" />
             <Box mt={2} display="flex" justifyContent="space-between">
-              <Button variant="outlined">Cancel</Button>
+              <Button variant="outlined" onClick={() => {setIsOpen(false)}}>Cancel</Button>
               <Button type="submit" variant="contained" color="primary">
                 Save
               </Button>

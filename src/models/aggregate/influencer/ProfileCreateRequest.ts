@@ -1,8 +1,0 @@
-import { DomainEntity } from '~/models/aggregate/shared';
-import { ProfileStatus } from '~/models/aggregate/influencer/vo';
-
-export interface ProfileCreateRequest extends DomainEntity {
-  status: ProfileStatus;
-  approvedBy?: string;
-  influencerId?: number;
-}

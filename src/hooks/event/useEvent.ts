@@ -2,14 +2,13 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { EventSeekApi, FindEventByIdQuery } from '~/apis';
 import { QueryResponse, EventRdo } from '~/models';
 
-export const useEvent = (id: string) => {
+export const useEvent = (eventId: number) => {
   //
-  const eventId = parseInt(id);
-  const query: FindEventByIdQuery = { eventId };
+    const query: FindEventByIdQuery = { eventId };
   const { data, isLoading, error, refetch }: UseQueryResult<QueryResponse<EventRdo>> = useQuery({
-    queryKey: ['event', 'detail', id],
+    queryKey: ['event', 'detail', eventId],
     queryFn: () => EventSeekApi.findEventById(query),
-    enabled: !!id,
+    enabled: !!eventId,
   });
 
   return {

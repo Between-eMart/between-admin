@@ -13,7 +13,7 @@ const App = () => {
 
   axios.interceptors.request.use(
     config => {
-      const accessToken = window.sessionStorage.getItem('access_token') || 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqc29uYm91cm5lIiwiaWF0IjoxNzQyNTQxMDI4LCJleHAiOjE3NDI4NDEwMjh9.6sY0nf9Fv3K3I197uTkdjEyWwTi5izJAyddkgVSGEhU';
+      const accessToken = window.sessionStorage.getItem('access_token');
       if (!!accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }

@@ -5,7 +5,7 @@ import { useEventRdos } from './hooks';
 import { EventFilterPanelView, EventTableView } from './views';
 import AddIcon from '@mui/icons-material/Add';
 import RegisterEventModal from '~/components/event/form/RegisterEventModal';
-import { useEvents, useIncomingEvents } from '~/hooks';
+import { useEvents } from '~/hooks';
 
 export const EventList = ({ onDetail }: { onDetail: (eventId: string) => void }) => {
   //

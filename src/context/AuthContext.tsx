@@ -16,6 +16,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (_username: string, _password: string) => {
     //
     const response = await AuthSeekApi.signIn({ username: _username, password: _password });
+    
     const result = response.result;
     if (result) {
       setUsername(result.username);

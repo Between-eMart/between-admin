@@ -1,22 +1,21 @@
-import { Gender } from '~/models/aggregate/influencer/vo';
+import { Gender, ProfileStatus } from '~/models/aggregate/influencer/vo';
 import { DomainEntity } from '~/models/aggregate/shared';
+import { InfluencerCategory } from '~/models';
 
 export interface Influencer extends DomainEntity {
   name: string;
   surname: string;
-  birthday?: string;
+  birthday: string;
   email: string;
   mainPhone: string;
-  secondaryPhone?: string;
+  secondaryPhone: string;
+  snsUsername: string;
   country: string;
   city: string;
   gender: Gender;
-  password?: string;
-  categories: string[];
+  categories: InfluencerCategory[];
   isActive: boolean;
   hasAcceptedUserPolicy: boolean;
-  profileCreateRequestId?: number;
-  profileHealthId?: number;
-  completedEventTaskIds?: number[];
+  profileStatus: ProfileStatus;
+  profileHealthId: number;
 }
-

@@ -1,34 +1,29 @@
-import {
-  Accordion,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  AccordionSummary,
-  Stack,
-  AccordionDetails,
-  Typography,
-  ButtonGroup,
-} from '@mui/material';
+import { Accordion, Box, Button, Card, AccordionSummary, Stack, AccordionDetails, Typography } from '@mui/material';
 import * as React from 'react';
-import { useEvent } from '~/hooks';
+import { useEvent, useEventMutation } from '~/hooks';
 import { ExpandMore } from '@mui/icons-material';
 import { EventInfoDetail } from '~/components/event/detail/views';
-import EventAttendRequestList from '~/components/event/detail/views/EventAttendRequestList';
+import { EventAttendRequestList } from '~/components/event/detail/views/EventAttendRequestList';
 import { useState } from 'react';
 import { EventTaskList } from '~/components/event/detail/views/EventTaskList';
 import { EventInviteList } from '~/components/event/detail/views/EventInviteList';
 import { EventBannerList } from '~/components/event/detail/views/EventBannerList';
+import { AxiosError } from 'axios';
+import { QueryResponse } from '~/models';
 
-export const EventDetail = ({ eventId, onBack }: { eventId?: string; onBack: () => void }) => {
+export const EventDetail = ({ eventId, onBack }: { eventId: number; onBack: () => void }) => {
   //
-  const { eventInfo } = useEvent(eventId || '');
 
   const [bannersExpanded, setBannersExpanded] = useState<boolean>(false);
   const [tasksExpanded, setTasksExpanded] = useState<boolean>(false);
   const [compTasksExpanded, setCompTasksExpanded] = useState<boolean>(false);
   const [attendListExpanded, setAttendListExpanded] = useState<boolean>(false);
   const [inviteListExpanded, setInviteListExpanded] = useState<boolean>(false);
+
+  const { eventInfo } = useEvent(eventId);
+  const {
+    mutation: { removeEvent },
+  } = useEventMutation();
 
   if (!eventInfo) return <Typography>Loading event details...</Typography>;
 
@@ -40,6 +35,27 @@ export const EventDetail = ({ eventId, onBack }: { eventId?: string; onBack: () 
   const handleTasksExpand = () => {
     //
     setTasksExpanded(!tasksExpanded);
+  };
+
+  const handleOnClickDelete = (id: number) => {
+    //
+    const confRes = confirm('Do you want to delete this event?');
+    if (confRes) {
+      removeEvent.mutate(
+        { eventId: id },
+        {
+          onSuccess: async () => {
+            onBack();
+          },
+          onError: (error) => {
+            const errorMessage =
+              (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage ||
+              'Error Occurred while deleting event.';
+            alert(errorMessage);
+          },
+        },
+      );
+    }
   };
 
   return (
@@ -59,7 +75,7 @@ export const EventDetail = ({ eventId, onBack }: { eventId?: string; onBack: () 
             <Typography variant="h6">Banners</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <EventBannerList banners={eventInfo.event.banners || []}/>
+            <EventBannerList banners={eventInfo.event.banners || []} />
           </AccordionDetails>
         </Accordion>
       </Card>
@@ -70,7 +86,7 @@ export const EventDetail = ({ eventId, onBack }: { eventId?: string; onBack: () 
             <Typography variant="h6">Event Tasks </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <EventTaskList eventId={eventInfo.event.id} tasks={eventInfo.event.tasks || []}/>
+            <EventTaskList eventId={eventInfo.event.id} tasks={eventInfo.event.tasks || []} />
           </AccordionDetails>
         </Accordion>
       </Card>
@@ -85,8 +101,7 @@ export const EventDetail = ({ eventId, onBack }: { eventId?: string; onBack: () 
           <AccordionSummary expandIcon={<ExpandMore />}>
             <Typography variant="h6">Completed Tasks</Typography>
           </AccordionSummary>
-          <AccordionDetails>
-          </AccordionDetails>
+          <AccordionDetails></AccordionDetails>
         </Accordion>
       </Card>
 
@@ -112,16 +127,22 @@ export const EventDetail = ({ eventId, onBack }: { eventId?: string; onBack: () 
             <Typography variant="h6">Invitation List</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <EventInviteList inviteRequests={eventInfo.inviteRequests}/>
+            <EventInviteList inviteRequests={eventInfo.inviteRequests} eventId={eventId} />
           </AccordionDetails>
         </Accordion>
       </Card>
 
       <Box textAlign="center" mt={1} margin={5}>
-        <Button variant="contained" onClick={onBack} style={{marginRight: 10}}>
+        <Button variant="contained" onClick={onBack} style={{ marginRight: 10 }}>
           Back
         </Button>
-        <Button variant="outlined" color="error">
+        <Button
+          variant="outlined"
+          color="error"
+          onClick={() => {
+            handleOnClickDelete(eventId);
+          }}
+        >
           Delete
         </Button>
       </Box>
