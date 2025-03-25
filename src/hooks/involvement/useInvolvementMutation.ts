@@ -9,16 +9,16 @@ export const useInvolvementMutation = () => {
   return {
     mutation: {
       inviteToEvent: useMutation<
-        AxiosResponse<CommandResponse<any>>,
-        unknown,
-        FirstParameter<typeof InvolvementFlowApi.inviteToEvent>
-      >(InvolvementFlowApi.inviteToEvent as any, {}),
+      AxiosResponse<CommandResponse<any>>,
+      unknown,
+      FirstParameter<typeof InvolvementFlowApi.inviteToEvent>
+      >(InvolvementFlowApi.inviteToEvent as any),
 
       respondToJoin: useMutation<
-        AxiosResponse<CommandResponse<any>>,
-        unknown,
-        FirstParameter<typeof InvolvementFlowApi.respondToJoin>
-      >(InvolvementFlowApi.respondToJoin as any, {}),
+      AxiosResponse<CommandResponse<any>>,
+      unknown,
+      FirstParameter<typeof InvolvementFlowApi.respondToJoin>
+      >(InvolvementFlowApi.respondToJoin as any),
     },
   };
 };

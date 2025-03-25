@@ -9,7 +9,7 @@ import {
   FindEventsByNameQuery,
   FindIncomingEventsQuery,
 } from '~/apis';
-import { EventRdo } from '~/hooks/rdo/EventRdo';
+import { EventRdo } from '~/models/feature/event/rdo/EventRdo';
 
 const url = (path: string) => `/api/feature/event/${path}`;
 

@@ -10,9 +10,9 @@ import { AppNavbar, Header, LoginForm, SideMenu } from '~/layouts/components';
 
 export const DefaultLayout = ({ children }: { children: React.ReactNode }) => {
   //
-  const { user } = useAuth();
+  const { username } = useAuth();
 
-  return user ? (
+  return username ? (
     <>
       <AppTheme>
         <CssBaseline enableColorScheme/>

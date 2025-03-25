@@ -1,8 +1,6 @@
-import { Offset } from '~/models/aggregate/shared/Offset';
-import { FindAllEventsQuery } from '~/apis';
+import {EventSeekApi, FindAllEventsQuery } from '~/apis';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import { QueryResponse } from '~/models';
-import eventSeekApi from '~/apis/feature/event/rest/EventSeekApi';
+import { QueryResponse, Offset } from '~/models';
 
 export const defaultOffset: Offset = {
   offset: 0,
@@ -12,11 +10,11 @@ export const defaultOffset: Offset = {
 export const useEvents = (offset: Offset = defaultOffset) => {
   //
   const query: FindAllEventsQuery = { offset };
-  const { data, isLoading, error, refetch }: UseQueryResult<QueryResponse<Event[]>> = useQuery(
-    ['events', 'list', offset],
-    () => eventSeekApi.findAllEvents(query),
-  );
-  
+  const { data, isLoading, error, refetch }: UseQueryResult<QueryResponse<Event[]>> = useQuery({
+    queryKey: ['events', 'list', offset],
+    queryFn: () => EventSeekApi.findAllEvents(query),
+  });
+
   return {
     events: data?.result || [],
     pagination: data?.offset,
