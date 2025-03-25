@@ -12,82 +12,23 @@ import {
   Typography,
 } from '@mui/material';
 import { FilterList } from '@mui/icons-material';
+import {EstablishmentCategory} from "~/models";
+import {FindOrganizationNestedRdosQuery} from "~/apis";
 
-const categoriesList = [
-  "Restaurant",
-  "Cafe",
-  "Barbershop",
-  "Beauty Salon",
-  "Spa & Wellness",
-  "Grocery Store",
-  "Clothing Store",
-  "Shoe Store",
-  "Jewelry Store",
-  "IT Services",
-  "Fitness Center",
-  "Car Repair",
-  "Bookstore",
-  "Pet Store",
-  "Pharmacy",
-  "Electronics Store",
-  "Home Appliances",
-  "Furniture Store",
-  "Real Estate Agency",
-  "Legal Services",
-  "Medical Clinic",
-  "Dentist",
-  "Event Planning",
-  "Photography Studio",
-  "Printing Services",
-  "Marketing Agency",
-  "Travel Agency",
-  "Hotel",
-  "Courier Service",
-  "Coworking Space",
-  "Laundry Service",
-  "Tattoo Studio",
-  "Florist",
-  "Handmade Crafts",
-  "Toy Store",
-  "Automobile Dealership",
-  "Construction Services",
-  "Architectural Firm",
-  "Financial Consulting",
-  "Language School",
-  "Music School",
-  "Dance Studio",
-  "Martial Arts School",
-  "Bicycle Shop",
-  "Gaming Lounge",
-  "Bar & Lounge",
-  "Fast Food",
-  "Organic Food Store",
-  "Vegan Restaurant"
-];
-
-export const OrganizationFilterPanelView = ({ onApplyFilters, onClearFilters }) => {
+export const OrganizationFilterPanelView = (
+  {
+    categories,
+    onChangeSearchProperties,
+    onSearch,
+    searchQuery,
+  }: {
+    categories: EstablishmentCategory[];
+    onChangeSearchProperties: (key: keyof FindOrganizationNestedRdosQuery, value: string | number | number[] | boolean | undefined) => void;
+    onSearch: () => void;
+    searchQuery: any;
+  }) => {
   //
   const [open, setOpen] = useState(false);
-  const [filters, setFilters] = useState({
-    categories: [] as string[],
-  });
-
-  const handleFilterChange = (key, value) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-  };
-
-  const applyFilters = () => {
-    onApplyFilters(filters);
-    setOpen(false);
-  };
-
-  const clearFilters = () => {
-    setFilters({ categories: [] });
-    onClearFilters();
-  };
 
   return (
     <>
@@ -95,7 +36,7 @@ export const OrganizationFilterPanelView = ({ onApplyFilters, onClearFilters }) 
       <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
         <Box width={300} p={3}>
           <Typography variant="h6">Filter</Typography>
-          <Button onClick={clearFilters} size="small" sx={{ float: 'right' }}>
+          <Button onClick={() => onChangeSearchProperties('categoryIds', undefined)} size="small" sx={{ float: 'right' }}>
             Clear Filter
           </Button>
 
@@ -104,19 +45,25 @@ export const OrganizationFilterPanelView = ({ onApplyFilters, onClearFilters }) 
             <InputLabel>Categories</InputLabel>
             <Select
               multiple
-              value={filters.categories}
-              onChange={(e) => handleFilterChange('categories', e.target.value)}
+              value={searchQuery.categoryIds || []}
+              onChange={(e) => {
+                const targetCategoryIds = e.target.value as number[];
+                onChangeSearchProperties('categoryIds', targetCategoryIds);
+              }}
               input={<OutlinedInput label="Categories"/>}
-              renderValue={(selected) => (
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                  {selected.map((value) => (
-                    <Chip key={value} label={value}/>
-                  ))}
-                </Box>
-              )}
+              renderValue={(selected) => {
+                const selectedCategories = categories.filter(category => selected.includes(category.id));
+                return (
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    {selectedCategories.map((category) => (
+                      <Chip key={category.id} label={category.name} />
+                    ))}
+                  </Box>
+                );
+              }}
             >
-              {categoriesList.map((item) => (
-                <MenuItem key={item} value={item}>{item}</MenuItem>
+              {categories.map((category) => (
+                <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -127,7 +74,7 @@ export const OrganizationFilterPanelView = ({ onApplyFilters, onClearFilters }) 
             fullWidth
             color="primary"
             sx={{ mt: 3 }}
-            onClick={applyFilters}
+            onClick={onSearch}
           >
             Apply Filters
           </Button>

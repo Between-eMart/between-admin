@@ -1,21 +1,21 @@
 import { defaultOffset } from '~/hooks';
-import { OrganizationNestedRdo, QueryResponse, Offset } from '~/models';
-import { BusinessSeekApi, FindOrganizationNestedRdosQuery } from '~/apis';
+import { EstablishmentCategory, QueryResponse } from '~/models';
+import { BusinessSeekApi, FindEstablishmentCategoriesQuery } from '~/apis';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useState } from 'react';
 
-export const useOrganizationRdos = () => {
+export const useEstablishmentCategories = () => {
   //
-  const initialQuery: FindOrganizationNestedRdosQuery = {
+  const initialQuery: FindEstablishmentCategoriesQuery = {
     offset: defaultOffset,
   };
 
   const [query, setQuery] = useState(initialQuery);
   const [searchQuery, setSearchQuery] = useState(initialQuery);
 
-  const { data, isLoading, error, refetch }: UseQueryResult<QueryResponse<OrganizationNestedRdo[]>> = useQuery({
-    queryKey: ['BusinessSeekApi', 'findOrganizationNestedRdos', query],
-    queryFn: () => BusinessSeekApi.findOrganizationNestedRdos(query),
+  const { data, isLoading, error, refetch }: UseQueryResult<QueryResponse<EstablishmentCategory[]>> = useQuery({
+    queryKey: ['BusinessSeekApi', 'findEstablishmentCategories', query],
+    queryFn: () => BusinessSeekApi.findEstablishmentCategories(query),
   });
 
   const changeCurrentPage = (offset: number) => {
@@ -45,8 +45,8 @@ export const useOrganizationRdos = () => {
   };
 
   const changeSearchProperties = (
-    key: keyof FindOrganizationNestedRdosQuery,
-    value: string | number | number[] | boolean | undefined,
+    key: keyof FindEstablishmentCategoriesQuery,
+    value: string | number | boolean | undefined,
   ) => {
     //
     setSearchQuery((prev) => {
@@ -58,8 +58,8 @@ export const useOrganizationRdos = () => {
   };
 
   const fetchByNewQuery = (
-    key?: keyof FindOrganizationNestedRdosQuery,
-    value?: string | number | number[] | boolean | undefined,
+    key?: keyof FindEstablishmentCategoriesQuery,
+    value?: string | number | boolean | undefined,
   ) => {
     //
     setSearchQuery(prev => {
@@ -86,7 +86,7 @@ export const useOrganizationRdos = () => {
 
   return {
     query: searchQuery,
-    organizationRdos: data?.result || [],
+    establishmentCategories: data?.result || [],
     total: data?.offset?.totalCount || 0,
     offset: data?.offset?.offset || 0,
     limit: data?.offset?.limit || 100,

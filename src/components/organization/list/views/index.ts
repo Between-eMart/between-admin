@@ -1,3 +1,3 @@
-export * from './OrganizationDetailDialogView';
+export * from './EstablishmentDetailDialogView';
 export * from './OrganizationFilterPanelView';
-export * from './OrganizationTableView';
+export * from './EstablishmentTableView';

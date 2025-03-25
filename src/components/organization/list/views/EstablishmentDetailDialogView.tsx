@@ -9,13 +9,22 @@ import {
   Grid,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import {EstablishmentDetailRdo} from "~/models";
 
-export const OrganizationDetailDialogView = ({ organization, onClose }) => {
+export const EstablishmentDetailDialogView = (
+  {
+    establishmentRdo,
+    onClose,
+  }: {
+    establishmentRdo: EstablishmentDetailRdo;
+    onClose: () => void;
+  }
+) => {
   //
   return (
-    <Dialog open={!!organization} onClose={onClose} maxWidth="sm" fullWidth>
+    <Dialog open={!!establishmentRdo} onClose={onClose} maxWidth="sm" fullWidth>
       <DialogTitle>
-        {organization.name}
+        {establishmentRdo.brandIdName.name}
         <IconButton
           aria-label="close"
           onClick={onClose}
@@ -31,16 +40,16 @@ export const OrganizationDetailDialogView = ({ organization, onClose }) => {
           </Grid>
           <Grid item xs>
             <Typography color="text.secondary">
-              <strong>Instagram:</strong> {organization.instagram}
+              <strong>Instagram:</strong> {establishmentRdo.establishment.instagramUsername}
             </Typography>
             <Typography>
-              <strong>Contact:</strong> {organization.contact}
+              <strong>Contact:</strong> {`${establishmentRdo.establishment.contactName} (${establishmentRdo.establishment.contactPhone})`}
             </Typography>
             <Typography>
-              <strong>Gender:</strong> {organization.category}
+              <strong>Category:</strong> {establishmentRdo.categories.map(({name})=> <span>{name}</span>)}
             </Typography>
             <Typography>
-              <strong>Location:</strong> {organization.location}
+              <strong>Location:</strong> {establishmentRdo.physicalAddress?.location || establishmentRdo.virtualAddress?.webUrl}
             </Typography>
           </Grid>
         </Grid>

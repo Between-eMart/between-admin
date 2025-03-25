@@ -10,6 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import React from 'react';
+import {EstablishmentDetailRdo} from "~/models";
 
 const statusColors = {
   Confirm: 'success',
@@ -18,13 +19,21 @@ const statusColors = {
 };
 
 
-export const OrganizationTableView = ({ organizations, onDetail }) => {
+export const EstablishmentTableView = (
+  {
+    establishmentRdos,
+    onDetail,
+  }: {
+    establishmentRdos: EstablishmentDetailRdo[];
+    onDetail?: (establishmentRdo: EstablishmentDetailRdo) => void;
+  }
+  ) => {
   //
   return (
     <>
       <TableContainer>
         <Table>
-          <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
+          <TableHead>
             <TableRow>
               <TableCell><b>Name</b></TableCell>
               <TableCell><b>Contact</b></TableCell>
@@ -34,18 +43,18 @@ export const OrganizationTableView = ({ organizations, onDetail }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {organizations.map((organization, index) => (
+            {establishmentRdos.map((establishmentRdo, index) => (
               <TableRow key={index}>
-                <TableCell onClick={() => onDetail(organization)}>
+                <TableCell onClick={() => onDetail && onDetail(establishmentRdo)}>
                   <Box display="flex" alignItems="center" gap={2}>
                     <Avatar sx={{ bgcolor: '#ccc' }}> </Avatar>
-                    <Typography color="primary" fontWeight="medium">{organization.name}</Typography>
+                    <Typography color="primary" fontWeight="medium">{establishmentRdo.brandIdName.name}</Typography>
                   </Box>
                 </TableCell>
-                <TableCell>{organization.contact}</TableCell>
-                <TableCell>{organization.instagram}</TableCell>
-                <TableCell>{organization.location}</TableCell>
-                <TableCell>{organization.category}</TableCell>
+                <TableCell>{`${establishmentRdo.establishment.contactName} (${establishmentRdo.establishment.contactPhone})`}</TableCell>
+                <TableCell>{establishmentRdo.establishment.instagramUsername}</TableCell>
+                <TableCell>{establishmentRdo.physicalAddress?.location || establishmentRdo.virtualAddress?.webUrl}</TableCell>
+                <TableCell>{establishmentRdo.categories.map(({name})=> name).join(", ")}</TableCell>
               </TableRow>
             ))}
           </TableBody>
