@@ -27,7 +27,7 @@ const findOrganizationNestedRdos = (query: FindOrganizationNestedRdosQuery) =>
   sendQuery<FindOrganizationNestedRdosQuery, OrganizationNestedRdo[]>('find-organization-nested-rdos/query', query);
 
 const findOrganization = (query: FindOrganizationQuery) =>
-  sendQuery<FindOrganizationQuery, Organization>('find-establishmentRdo/query', query);
+  sendQuery<FindOrganizationQuery, Organization>('find-organization/query', query);
 
 const findBrandDetailRdo = (query: FindBrandDetailRdoQuery) =>
   sendQuery<FindBrandDetailRdoQuery, BrandDetailRdo>('find-brand-detail-rdo/query', query);

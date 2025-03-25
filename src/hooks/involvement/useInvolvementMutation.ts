@@ -12,13 +12,13 @@ export const useInvolvementMutation = () => {
       AxiosResponse<CommandResponse<any>>,
       unknown,
       FirstParameter<typeof InvolvementFlowApi.inviteToEvent>
-      >(InvolvementFlowApi.inviteToEvent as any),
+      >(InvolvementFlowApi.inviteToEvent as any, {}),
 
       respondToJoin: useMutation<
       AxiosResponse<CommandResponse<any>>,
       unknown,
       FirstParameter<typeof InvolvementFlowApi.respondToJoin>
-      >(InvolvementFlowApi.respondToJoin as any),
+      >(InvolvementFlowApi.respondToJoin as any, {}),
     },
   };
 };

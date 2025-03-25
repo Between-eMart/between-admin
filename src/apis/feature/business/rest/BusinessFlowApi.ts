@@ -1,31 +1,21 @@
+import { CommandResponse } from '~/models';
 import {
-  CommandResponse,
-  Organization,
-  Brand,
-  Establishment,
-  EstablishmentCategory,
-  PhysicalAddress,
-  VirtualAddress
-} from '~/models';
-import {
-  RegisterOrganizationCommand,
-  ModifyOrganizationCommand,
-  RemoveOrganizationCommand,
-  RegisterBrandCommand,
   ModifyBrandCommand,
-  RemoveBrandCommand,
-  RegisterEstablishmentCommand,
-  ModifyEstablishmentCommand,
-  RemoveEstablishmentCommand,
-  RegisterEstablishmentCategoryCommand,
   ModifyEstablishmentCategoryCommand,
-  RemoveEstablishmentCategoryCommand,
+  ModifyEstablishmentCommand,
+  ModifyOrganizationCommand,
+  RegisterBrandCommand,
+  RegisterEstablishmentCategoryCommand,
+  RegisterEstablishmentCommand,
+  RegisterOrganizationCommand,
   RegisterPhysicalAddressCommand,
-  ModifyPhysicalAddressCommand,
-  RemovePhysicalAddressCommand,
   RegisterVirtualAddressCommand,
-  ModifyVirtualAddressCommand,
-  RemoveVirtualAddressCommand
+  RemoveBrandCommand,
+  RemoveEstablishmentCategoryCommand,
+  RemoveEstablishmentCommand,
+  RemoveOrganizationCommand,
+  RemovePhysicalAddressCommand,
+  RemoveVirtualAddressCommand,
 } from '../command';
 import axios from 'axios';
 
@@ -37,9 +27,9 @@ const createCommand = async <T, R>(path: string, command: T): Promise<CommandRes
 };
 
 // Organization
-const registerOrganization = (command: RegisterOrganizationCommand) => createCommand('register-establishmentRdo/command', command);
-const modifyOrganization = (command: ModifyOrganizationCommand) => createCommand('modify-establishmentRdo/command', command);
-const removeOrganization = (command: RemoveOrganizationCommand) => createCommand('remove-establishmentRdo/command', command);
+const registerOrganization = (command: RegisterOrganizationCommand) => createCommand('register-organization/command', command);
+const modifyOrganization = (command: ModifyOrganizationCommand) => createCommand('modify-organization/command', command);
+const removeOrganization = (command: RemoveOrganizationCommand) => createCommand('remove-organization/command', command);
 
 // Brand
 const registerBrand = (command: RegisterBrandCommand) => createCommand('register-brand/command', command);
@@ -58,12 +48,10 @@ const removeEstablishmentCategory = (command: RemoveEstablishmentCategoryCommand
 
 // Physical Address
 const registerPhysicalAddress = (command: RegisterPhysicalAddressCommand) => createCommand('register-physical-address/command', command);
-const modifyPhysicalAddress = (command: ModifyPhysicalAddressCommand) => createCommand('modify-physical-address/command', command);
 const removePhysicalAddress = (command: RemovePhysicalAddressCommand) => createCommand('remove-physical-address/command', command);
 
 // Virtual Address
 const registerVirtualAddress = (command: RegisterVirtualAddressCommand) => createCommand('register-virtual-address/command', command);
-const modifyVirtualAddress = (command: ModifyVirtualAddressCommand) => createCommand('modify-virtual-address/command', command);
 const removeVirtualAddress = (command: RemoveVirtualAddressCommand) => createCommand('remove-virtual-address/command', command);
 
 export default {
@@ -89,11 +77,9 @@ export default {
 
   // Physical Address
   registerPhysicalAddress,
-  modifyPhysicalAddress,
   removePhysicalAddress,
 
   // Virtual Address
   registerVirtualAddress,
-  modifyVirtualAddress,
   removeVirtualAddress,
 };

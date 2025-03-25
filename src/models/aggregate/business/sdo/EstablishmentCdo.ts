@@ -7,6 +7,4 @@ export interface EstablishmentCdo {
   contactPhone?: string;
   instagramUsername?: string;
   description?: string;
-  physicalAddressId?: number;
-  virtualAddressId?: number;
 }
