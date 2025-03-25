@@ -9,6 +9,4 @@ export interface Establishment extends DomainEntity {
   contactPhone?: string;
   instagramUsername?: string;
   description?: string;
-  physicalAddressId?: number;
-  virtualAddressId?: number;
 }
