@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Pagination, Paper, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Pagination, Paper, Typography } from '@mui/material';
 import { useEstablishmentCategories, useOrganizationRdos } from './hooks';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
+  BrandAddButtonView,
+  EstablishmentAddButtonView,
   EstablishmentDetailDialogView,
   EstablishmentTableView,
   OrganizationAddButtonView,
   OrganizationSearchBoxView,
 } from './views';
 import { EstablishmentDetailRdo } from '~/models';
-import AddIcon from '@mui/icons-material/Add';
 
 export const OrganizationList = () => {
   //
@@ -37,7 +38,7 @@ export const OrganizationList = () => {
         <OrganizationSearchBoxView
           categories={establishmentCategories}
           onChangeSearchProperties={changeSearchProperties}
-          onSearch={()=>fetchByNewQuery()}
+          onSearch={() => fetchByNewQuery()}
           searchQuery={query}
         />
         {organizationRdos.map(organizationRdo => (
@@ -47,7 +48,7 @@ export const OrganizationList = () => {
               <Typography component="span">{organizationRdo.organization.name}</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Button variant="outlined" startIcon={<AddIcon/>}>Brand</Button>
+              <BrandAddButtonView organizationId={organizationRdo.organization.id}/>
               {organizationRdo.brandRdos.map((brandRdo) => (
                 <Accordion key={brandRdo.brand.id}>
                   <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
@@ -55,7 +56,7 @@ export const OrganizationList = () => {
                     <Typography component="span">{brandRdo.brand.name}</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    <Button variant="outlined" startIcon={<AddIcon/>}>Establishment</Button>
+                    <EstablishmentAddButtonView brandId={brandRdo.brand.id}/>
                     <EstablishmentTableView
                       establishmentRdos={brandRdo.establishmentRdos}
                       onDetail={establishmentRdo => setSelectedEstablishmentRdo(establishmentRdo)}

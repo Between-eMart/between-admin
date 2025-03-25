@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { OrganizationCdo } from '~/models';
+import { BrandCdo, EstablishmentCdo, OrganizationCdo } from '~/models';
 import { BusinessFlowApi } from '~/apis';
 
 export const useBusinessMutation = () => {
@@ -13,8 +13,27 @@ export const useBusinessMutation = () => {
     emailVerified: true,
   };
 
+  const defaultBrandCdo: BrandCdo = {
+    name: '',
+    organizationId: 0,
+  };
+
+  const defaultEstablishmentCdo: EstablishmentCdo = {
+    brandId: 0,
+    categoryIds: [],
+    contactName: '',
+    contactPhone: '',
+    description: '',
+    instagramUsername: '',
+    logo: '',
+    photos: '',
+  };
+
   return {
     defaultOrganizationCdo,
+    defaultBrandCdo,
+    defaultEstablishmentCdo,
+
     mutation: {
       registerOrganization: useMutation({
         mutationFn: BusinessFlowApi.registerOrganization,
