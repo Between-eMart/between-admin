@@ -7,7 +7,10 @@ import { useState } from 'react';
 export const useOrganizationRdos = () => {
   //
   const initialQuery: FindOrganizationNestedRdosQuery = {
-    offset: defaultOffset,
+    offset: {
+      offset: 0,
+      limit: 10,
+    },
   };
 
   const [query, setQuery] = useState(initialQuery);
@@ -65,7 +68,7 @@ export const useOrganizationRdos = () => {
     setSearchQuery(prev => {
       let newSearchQuery = {
         ...searchQuery,
-        offset: { limit: prev.offset?.limit || 100, offset: 0 },
+        offset: { limit: prev.offset?.limit || 10, offset: 0 },
       };
       newSearchQuery = !!key ? { ...newSearchQuery, [key]: value } : newSearchQuery;
       setQuery(newSearchQuery);
@@ -77,7 +80,7 @@ export const useOrganizationRdos = () => {
     //
     setSearchQuery(prev => {
       const newQuery = {
-        offset: { limit: prev.offset?.limit || 100, offset: 0 },
+        offset: { limit: prev.offset?.limit || 10, offset: 0 },
       };
       setQuery(newQuery);
       return newQuery;
@@ -89,7 +92,7 @@ export const useOrganizationRdos = () => {
     organizationRdos: data?.result || [],
     total: data?.offset?.totalCount || 0,
     offset: data?.offset?.offset || 0,
-    limit: data?.offset?.limit || 100,
+    limit: data?.offset?.limit || 10,
     changeCurrentPage,
     changePageLimit,
     changeSearchProperties,

@@ -1,19 +1,9 @@
-import React, {useState} from 'react';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Pagination,
-  Paper,
-  TextField,
-  Typography
-} from '@mui/material';
-import {useEstablishmentCategories, useOrganizationRdos} from './hooks';
+import React, { useState } from 'react';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Pagination, Paper, Typography } from '@mui/material';
+import { useEstablishmentCategories, useOrganizationRdos } from './hooks';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import SearchIcon from '@mui/icons-material/Search';
-import {EstablishmentDetailDialogView, EstablishmentTableView, OrganizationFilterPanelView} from './views';
-import {EstablishmentDetailRdo} from "~/models";
+import { EstablishmentDetailDialogView, EstablishmentTableView, OrganizationSearchBoxView } from './views';
+import { EstablishmentDetailRdo } from '~/models';
 
 export const OrganizationList = () => {
   //
@@ -36,30 +26,13 @@ export const OrganizationList = () => {
 
   return (
     <>
-      <Paper sx={{width: '100%', p: 3, borderRadius: 2}}>
-        <Box display="flex" gap={2} mt={2} mb={3}>
-          <TextField
-            variant="outlined"
-            size="small"
-            placeholder="Search"
-            value={query.searchKey}
-            onChange={(e) => changeSearchProperties('searchKey', e.target.value)}
-            InputProps={{
-              startAdornment: <SearchIcon onClick={() => fetchByNewQuery()} color="disabled" sx={{mr: 1}}/>,
-            }}
-            fullWidth
-            onKeyDown={event => {
-              ('Enter' == event.key) && fetchByNewQuery()
-            }}
-          />
-          <OrganizationFilterPanelView
-            categories={establishmentCategories}
-            onChangeSearchProperties={changeSearchProperties}
-            onSearch={fetchByNewQuery}
-            searchQuery={query}
-          />
-        </Box>
-
+      <Paper sx={{ width: '100%', p: 3, borderRadius: 2 }}>
+        <OrganizationSearchBoxView
+          categories={establishmentCategories}
+          onChangeSearchProperties={changeSearchProperties}
+          onSearch={()=>fetchByNewQuery()}
+          searchQuery={query}
+        />
         {organizationRdos.map(organizationRdo => (
           <Accordion key={organizationRdo.organization.id}>
             <AccordionSummary expandIcon={<ExpandMoreIcon/>}>

@@ -7,7 +7,10 @@ import { useState } from 'react';
 export const useEstablishmentCategories = () => {
   //
   const initialQuery: FindEstablishmentCategoriesQuery = {
-    offset: defaultOffset,
+    offset: {
+      offset: 0,
+      limit: 100,
+    },
   };
 
   const [query, setQuery] = useState(initialQuery);
