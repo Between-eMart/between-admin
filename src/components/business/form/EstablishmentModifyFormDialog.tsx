@@ -11,17 +11,17 @@ import {
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
-import { EstablishmentCdo, QueryResponse } from '~/models';
-import { useBusinessMutation } from './hooks';
+import { Establishment, QueryResponse } from '~/models';
+import { useBusinessMutation, useEstablishmentRdo } from './hooks';
 import React from 'react';
 import { useDialog, useEstablishmentCategories } from '~/components';
 
-export const EstablishmentRegisterFormDialog = (
+export const EstablishmentModifyFormDialog = (
   {
-    brandId,
+    establishmentId,
     onClose,
   }: {
-    brandId: number,
+    establishmentId: number,
     onClose: () => void;
   },
 ) => {
@@ -31,11 +31,14 @@ export const EstablishmentRegisterFormDialog = (
   } = useDialog();
 
   const {
-    defaultEstablishmentCdo,
     mutation: {
-      registerEstablishment,
+      modifyEstablishment,
     },
   } = useBusinessMutation();
+
+  const {
+    establishmentRdo,
+  } = useEstablishmentRdo(establishmentId);
 
   const {
     establishmentCategories,
@@ -47,14 +50,14 @@ export const EstablishmentRegisterFormDialog = (
     handleSubmit,
     reset,
     setValue,
-  } = useForm<EstablishmentCdo>({
-    defaultValues: defaultEstablishmentCdo,
+  } = useForm<Establishment>({
+    values: establishmentRdo?.establishment,
   });
 
-  const onSubmit = async (data: EstablishmentCdo) => {
+  const onSubmit = async (data: Establishment) => {
     //
-    await registerEstablishment.mutateAsync({
-      establishmentCdo: { ...data, brandId },
+    await modifyEstablishment.mutateAsync({
+      establishment: { ...data },
     },
     {
       onSuccess: async () => {

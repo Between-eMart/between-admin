@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Pagination, Paper, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, IconButton, Pagination, Paper, Typography } from '@mui/material';
 import { useEstablishmentCategories, useOrganizationRdos } from './hooks';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   BrandAddButtonView,
+  BrandEditButtonView,
   EstablishmentAddButtonView,
   EstablishmentDetailDialogView,
   EstablishmentTableView,
-  OrganizationAddButtonView,
+  OrganizationAddButtonView, OrganizationEditButtonView,
   OrganizationSearchBoxView,
 } from './views';
 import { EstablishmentDetailRdo, QueryResponse } from '~/models';
@@ -18,8 +20,6 @@ import { useDialog } from '~/components';
 
 export const OrganizationList = () => {
   //
-  const [selectedEstablishmentRdo, setSelectedEstablishmentRdo] = useState<EstablishmentDetailRdo>();
-
   const {
     alert,
     confirm,
@@ -98,11 +98,12 @@ export const OrganizationList = () => {
             <AccordionDetails>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <BrandAddButtonView organizationId={organizationRdo.organization.id}/>
-                <Button
-                  color={'error'}
-                  variant="outlined"
-                  startIcon={<DeleteIcon/>}
-                  onClick={() => handleRemoveOrganization(organizationRdo.organization.id)}>Delete</Button>
+                <div style={{ display: 'flex', gap: 10 }}>
+                  <OrganizationEditButtonView organizationId={organizationRdo.organization.id}/>
+                  <IconButton
+                    color="error"
+                    onClick={() => handleRemoveOrganization(organizationRdo.organization.id)}><DeleteIcon/></IconButton>
+                </div>
               </div>
 
               {organizationRdo.brandRdos.map((brandRdo) => (
@@ -114,16 +115,16 @@ export const OrganizationList = () => {
                   <AccordionDetails>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                       <EstablishmentAddButtonView brandId={brandRdo.brand.id}/>
-                      <Button
-                        color={'error'}
-                        variant="outlined"
-                        startIcon={<DeleteIcon/>}
-                        onClick={() => handleRemoveBrand(brandRdo.brand.id)}>Delete</Button>
+                      <div style={{ display: 'flex', gap: 10 }}>
+                        <BrandEditButtonView brandId={brandRdo.brand.id}/>
+                        <IconButton
+                          color="error"
+                          onClick={() => handleRemoveBrand(brandRdo.brand.id)}><DeleteIcon/></IconButton>
+                      </div>
                     </div>
                     <EstablishmentTableView
                       establishmentRdos={brandRdo.establishmentRdos}
-                      onDetail={establishmentRdo => setSelectedEstablishmentRdo(establishmentRdo)}
-                      onDelete={establishmentId => handleRemoveBrand(establishmentId)}
+                      onDelete={establishmentId => handleRemoveEstablishment(establishmentId)}
                     />
                   </AccordionDetails>
                 </Accordion>
@@ -131,7 +132,6 @@ export const OrganizationList = () => {
             </AccordionDetails>
           </Accordion>
         ))}
-
         <Box display="flex" justifyContent="center" mt={3}>
           <Pagination
             count={total}
@@ -141,11 +141,6 @@ export const OrganizationList = () => {
           />
         </Box>
       </Paper>
-      {!!selectedEstablishmentRdo &&
-        <EstablishmentDetailDialogView
-          establishmentRdo={selectedEstablishmentRdo}
-          onClose={() => setSelectedEstablishmentRdo(undefined)}
-        />}
     </>
   );
 };

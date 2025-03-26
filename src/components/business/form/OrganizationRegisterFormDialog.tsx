@@ -4,6 +4,7 @@ import { AxiosError } from 'axios';
 import { OrganizationCdo, QueryResponse } from '~/models';
 import { useBusinessMutation } from './hooks';
 import React from 'react';
+import { useDialog } from '~/components';
 
 export const OrganizationRegisterFormDialog = (
   {
@@ -13,6 +14,10 @@ export const OrganizationRegisterFormDialog = (
   },
 ) => {
   //
+  const {
+    alert,
+  } = useDialog();
+
   const {
     defaultOrganizationCdo,
     mutation: {

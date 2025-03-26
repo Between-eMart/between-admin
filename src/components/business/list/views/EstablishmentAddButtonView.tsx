@@ -15,7 +15,7 @@ export const EstablishmentAddButtonView = (
 
   return (
     <>
-      <Button variant="outlined" startIcon={<AddIcon/>} onClick={() => setOpen(true)}>Establishment</Button>
+      <Button color="success" variant="outlined" startIcon={<AddIcon/>} onClick={() => setOpen(true)}>Establishment</Button>
       {open && (<EstablishmentRegisterFormDialog brandId={brandId} onClose={() => setOpen(false)}/>)}
     </>
   );

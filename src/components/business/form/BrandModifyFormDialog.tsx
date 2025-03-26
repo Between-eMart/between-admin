@@ -1,17 +1,17 @@
 import { Box, Button, Dialog, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
-import { BrandCdo, QueryResponse } from '~/models';
-import { useBusinessMutation } from './hooks';
+import { Brand, QueryResponse } from '~/models';
+import { useBrandRdo, useBusinessMutation } from './hooks';
 import React from 'react';
 import { useDialog } from '~/components';
 
-export const BrandRegisterFormDialog = (
+export const BrandModifyFormDialog = (
   {
-    organizationId,
+    brandId,
     onClose,
   }: {
-    organizationId: number,
+    brandId: number,
     onClose: () => void;
   },
 ) => {
@@ -21,24 +21,27 @@ export const BrandRegisterFormDialog = (
   } = useDialog();
 
   const {
-    defaultBrandCdo,
     mutation: {
-      registerBrand,
+      modifyBrand,
     },
   } = useBusinessMutation();
+
+  const {
+    brandRdo,
+  } = useBrandRdo(brandId);
 
   const {
     register,
     handleSubmit,
     reset,
-  } = useForm<BrandCdo>({
-    defaultValues: defaultBrandCdo,
+  } = useForm<Brand>({
+    values: brandRdo?.brand,
   });
 
-  const onSubmit = async (data: BrandCdo) => {
+  const onSubmit = async (data: Brand) => {
     //
-    await registerBrand.mutateAsync({
-      brandCdo: { ...data, organizationId },
+    await modifyBrand.mutateAsync({
+      brand: { ...data },
     },
     {
       onSuccess: async () => {
@@ -59,7 +62,7 @@ export const BrandRegisterFormDialog = (
 
   return (
     <Dialog open={true} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Register Brand</DialogTitle>
+      <DialogTitle>Modify Brand</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField fullWidth label="Name" {...register('name', { required: true })} margin="normal"/>

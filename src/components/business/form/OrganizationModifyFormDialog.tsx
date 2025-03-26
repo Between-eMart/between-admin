@@ -1,17 +1,17 @@
 import { Box, Button, Dialog, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
-import { BrandCdo, QueryResponse } from '~/models';
-import { useBusinessMutation } from './hooks';
+import { Organization, QueryResponse } from '~/models';
+import { useBusinessMutation, useOrganization } from './hooks';
 import React from 'react';
 import { useDialog } from '~/components';
 
-export const BrandRegisterFormDialog = (
+export const OrganizationModifyFormDialog = (
   {
     organizationId,
     onClose,
   }: {
-    organizationId: number,
+    organizationId: number;
     onClose: () => void;
   },
 ) => {
@@ -21,24 +21,27 @@ export const BrandRegisterFormDialog = (
   } = useDialog();
 
   const {
-    defaultBrandCdo,
     mutation: {
-      registerBrand,
+      modifyOrganization,
     },
   } = useBusinessMutation();
+
+  const {
+    organization,
+  } = useOrganization(organizationId);
 
   const {
     register,
     handleSubmit,
     reset,
-  } = useForm<BrandCdo>({
-    defaultValues: defaultBrandCdo,
+  } = useForm<Organization>({
+    values: organization,
   });
 
-  const onSubmit = async (data: BrandCdo) => {
+  const onSubmit = async (data: Organization) => {
     //
-    await registerBrand.mutateAsync({
-      brandCdo: { ...data, organizationId },
+    await modifyOrganization.mutateAsync({
+      organization: { ...data },
     },
     {
       onSuccess: async () => {
@@ -59,10 +62,12 @@ export const BrandRegisterFormDialog = (
 
   return (
     <Dialog open={true} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Register Brand</DialogTitle>
+      <DialogTitle>Modify Organization</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField fullWidth label="Name" {...register('name', { required: true })} margin="normal"/>
+          <TextField disabled fullWidth label="Phone" {...register('phone', { required: true })} margin="normal"/>
+          <TextField fullWidth label="Email" {...register('email')} margin="normal"/>
           <Box mt={2} display="flex" justifyContent="space-between">
             <Button variant="outlined" onClick={onClose}>
               Cancel

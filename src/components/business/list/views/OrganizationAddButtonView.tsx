@@ -9,7 +9,7 @@ export const OrganizationAddButtonView = () => {
 
   return (
     <>
-      <Button variant="outlined" startIcon={<AddIcon/>} onClick={() => setOpen(true)}>Organization</Button>
+      <Button color="success" variant="outlined" startIcon={<AddIcon/>} onClick={() => setOpen(true)}>Organization</Button>
       {open && (<OrganizationRegisterFormDialog onClose={() => setOpen(false)}/>)}
     </>
   );
