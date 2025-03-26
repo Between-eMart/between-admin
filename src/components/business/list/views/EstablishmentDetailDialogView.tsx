@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  Typography,
-  Avatar,
-  IconButton,
-  Grid2 as Grid,
-} from '@mui/material';
+import { Avatar, Dialog, DialogContent, DialogTitle, Grid2 as Grid, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { EstablishmentDetailRdo } from '~/models';
 import { Gallery } from '~/components';
@@ -34,7 +26,7 @@ export const EstablishmentDetailDialogView = (
           onClick={onClose}
           sx={{ position: 'absolute', right: 8, top: 8 }}
         >
-          <CloseIcon />
+          <CloseIcon/>
         </IconButton>
       </DialogTitle>
       <DialogContent>
@@ -50,10 +42,9 @@ export const EstablishmentDetailDialogView = (
               <strong>Contact:</strong> {`${establishmentRdo.establishment.contactName} (${establishmentRdo.establishment.contactPhone})`}
             </Typography>
             <Typography>
-              <strong>Category:</strong> {establishmentRdo.categories.map(({ name })=> <span>{name}</span>)}
+              <strong>Category:</strong> {establishmentRdo.categories.map(({ name }) => <span>{name}</span>)}
             </Typography>
           </Grid>
-
 
 
           {establishmentRdo.physicalAddress && (<Grid container spacing={2} alignItems="center">
@@ -73,13 +64,15 @@ export const EstablishmentDetailDialogView = (
                 </Typography>
               </div>
             </Grid>
-            <Grid size={12}>
-                {location && <YandexLocationViewer latitude={location[0]} longitude={location[1]}/>}
-            </Grid>
+            {location &&
+              <Grid size={12}>
+                <YandexLocationViewer latitude={location[0]} longitude={location[1]}/>
+              </Grid>
+            }
           </Grid>)}
         </Grid>
 
-        <Gallery photos={establishmentRdo.establishment.photos || []}/>
+        {establishmentRdo.establishment.photos && <Gallery photos={establishmentRdo.establishment.photos}/>}
       </DialogContent>
     </Dialog>
   );
