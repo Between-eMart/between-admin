@@ -1,6 +1,6 @@
 export interface EstablishmentCdo {
-  logo?: string;
-  photos?: string;
+  logo?: File,
+  photos?: File[],
   brandId: number;
   categoryIds?: number[];
   contactName?: string;

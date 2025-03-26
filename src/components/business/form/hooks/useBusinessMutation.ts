@@ -25,8 +25,7 @@ export const useBusinessMutation = () => {
     contactPhone: '',
     description: '',
     instagramUsername: '',
-    logo: '',
-    photos: '',
+    photos: [],
   };
 
   return {

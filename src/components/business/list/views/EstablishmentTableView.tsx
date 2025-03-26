@@ -49,7 +49,7 @@ export const EstablishmentTableView = (
               <TableRow key={index}>
                 <TableCell onClick={() => setSelectedEstablishmentRdo(establishmentRdo)}>
                   <Box display="flex" alignItems="center" gap={2}>
-                    <Avatar sx={{ bgcolor: '#ccc' }}> </Avatar>
+                    <Avatar sx={{ bgcolor: '#ccc' }} src={establishmentRdo.establishment.logo}> </Avatar>
                     <Typography color="primary" fontWeight="medium">{establishmentRdo.brandIdName.name}</Typography>
                   </Box>
                 </TableCell>

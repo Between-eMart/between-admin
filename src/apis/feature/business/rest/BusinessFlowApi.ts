@@ -1,4 +1,4 @@
-import { CommandResponse } from '~/models';
+import { CommandResponse, Establishment } from '~/models';
 import {
   ModifyBrandCommand,
   ModifyEstablishmentCategoryCommand,
@@ -18,6 +18,7 @@ import {
   RemoveVirtualAddressCommand,
 } from '../command';
 import axios from 'axios';
+import { RegisterEventCommand } from '~/apis';
 
 const url = (path: string) => `/api/feature/business/${path}`;
 
@@ -37,7 +38,26 @@ const modifyBrand = (command: ModifyBrandCommand) => createCommand('modify-brand
 const removeBrand = (command: RemoveBrandCommand) => createCommand('remove-brand/command', command);
 
 // Establishment
-const registerEstablishment = (command: RegisterEstablishmentCommand) => createCommand('register-establishment/command', command);
+const registerEstablishment = async (command: RegisterEstablishmentCommand) => {
+  //
+  const formData = new FormData();
+  const commandBlob = new Blob([JSON.stringify(command)], { type: 'application/json' });
+  formData.append('command', commandBlob);
+
+  if (command.establishmentCdo.logo) {
+    formData.append('logo', command.establishmentCdo.logo);
+  }
+  if (command.establishmentCdo.photos && command.establishmentCdo.photos.length > 0) {
+    command.establishmentCdo.photos.forEach((banner) => formData.append('photos', banner));
+  }
+
+  const response = await axios.post<CommandResponse<Establishment>>(url('register-establishment/command'), formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  return response.data;
+};
 const modifyEstablishment = (command: ModifyEstablishmentCommand) => createCommand('modify-establishment/command', command);
 const removeEstablishment = (command: RemoveEstablishmentCommand) => createCommand('remove-establishment/command', command);
 

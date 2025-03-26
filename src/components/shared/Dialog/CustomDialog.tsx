@@ -49,7 +49,7 @@ export const CustomDialog = () => {
                   )}
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleClickOk(value)}>OK</Button>
+                  <Button autoFocus onClick={handleClickOk(value)}>OK</Button>
                 </DialogActions>
               </React.Fragment>
             ) : (
@@ -64,7 +64,7 @@ export const CustomDialog = () => {
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={handleClickCancel(value)}>Cancel</Button>
-                  <Button onClick={handleClickOk(value)}>OK</Button>{' '}
+                  <Button autoFocus onClick={handleClickOk(value)}>OK</Button>{' '}
                 </DialogActions>
               </React.Fragment>
             ),

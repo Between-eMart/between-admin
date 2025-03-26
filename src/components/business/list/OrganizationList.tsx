@@ -92,7 +92,7 @@ export const OrganizationList = () => {
         {organizationRdos.map(organizationRdo => (
           <Accordion key={organizationRdo.organization.id}>
             <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-              <Typography component="span">Organization: </Typography>
+              <Typography component="span"><strong>Organization:&nbsp;</strong></Typography>
               <Typography component="span">{organizationRdo.organization.name}</Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -109,7 +109,7 @@ export const OrganizationList = () => {
               {organizationRdo.brandRdos.map((brandRdo) => (
                 <Accordion key={brandRdo.brand.id}>
                   <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-                    <Typography component="span">Brand: </Typography>
+                    <Typography component="span"><strong>Brand:&nbsp;</strong></Typography>
                     <Typography component="span">{brandRdo.brand.name}</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
