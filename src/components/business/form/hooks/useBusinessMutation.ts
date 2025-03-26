@@ -1,5 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
-import { BrandCdo, EstablishmentCdo, OrganizationCdo } from '~/models';
+import {
+  BrandCdo,
+  EstablishmentCategoryCdo,
+  EstablishmentCdo,
+  OrganizationCdo,
+  PhysicalAddressCdo,
+  VirtualAddressCdo,
+} from '~/models';
 import { BusinessFlowApi } from '~/apis';
 
 export const useBusinessMutation = () => {
@@ -28,10 +35,34 @@ export const useBusinessMutation = () => {
     photos: [],
   };
 
+  const defaultEstablishmentCategoryCdo: EstablishmentCategoryCdo = {
+    name: '',
+    note: '',
+  };
+
+  const defaultPhysicalAddressCdo: PhysicalAddressCdo = {
+    addressLine1: '',
+    addressLine2: '',
+    city: '',
+    country: '',
+    establishmentId: 0,
+    location: '',
+    mapUrl: '',
+    postIndex: '',
+  };
+
+  const defaultVirtualAddressCdo: VirtualAddressCdo = {
+    establishmentId: 0,
+    timezone: '',
+    webUrl: '' };
+
   return {
     defaultOrganizationCdo,
     defaultBrandCdo,
     defaultEstablishmentCdo,
+    defaultEstablishmentCategoryCdo,
+    defaultPhysicalAddressCdo,
+    defaultVirtualAddressCdo,
 
     mutation: {
       registerOrganization: useMutation({

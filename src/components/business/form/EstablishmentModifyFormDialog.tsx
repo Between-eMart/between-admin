@@ -78,7 +78,7 @@ export const EstablishmentModifyFormDialog = (
   // categoryIds
 
   return (
-    <Dialog open={true} onClose={onClose} maxWidth="sm" fullWidth>
+    <Dialog open={true} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>Register Establishment</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>

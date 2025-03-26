@@ -39,7 +39,6 @@ export const EstablishmentTableView = (
               <TableCell><b>Name</b></TableCell>
               <TableCell><b>Contact</b></TableCell>
               <TableCell><b>Instagram</b></TableCell>
-              <TableCell><b>Location</b></TableCell>
               <TableCell><b>Category</b></TableCell>
               <TableCell></TableCell>
             </TableRow>
@@ -55,7 +54,6 @@ export const EstablishmentTableView = (
                 </TableCell>
                 <TableCell>{`${establishmentRdo.establishment.contactName} (${establishmentRdo.establishment.contactPhone})`}</TableCell>
                 <TableCell>{establishmentRdo.establishment.instagramUsername}</TableCell>
-                <TableCell>{establishmentRdo.physicalAddress?.location || establishmentRdo.virtualAddress?.webUrl}</TableCell>
                 <TableCell>{establishmentRdo.categories.map(({ name }) => name).join(', ')}</TableCell>
                 <TableCell>
                   <div style={{ display: 'flex', gap: 10 }}>

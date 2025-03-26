@@ -11,6 +11,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { EstablishmentDetailRdo } from '~/models';
 import { Gallery } from '~/components';
+import { YandexLocationViewer } from '~/components/shared/YandexLocationViewer';
 
 export const EstablishmentDetailDialogView = (
   {
@@ -22,8 +23,10 @@ export const EstablishmentDetailDialogView = (
   },
 ) => {
   //
+  const location = establishmentRdo.physicalAddress?.location?.split(', ').map(val => Number.parseFloat(val));
+
   return (
-    <Dialog open={!!establishmentRdo} onClose={onClose} sx={{ maxWidth: '90%' }} fullWidth>
+    <Dialog open={!!establishmentRdo} onClose={onClose} maxWidth={'md'} fullWidth>
       <DialogTitle>
         {establishmentRdo.brandIdName.name}
         <IconButton
@@ -49,11 +52,33 @@ export const EstablishmentDetailDialogView = (
             <Typography>
               <strong>Category:</strong> {establishmentRdo.categories.map(({ name })=> <span>{name}</span>)}
             </Typography>
-            <Typography>
-              <strong>Location:</strong> {establishmentRdo.physicalAddress?.location || establishmentRdo.virtualAddress?.webUrl}
-            </Typography>
           </Grid>
+
+
+
+          {establishmentRdo.physicalAddress && (<Grid container spacing={2} alignItems="center">
+            <Grid size={12}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Typography>
+                  <strong>Country:</strong> {establishmentRdo.physicalAddress.country}
+                </Typography>
+                <Typography>
+                  <strong>City:</strong> {establishmentRdo.physicalAddress.city}
+                </Typography>
+                <Typography>
+                  <strong>Address:</strong> {establishmentRdo.physicalAddress.addressLine1} {establishmentRdo.physicalAddress.addressLine2}
+                </Typography>
+                <Typography>
+                  <strong>Post Code:</strong> {establishmentRdo.physicalAddress.postIndex || 'NA'}
+                </Typography>
+              </div>
+            </Grid>
+            <Grid size={12}>
+                {location && <YandexLocationViewer latitude={location[0]} longitude={location[1]}/>}
+            </Grid>
+          </Grid>)}
         </Grid>
+
         <Gallery photos={establishmentRdo.establishment.photos || []}/>
       </DialogContent>
     </Dialog>

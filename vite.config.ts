@@ -10,6 +10,9 @@ export default defineConfig({
       include: [/\.tsx?$/, /\.jsx?$/, /\.css$/],
     }),
   ],
+  optimizeDeps: {
+    include: ['@pbe/react-yandex-maps'],
+  },
   resolve: {
     preserveSymlinks: true,
   },

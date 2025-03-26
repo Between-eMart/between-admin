@@ -6,5 +6,5 @@ export interface PhysicalAddressCdo {
   postIndex?: string;
   city: string;
   location?: string;
-  establishmentId: string;
+  establishmentId: number;
 }

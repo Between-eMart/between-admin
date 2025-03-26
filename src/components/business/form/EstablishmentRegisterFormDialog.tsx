@@ -15,10 +15,17 @@ import {
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
-import { EstablishmentCdo, QueryResponse } from '~/models';
+import {
+  CommandResponse,
+  Establishment,
+  EstablishmentCdo,
+  PhysicalAddressCdo,
+  QueryResponse,
+  VirtualAddressCdo,
+} from '~/models';
 import { useBusinessMutation } from './hooks';
 import React from 'react';
-import { useDialog, useEstablishmentCategories } from '~/components';
+import { useDialog, useEstablishmentCategories, YandexLocationPicker } from '~/components';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 export const EstablishmentRegisterFormDialog = (
@@ -37,6 +44,8 @@ export const EstablishmentRegisterFormDialog = (
 
   const {
     defaultEstablishmentCdo,
+    defaultPhysicalAddressCdo,
+    defaultVirtualAddressCdo,
     mutation: {
       registerEstablishment,
       registerPhysicalAddress,
@@ -55,23 +64,41 @@ export const EstablishmentRegisterFormDialog = (
     reset,
     setValue,
   } = useForm<{
-    establishmentCdo: EstablishmentCdo
+    establishmentCdo: EstablishmentCdo;
+    physicalAddressCdo: PhysicalAddressCdo;
+    virtualAddressCdo: VirtualAddressCdo;
   }>({
     defaultValues: {
       establishmentCdo: defaultEstablishmentCdo,
+      physicalAddressCdo: defaultPhysicalAddressCdo,
+      virtualAddressCdo: defaultVirtualAddressCdo,
     },
   });
 
   const onSubmit = async (data: {
-    establishmentCdo: EstablishmentCdo
+    establishmentCdo: EstablishmentCdo;
+    physicalAddressCdo: PhysicalAddressCdo;
+    virtualAddressCdo: VirtualAddressCdo;
   }) => {
     //
     await registerEstablishment.mutateAsync({
       establishmentCdo: { ...data.establishmentCdo, brandId },
     },
     {
-      onSuccess: async () => {
+      onSuccess: async (response: CommandResponse<Establishment>) => {
         //
+        await registerPhysicalAddress.mutateAsync({
+          physicalAddressCdo: { ...data.physicalAddressCdo, establishmentId: response.response?.id || 0 },
+        },
+        {
+          onError: (error) => {
+            console.error(error);
+            const errorMessage =
+                (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage || 'Error';
+            alert(errorMessage);
+          },
+        },
+        );
         onClose();
         reset();
       },
@@ -106,7 +133,7 @@ export const EstablishmentRegisterFormDialog = (
   const watchPhotos = watch('establishmentCdo.photos');
 
   return (
-    <Dialog open={true} onClose={onClose} maxWidth="sm" fullWidth>
+    <Dialog open={true} onClose={onClose}  maxWidth={'md'} fullWidth>
       <DialogTitle>Register Establishment</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -185,6 +212,9 @@ export const EstablishmentRegisterFormDialog = (
               </Typography>
             ))}
           </Box>
+
+          <YandexLocationPicker onSet={address => setValue('physicalAddressCdo', { ...address } as PhysicalAddressCdo)}/>
+
 
           <FormControl fullWidth margin="normal">
             <InputLabel>Categories</InputLabel>
