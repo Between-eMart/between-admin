@@ -98,6 +98,6 @@ export const useOrganizationRdos = () => {
     changeSearchProperties,
     fetchByNewQuery,
     resetQuery,
-    refetch,
+    refetchOrganizationRdos: refetch,
   };
 };

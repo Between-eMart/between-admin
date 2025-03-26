@@ -5,6 +5,7 @@ import { useMemo } from 'react';
 import { SnackbarProvider } from 'notistack';
 import axios from 'axios';
 import { AuthProvider } from '~/context';
+import { CustomDialog } from '~/components';
 
 const App = () => {
   //
@@ -27,6 +28,7 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
           <SnackbarProvider>
             <RouterProvider router={router}/>
+            <CustomDialog/>
           </SnackbarProvider>
         </QueryClientProvider>
       </AuthProvider>
