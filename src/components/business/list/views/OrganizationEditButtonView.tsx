@@ -6,8 +6,10 @@ import { OrganizationModifyFormDialog } from '~/components';
 export const OrganizationEditButtonView = (
   {
     organizationId,
+    onSuccess,
   }: {
     organizationId: number;
+    onSuccess: () => void;
   },
 ) => {
   //
@@ -16,7 +18,7 @@ export const OrganizationEditButtonView = (
   return (
     <>
       <IconButton color="info" onClick={() => setOpen(true)}><EditIcon/></IconButton>
-      {open && (<OrganizationModifyFormDialog organizationId={organizationId} onClose={() => setOpen(false)}/>)}
+      {open && (<OrganizationModifyFormDialog organizationId={organizationId} onSuccess={onSuccess} onClose={() => setOpen(false)}/>)}
     </>
   );
 };

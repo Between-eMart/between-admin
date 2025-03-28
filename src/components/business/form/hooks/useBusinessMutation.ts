@@ -53,7 +53,7 @@ export const useBusinessMutation = () => {
 
   const defaultVirtualAddressCdo: VirtualAddressCdo = {
     establishmentId: 0,
-    timezone: '',
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     webUrl: '' };
 
   return {
@@ -104,11 +104,17 @@ export const useBusinessMutation = () => {
       registerPhysicalAddress: useMutation({
         mutationFn: BusinessFlowApi.registerPhysicalAddress,
       }),
+      modifyPhysicalAddress: useMutation({
+        mutationFn: BusinessFlowApi.modifyPhysicalAddress,
+      }),
       removePhysicalAddress: useMutation({
         mutationFn: BusinessFlowApi.removePhysicalAddress,
       }),
       registerVirtualAddress: useMutation({
         mutationFn: BusinessFlowApi.registerVirtualAddress,
+      }),
+      modifyVirtualAddress: useMutation({
+        mutationFn: BusinessFlowApi.modifyVirtualAddress,
       }),
       removeVirtualAddress: useMutation({
         mutationFn: BusinessFlowApi.removeVirtualAddress,

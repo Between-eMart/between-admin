@@ -1,19 +1,19 @@
 import axios from 'axios';
 import {
-  QueryResponse,
+  BrandDetailRdo,
+  EstablishmentCategory,
+  EstablishmentDetailRdo,
   Organization,
   OrganizationNestedRdo,
-  BrandDetailRdo,
-  EstablishmentDetailRdo,
-  EstablishmentCategory,
+  QueryResponse,
 } from '~/models';
 import {
+  FindBrandDetailRdoQuery,
+  FindEstablishmentCategoriesQuery,
+  FindEstablishmentDetailRdoQuery,
+  FindEstablishmentDetailRdosQuery,
   FindOrganizationNestedRdosQuery,
   FindOrganizationQuery,
-  FindBrandDetailRdoQuery,
-  FindEstablishmentDetailRdosQuery,
-  FindEstablishmentDetailRdoQuery,
-  FindEstablishmentCategoriesQuery,
 } from '../query';
 
 const url = (path: string) => `/api/feature/business/${path}`;

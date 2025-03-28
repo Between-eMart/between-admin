@@ -1,5 +1,4 @@
-import { defaultOffset } from '~/hooks';
-import { OrganizationNestedRdo, QueryResponse, Offset } from '~/models';
+import { OrganizationNestedRdo, QueryResponse } from '~/models';
 import { BusinessSeekApi, FindOrganizationNestedRdosQuery } from '~/apis';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useState } from 'react';

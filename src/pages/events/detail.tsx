@@ -1,11 +1,10 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { EventDetail } from '~/components';
 
 export const EventDetailPage = () => {
   //
   const { eventId } = useParams();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
 
   const routeBack = () => {
     //
@@ -14,7 +13,7 @@ export const EventDetailPage = () => {
 
   return (
     <EventDetail
-      eventId={eventId}
+      eventId={eventId ? Number.parseInt(eventId) : 0}
       onBack={routeBack}
     />
   );

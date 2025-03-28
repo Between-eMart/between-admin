@@ -1,4 +1,3 @@
-import { defaultOffset } from '~/hooks';
 import { EstablishmentCategory, QueryResponse } from '~/models';
 import { BusinessSeekApi, FindEstablishmentCategoriesQuery } from '~/apis';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';

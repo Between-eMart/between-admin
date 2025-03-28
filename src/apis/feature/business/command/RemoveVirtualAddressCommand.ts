@@ -1,3 +1,3 @@
 export interface RemoveVirtualAddressCommand {
-  establishmentId: number;
+  addressId: number;
 }

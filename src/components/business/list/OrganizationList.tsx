@@ -1,27 +1,32 @@
-import React, { useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, IconButton, Pagination, Paper, Typography } from '@mui/material';
+import React from 'react';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  IconButton,
+  Pagination,
+  Paper,
+  Typography,
+} from '@mui/material';
 import { useEstablishmentCategories, useOrganizationRdos } from './hooks';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   BrandAddButtonView,
   BrandEditButtonView,
   EstablishmentAddButtonView,
-  EstablishmentDetailDialogView,
   EstablishmentTableView,
-  OrganizationAddButtonView, OrganizationEditButtonView,
+  OrganizationAddButtonView,
+  OrganizationEditButtonView,
   OrganizationSearchBoxView,
 } from './views';
-import { EstablishmentDetailRdo, QueryResponse } from '~/models';
 import { useBusinessMutation } from '~/components/business/form/hooks';
-import { AxiosError } from 'axios';
 import { useDialog } from '~/components';
 
 export const OrganizationList = () => {
   //
   const {
-    alert,
     confirm,
   } = useDialog();
 
@@ -49,40 +54,30 @@ export const OrganizationList = () => {
     },
   } = useBusinessMutation();
 
+  const handleSuccess = () => {
+    //
+    refetchOrganizationRdos();
+  };
+
   const handleRemoveOrganization = (organizationId: number) => confirm('Do you really want to remove this organization?',
     () => removeOrganization.mutateAsync({ organizationId }, {
-      onSuccess: () => refetchOrganizationRdos(),
-      onError: (error) => {
-        const errorMessage =
-          (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage || 'Error';
-        alert(errorMessage);
-      },
+      onSuccess: handleSuccess,
     }));
 
   const handleRemoveBrand = (brandId: number) => confirm('Do you really want to remove this brand?',
     () => removeBrand.mutateAsync({ brandId }, {
-      onSuccess: () => refetchOrganizationRdos(),
-      onError: (error) => {
-        const errorMessage =
-          (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage || 'Error';
-        alert(errorMessage);
-      },
+      onSuccess: handleSuccess,
     }));
 
   const handleRemoveEstablishment = (establishmentId: number) => confirm('Do you really want to remove this establishment?',
     () => removeEstablishment.mutateAsync({ establishmentId }, {
-      onSuccess: () => refetchOrganizationRdos(),
-      onError: (error) => {
-        const errorMessage =
-          (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage || 'Error';
-        alert(errorMessage);
-      },
+      onSuccess: handleSuccess,
     }));
 
   return (
     <>
       <Paper sx={{ width: '100%', p: 3, borderRadius: 2 }}>
-        <OrganizationAddButtonView/>
+        <OrganizationAddButtonView onSuccess={handleSuccess} />
         <OrganizationSearchBoxView
           categories={establishmentCategories}
           onChangeSearchProperties={changeSearchProperties}
@@ -97,9 +92,9 @@ export const OrganizationList = () => {
             </AccordionSummary>
             <AccordionDetails>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <BrandAddButtonView organizationId={organizationRdo.organization.id}/>
+                <BrandAddButtonView organizationId={organizationRdo.organization.id}  onSuccess={handleSuccess} />
                 <div style={{ display: 'flex', gap: 10 }}>
-                  <OrganizationEditButtonView organizationId={organizationRdo.organization.id}/>
+                  <OrganizationEditButtonView organizationId={organizationRdo.organization.id} onSuccess={handleSuccess} />
                   <IconButton
                     color="error"
                     onClick={() => handleRemoveOrganization(organizationRdo.organization.id)}><DeleteIcon/></IconButton>
@@ -114,9 +109,9 @@ export const OrganizationList = () => {
                   </AccordionSummary>
                   <AccordionDetails>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <EstablishmentAddButtonView brandId={brandRdo.brand.id}/>
+                      <EstablishmentAddButtonView brandId={brandRdo.brand.id} onSuccess={handleSuccess} />
                       <div style={{ display: 'flex', gap: 10 }}>
-                        <BrandEditButtonView brandId={brandRdo.brand.id}/>
+                        <BrandEditButtonView brandId={brandRdo.brand.id} onSuccess={handleSuccess} />
                         <IconButton
                           color="error"
                           onClick={() => handleRemoveBrand(brandRdo.brand.id)}><DeleteIcon/></IconButton>
@@ -125,6 +120,7 @@ export const OrganizationList = () => {
                     <EstablishmentTableView
                       establishmentRdos={brandRdo.establishmentRdos}
                       onDelete={establishmentId => handleRemoveEstablishment(establishmentId)}
+                      onSuccess={handleSuccess}
                     />
                   </AccordionDetails>
                 </Accordion>

@@ -2,6 +2,8 @@ export * from './ModifyBrandCommand';
 export * from './ModifyEstablishmentCategoryCommand';
 export * from './ModifyEstablishmentCommand';
 export * from './ModifyOrganizationCommand';
+export * from './ModifyPhysicalAddressCommand';
+export * from './ModifyVirtualAddressCommand';
 export * from './RegisterBrandCommand';
 export * from './RegisterEstablishmentCategoryCommand';
 export * from './RegisterEstablishmentCommand';

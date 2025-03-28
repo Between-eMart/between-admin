@@ -1,25 +1,21 @@
 import { Box, Button, Dialog, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { AxiosError } from 'axios';
-import { Organization, QueryResponse } from '~/models';
+import { Organization } from '~/models';
 import { useBusinessMutation, useOrganization } from './hooks';
 import React from 'react';
-import { useDialog } from '~/components';
 
 export const OrganizationModifyFormDialog = (
   {
     organizationId,
+    onSuccess,
     onClose,
   }: {
     organizationId: number;
+    onSuccess: () => void;
     onClose: () => void;
   },
 ) => {
   //
-  const {
-    alert,
-  } = useDialog();
-
   const {
     mutation: {
       modifyOrganization,
@@ -46,18 +42,11 @@ export const OrganizationModifyFormDialog = (
     {
       onSuccess: async () => {
         //
+        onSuccess();
         onClose();
         reset();
       },
-
-      onError: (error) => {
-        console.error(error);
-        const errorMessage =
-            (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage || 'Error';
-        alert(errorMessage);
-      },
-    },
-    );
+    });
   };
 
   return (

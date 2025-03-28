@@ -1,3 +1,3 @@
 export interface RemovePhysicalAddressCommand {
-  establishmentId: number;
+  addressId: number;
 }

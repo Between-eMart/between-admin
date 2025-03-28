@@ -2,8 +2,8 @@ import React from 'react';
 import { Avatar, Dialog, DialogContent, DialogTitle, Grid2 as Grid, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { EstablishmentDetailRdo } from '~/models';
-import { Gallery } from '~/components';
-import { YandexLocationViewer } from '~/components/shared/YandexLocationViewer';
+import { Gallery, LocationUtil } from '~/components';
+import { YandexLocationViewer } from '~/components/shared/Addess/YandexLocationViewer';
 
 export const EstablishmentDetailDialogView = (
   {
@@ -66,7 +66,7 @@ export const EstablishmentDetailDialogView = (
             </Grid>
             {location &&
               <Grid size={12}>
-                <YandexLocationViewer latitude={location[0]} longitude={location[1]}/>
+                <YandexLocationViewer coords={LocationUtil.toCoords(establishmentRdo.physicalAddress?.location || '')}/>
               </Grid>
             }
           </Grid>)}

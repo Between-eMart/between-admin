@@ -12,8 +12,8 @@ import {
   Typography,
 } from '@mui/material';
 import { FilterList } from '@mui/icons-material';
-import {EstablishmentCategory} from "~/models";
-import {FindOrganizationNestedRdosQuery} from "~/apis";
+import { EstablishmentCategory } from '~/models';
+import { FindOrganizationNestedRdosQuery } from '~/apis';
 
 export const OrganizationFilterPanelView = (
   {

@@ -1,6 +1,6 @@
 import {
   Avatar,
-  Box, Button,
+  Box,
   IconButton,
   Table,
   TableBody,
@@ -13,7 +13,6 @@ import {
 import React, { useState } from 'react';
 import { EstablishmentDetailRdo } from '~/models';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import { EstablishmentDetailDialogView } from './EstablishmentDetailDialogView';
 import { EstablishmentEditButtonView } from '~/components';
 
@@ -21,9 +20,11 @@ import { EstablishmentEditButtonView } from '~/components';
 export const EstablishmentTableView = (
   {
     establishmentRdos,
+    onSuccess,
     onDelete,
   }: {
     establishmentRdos: EstablishmentDetailRdo[];
+    onSuccess: () => void;
     onDelete: (establishmentId: number) => void;
   },
 ) => {
@@ -57,7 +58,7 @@ export const EstablishmentTableView = (
                 <TableCell>{establishmentRdo.categories.map(({ name }) => name).join(', ')}</TableCell>
                 <TableCell>
                   <div style={{ display: 'flex', gap: 10 }}>
-                    <EstablishmentEditButtonView establishmentId={establishmentRdo.establishment.id}/>
+                    <EstablishmentEditButtonView establishmentId={establishmentRdo.establishment.id} onSuccess={onSuccess} />
                     <IconButton
                       color={'error'}
                       onClick={() => onDelete(establishmentRdo.establishment.id)}><DeleteIcon/></IconButton>

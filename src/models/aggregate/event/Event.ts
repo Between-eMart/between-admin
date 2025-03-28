@@ -19,4 +19,5 @@ export interface Event extends DomainEntity {
   status: EventStatus;
   banners: EventBanner[];
   tasks: EventTask[];
+  categoryIds: number[];
 }

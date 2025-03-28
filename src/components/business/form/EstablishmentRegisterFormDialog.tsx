@@ -1,6 +1,8 @@
 import {
   Box,
   Button,
+  Card,
+  CardContent,
   Chip,
   Dialog,
   DialogContent,
@@ -14,33 +16,30 @@ import {
   Typography,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { AxiosError } from 'axios';
-import {
-  CommandResponse,
-  Establishment,
-  EstablishmentCdo,
-  PhysicalAddressCdo,
-  QueryResponse,
-  VirtualAddressCdo,
-} from '~/models';
+import { CommandResponse, Establishment, EstablishmentCdo, PhysicalAddressCdo, VirtualAddressCdo } from '~/models';
 import { useBusinessMutation } from './hooks';
-import React from 'react';
-import { useDialog, useEstablishmentCategories, YandexLocationPicker } from '~/components';
+import React, { SyntheticEvent, useState } from 'react';
+import { useEstablishmentCategories, YandexLocationPicker } from '~/components';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import TimezoneSelect from 'react-timezone-select';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import Tab from '@mui/material/Tab';
+import TabPanel from '@mui/lab/TabPanel';
 
 export const EstablishmentRegisterFormDialog = (
   {
     brandId,
+    onSuccess,
     onClose,
   }: {
-    brandId: number,
+    brandId: number;
+    onSuccess: () => void;
     onClose: () => void;
   },
 ) => {
   //
-  const {
-    alert,
-  } = useDialog();
+  const [addressTabValue, setAddressTabValue] = useState('physical');
 
   const {
     defaultEstablishmentCdo,
@@ -75,6 +74,21 @@ export const EstablishmentRegisterFormDialog = (
     },
   });
 
+  const handleAddressTabValueChange = (event: SyntheticEvent, newValue: string) => {
+    //
+    setAddressTabValue(newValue);
+  };
+
+  async function handleRegisterPhysicalAddress(physicalAddressCdo: PhysicalAddressCdo) {
+    //
+    await registerPhysicalAddress.mutateAsync({ physicalAddressCdo });
+  }
+
+  async function handleRegisterVirtualAddress(virtualAddressCdo: VirtualAddressCdo) {
+    //
+    await registerVirtualAddress.mutateAsync({ virtualAddressCdo });
+  }
+
   const onSubmit = async (data: {
     establishmentCdo: EstablishmentCdo;
     physicalAddressCdo: PhysicalAddressCdo;
@@ -87,30 +101,17 @@ export const EstablishmentRegisterFormDialog = (
     {
       onSuccess: async (response: CommandResponse<Establishment>) => {
         //
-        await registerPhysicalAddress.mutateAsync({
-          physicalAddressCdo: { ...data.physicalAddressCdo, establishmentId: response.response?.id || 0 },
-        },
-        {
-          onError: (error) => {
-            console.error(error);
-            const errorMessage =
-                (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage || 'Error';
-            alert(errorMessage);
-          },
-        },
-        );
+        const establishmentId = response.response?.id || 0;
+        if (addressTabValue == 'physical') {
+          await handleRegisterPhysicalAddress({ ...data.physicalAddressCdo, establishmentId } );
+        } else {
+          await handleRegisterVirtualAddress({ ...data.virtualAddressCdo, establishmentId } );
+        }
+        onSuccess();
         onClose();
         reset();
       },
-
-      onError: (error) => {
-        console.error(error);
-        const errorMessage =
-            (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage || 'Error';
-        alert(errorMessage);
-      },
-    },
-    );
+    });
   };
 
   const handleLogoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -133,7 +134,7 @@ export const EstablishmentRegisterFormDialog = (
   const watchPhotos = watch('establishmentCdo.photos');
 
   return (
-    <Dialog open={true} onClose={onClose}  maxWidth={'md'} fullWidth>
+    <Dialog open={true} onClose={onClose} maxWidth={'md'} fullWidth>
       <DialogTitle>Register Establishment</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -212,9 +213,31 @@ export const EstablishmentRegisterFormDialog = (
               </Typography>
             ))}
           </Box>
-
-          <YandexLocationPicker onSet={address => setValue('physicalAddressCdo', { ...address } as PhysicalAddressCdo)}/>
-
+          <TabContext value={addressTabValue}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <TabList onChange={handleAddressTabValueChange} aria-label="lab API tabs example">
+                <Tab label="Physical" value="physical"/>
+                <Tab label="Virtual" value="virtual"/>
+              </TabList>
+            </Box>
+            <TabPanel value="physical">
+              <YandexLocationPicker
+                onSet={address => setValue('physicalAddressCdo', { ...address } as PhysicalAddressCdo)}/>
+            </TabPanel>
+            <TabPanel value="virtual">
+              <Card>
+                <CardContent>
+                  <TimezoneSelect
+                    placeholder={'Select Timezone'}
+                    value={watch('virtualAddressCdo.timezone')}
+                    onChange={(selected) => setValue('virtualAddressCdo.timezone', selected.value)}
+                  />
+                  <TextField fullWidth label="Web URL" {...register('virtualAddressCdo.webUrl', { required: true })}
+                             margin="normal"/>
+                </CardContent>
+              </Card>
+            </TabPanel>
+          </TabContext>
 
           <FormControl fullWidth margin="normal">
             <InputLabel>Categories</InputLabel>

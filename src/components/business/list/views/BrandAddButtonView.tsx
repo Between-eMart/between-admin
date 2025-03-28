@@ -6,8 +6,10 @@ import { BrandRegisterFormDialog } from '~/components';
 export const BrandAddButtonView = (
   {
     organizationId,
+    onSuccess,
   }:{
     organizationId: number;
+    onSuccess: () => void;
   },
 ) => {
   //
@@ -16,7 +18,7 @@ export const BrandAddButtonView = (
   return (
     <>
       <Button color="success" variant="outlined" startIcon={<AddIcon/>} onClick={() => setOpen(true)}>Brand</Button>
-      {open && (<BrandRegisterFormDialog organizationId={organizationId} onClose={() => setOpen(false)}/>)}
+      {open && (<BrandRegisterFormDialog organizationId={organizationId} onSuccess={onSuccess} onClose={() => setOpen(false)}/>)}
     </>
   );
 };

@@ -6,8 +6,10 @@ import { BrandModifyFormDialog } from '~/components';
 export const BrandEditButtonView = (
   {
     brandId,
+    onSuccess,
   }: {
     brandId: number;
+    onSuccess: () => void;
   },
 ) => {
   //
@@ -16,7 +18,7 @@ export const BrandEditButtonView = (
   return (
     <>
       <IconButton color="info" onClick={() => setOpen(true)}><EditIcon/></IconButton>
-      {open && (<BrandModifyFormDialog brandId={brandId} onClose={() => setOpen(false)}/>)}
+      {open && (<BrandModifyFormDialog brandId={brandId} onSuccess={onSuccess} onClose={() => setOpen(false)}/>)}
     </>
   );
 };

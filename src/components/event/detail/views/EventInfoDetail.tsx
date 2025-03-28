@@ -31,7 +31,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
   const {
     mutation: { modifyEvent },
   } = useEventMutation();
-  
+
   const {
     control,
     handleSubmit,
@@ -45,7 +45,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
   });
 
   const statusOptions: string[] = Object.keys(EventStatus);
-  
+
 
   const handleFormSubmit = async (data: Event) => {
     //

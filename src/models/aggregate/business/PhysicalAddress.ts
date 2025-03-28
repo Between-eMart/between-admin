@@ -8,5 +8,5 @@ export interface PhysicalAddress extends DomainEntity {
   postIndex?: string;
   city: string;
   location?: string;
-  establishmentId: string;
+  establishmentId: number;
 }

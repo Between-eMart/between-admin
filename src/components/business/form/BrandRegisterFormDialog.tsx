@@ -1,25 +1,21 @@
 import { Box, Button, Dialog, DialogContent, DialogTitle, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { AxiosError } from 'axios';
-import { BrandCdo, QueryResponse } from '~/models';
+import { BrandCdo } from '~/models';
 import { useBusinessMutation } from './hooks';
 import React from 'react';
-import { useDialog } from '~/components';
 
 export const BrandRegisterFormDialog = (
   {
     organizationId,
+    onSuccess,
     onClose,
   }: {
-    organizationId: number,
+    organizationId: number;
+    onSuccess: () => void;
     onClose: () => void;
   },
 ) => {
   //
-  const {
-    alert,
-  } = useDialog();
-
   const {
     defaultBrandCdo,
     mutation: {
@@ -43,18 +39,11 @@ export const BrandRegisterFormDialog = (
     {
       onSuccess: async () => {
         //
+        onSuccess();
         onClose();
         reset();
       },
-
-      onError: (error) => {
-        console.error(error);
-        const errorMessage =
-            (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage || 'Error';
-        alert(errorMessage);
-      },
-    },
-    );
+    });
   };
 
   return (
