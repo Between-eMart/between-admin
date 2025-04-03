@@ -1,7 +1,8 @@
 export enum ProfileStatus {
   //
+  CREATED = 'CREATED',
   REQUESTED = 'REQUESTED',
-  PROVEN = 'PROVEN',
+  VERIFIED = 'VERIFIED',
   REJECTED = 'REJECTED',
-  BLOCKED = 'BLOCKED'
+  BLOCKED = 'BLOCKED',
 }

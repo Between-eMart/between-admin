@@ -1,9 +1,11 @@
-import { Influencer, InfluencerInfoRdo, QueryResponse } from '~/models';
+import { Influencer, InfluencerCategory, InfluencerInfoRdo, QueryResponse } from '~/models';
 import axios from 'axios';
 import {
   FindInfluencerByIdQuery,
   FindInfluencerByUsernameQuery,
-  FindInfluencersQuery, FindPreActiveInfluencersQuery,
+  FindActiveInfluencersQuery,
+  FindPreActiveInfluencersQuery,
+  FindInfluencerCategoriesQuery,
 } from '~/apis/feature/influencer';
 
 const url = (path: string) => `/api/feature/influencer/${path}`;
@@ -20,21 +22,28 @@ const findInfluencerByUsername = async (query: FindInfluencerByUsernameQuery): P
   return response.data;
 };
 
-const findInfluencers = async (query: FindInfluencersQuery): Promise<QueryResponse<Influencer[]>> => {
+const findActiveInfluencers = async (query: FindActiveInfluencersQuery): Promise<QueryResponse<Influencer[]>> => {
   //
-  const response = await axios.post<QueryResponse<Influencer[]>>(url('find-influencers/query'), query);
+  const response = await axios.post<QueryResponse<Influencer[]>>(url('find-active-influencers/query'), query);
   return response.data;
 };
 
-const findPreActiveInfluencersUsername = async (query: FindPreActiveInfluencersQuery): Promise<QueryResponse<Influencer[]>> => {
+const findPreActiveInfluencers = async (query: FindPreActiveInfluencersQuery): Promise<QueryResponse<Influencer[]>> => {
   //
   const response = await axios.post<QueryResponse<Influencer[]>>(url('find-pre-active-influencers/query'), query);
+  return response.data;
+};
+
+const findInfluencerCategories = async (query: FindInfluencerCategoriesQuery): Promise<QueryResponse<InfluencerCategory[]>> => {
+  //
+  const response = await axios.post<QueryResponse<InfluencerCategory[]>>(url('find-influencer-categories/query'), query);
   return response.data;
 };
 
 export default {
   findInfluencerById,
   findInfluencerByUsername,
-  findInfluencers,
-  findPreActiveInfluencersUsername,
+  findActiveInfluencers,
+  findPreActiveInfluencers,
+  findInfluencerCategories,
 };

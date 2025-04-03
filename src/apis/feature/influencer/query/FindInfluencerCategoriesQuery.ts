@@ -1,10 +1,8 @@
 import { Offset } from '~/models/aggregate/shared/Offset';
 import { Gender, ProfileStatus } from '~/models';
 
-export interface FindPreActiveInfluencersQuery {
+export interface FindInfluencerCategoriesQuery {
   //
   searchKey?: string;
-  gender?: Gender;
-  categoryIds?: number[];
   offset?: Offset;
 }

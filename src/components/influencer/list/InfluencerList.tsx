@@ -1,32 +1,24 @@
 import React, { SyntheticEvent, useState } from 'react';
-import { Box, Pagination, Paper, TextField } from '@mui/material';
-import { Search } from '@mui/icons-material';
-import { useInfluencerRdos } from './hooks';
-import {
-  InfluencerDetailDialogView,
-  InfluencerFilterPanelView,
-  InfluencerTableView,
-  ProfileCreateRequestTableView,
-} from './views';
+import { Box, Paper } from '@mui/material';
+import { useActiveInfluencers, useInfluencerCategories, usePreActiveInfluencers } from './hooks';
+import { ActiveInfluencersTableView, InfluencerDetailDialogView, PreActiveInfluencersTableView } from './views';
 import TabList from '@mui/lab/TabList';
 import Tab from '@mui/material/Tab';
 import TabPanel from '@mui/lab/TabPanel';
 import TabContext from '@mui/lab/TabContext';
+import { Influencer } from '~/models';
 
 export const InfluencerList = () => {
   //
-  const [selectedInfluencer, setSelectedInfluencer] = useState<any>();
+  const [selectedInfluencer, setSelectedInfluencer] = useState<Influencer>();
   const [tabValue, setTabValue] = useState('1');
+
+  const activeInfluencers = useActiveInfluencers();
+
+  const preActiveInfluencers = usePreActiveInfluencers();
   const {
-    search,
-    setSearch,
-    page,
-    setPage,
-    paginatedInfluencers,
-    totalPages,
-    applyFilters,
-    clearFilters,
-  } = useInfluencerRdos(tabValue != '1');
+    influencerCategories,
+  } = useInfluencerCategories();
 
   const handleTabValueChange = (event: SyntheticEvent, newValue: string) => {
     //
@@ -36,7 +28,6 @@ export const InfluencerList = () => {
   return (
     <>
       <Paper sx={{ width: '100%', p: 3, borderRadius: 2 }}>
-        {/* Search & Filters */}
         <TabContext value={tabValue}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleTabValueChange} aria-label="lab API tabs example">
@@ -44,48 +35,36 @@ export const InfluencerList = () => {
               <Tab label="Requests" value="2"/>
             </TabList>
           </Box>
-          <Box display="flex" gap={2} mt={2} mb={3}>
-            <TextField
-              variant="outlined"
-              size="small"
-              placeholder="Search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              InputProps={{
-                startAdornment: <Search color="disabled" sx={{ mr: 1 }}/>,
-              }}
-              fullWidth
-            />
-            <InfluencerFilterPanelView
-              onApplyFilters={applyFilters}
-              onClearFilters={clearFilters}
-            />
-          </Box>
-
-          {/* Table */}
-
           <TabPanel value="1">
-            <InfluencerTableView
-              influencers={paginatedInfluencers}
+            <ActiveInfluencersTableView
+              influencers={activeInfluencers.influencers}
+              total={activeInfluencers.total}
+              offset={activeInfluencers.offset}
+              limit={activeInfluencers.limit}
+              onPageChange={activeInfluencers.changeCurrentPage}
               onDetail={influencer => setSelectedInfluencer(influencer)}
+              categories={influencerCategories}
+              onChangeSearchProperties={activeInfluencers.changeSearchProperties}
+              onSearch={() => activeInfluencers.fetchByNewQuery()}
+              searchQuery={activeInfluencers.query}
             />
           </TabPanel>
           <TabPanel value="2">
-            <ProfileCreateRequestTableView
-              influencers={paginatedInfluencers}
+            <PreActiveInfluencersTableView
+              influencers={preActiveInfluencers.influencers}
+              total={preActiveInfluencers.total}
+              offset={preActiveInfluencers.offset}
+              limit={preActiveInfluencers.limit}
+              onPageChange={preActiveInfluencers.changeCurrentPage}
               onDetail={influencer => setSelectedInfluencer(influencer)}
+              categories={influencerCategories}
+              onChangeSearchProperties={preActiveInfluencers.changeSearchProperties}
+              onSearch={() => preActiveInfluencers.fetchByNewQuery()}
+              searchQuery={preActiveInfluencers.query}
+              onAccept={async (influencerId) => {}}
+              onReject={async (influencerId) => {}}
             />
           </TabPanel>
-
-          {/* Pagination */}
-          <Box display="flex" justifyContent="center" mt={3}>
-            <Pagination
-              count={totalPages}
-              page={page}
-              onChange={(_, value) => setPage(value)}
-              color="primary"
-            />
-          </Box>
         </TabContext>
       </Paper>
       {!!selectedInfluencer &&

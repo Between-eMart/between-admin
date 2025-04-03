@@ -1,4 +1,5 @@
-export * from './FindInfluencersQuery';
+export * from './FindActiveInfluencersQuery';
 export * from './FindInfluencerByIdQuery';
-export * from './FindPreActiveInfluencersQuery';
 export * from './FindInfluencerByUsernameQuery';
+export * from './FindInfluencerCategoriesQuery';
+export * from './FindPreActiveInfluencersQuery';
