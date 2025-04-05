@@ -14,7 +14,7 @@ import {
 import React from 'react';
 import { Influencer, InfluencerCategory } from '~/models';
 import { FindPreActiveInfluencersQuery } from '~/apis';
-import { PreActiveInfluencerSearchBoxView } from './PreActiveInfluencerSeachBoxView';
+import { PreActiveInfluencerSearchBoxView } from '~/components';
 
 export const PreActiveInfluencersTableView = (
   {

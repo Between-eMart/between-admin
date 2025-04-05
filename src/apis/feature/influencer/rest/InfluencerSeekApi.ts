@@ -1,11 +1,11 @@
-import { Influencer, InfluencerCategory, InfluencerInfoRdo, QueryResponse } from '~/models';
+import { IdNameValue, Influencer, InfluencerCategory, InfluencerInfoRdo, QueryResponse } from '~/models';
 import axios from 'axios';
 import {
   FindInfluencerByIdQuery,
   FindInfluencerByUsernameQuery,
   FindActiveInfluencersQuery,
   FindPreActiveInfluencersQuery,
-  FindInfluencerCategoriesQuery,
+  FindInfluencerCategoriesQuery, FindAllInfluencersQuery,
 } from '~/apis/feature/influencer';
 
 const url = (path: string) => `/api/feature/influencer/${path}`;
@@ -40,10 +40,18 @@ const findInfluencerCategories = async (query: FindInfluencerCategoriesQuery): P
   return response.data;
 };
 
+const findAllInfluencers = async (query: FindAllInfluencersQuery): Promise<QueryResponse<IdNameValue[]>> => {
+  //
+  const response = await axios.post<QueryResponse<IdNameValue[]>>(url('find-all-influencers/query'), query);
+  return response.data;
+};
+
+
 export default {
   findInfluencerById,
   findInfluencerByUsername,
   findActiveInfluencers,
   findPreActiveInfluencers,
   findInfluencerCategories,
+  findAllInfluencers,
 };

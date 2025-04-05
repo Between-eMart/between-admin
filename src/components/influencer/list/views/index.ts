@@ -4,4 +4,4 @@ export * from './InfluencerDetailDialogView';
 export * from './InfluencerSelectModal';
 export * from './PreActiveInfluencerSeachBoxView';
 export * from './PreActiveInfluencersTableView';
-
+export * from './InfluencerCategoryTableView';

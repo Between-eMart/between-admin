@@ -1,12 +1,17 @@
 import React, { SyntheticEvent, useState } from 'react';
 import { Box, Paper } from '@mui/material';
 import { useActiveInfluencers, useInfluencerCategories, usePreActiveInfluencers } from './hooks';
-import { ActiveInfluencersTableView, InfluencerDetailDialogView, PreActiveInfluencersTableView } from './views';
+import {
+  ActiveInfluencersTableView,
+  InfluencerDetailDialogView,
+  PreActiveInfluencersTableView,
+} from './views';
 import TabList from '@mui/lab/TabList';
 import Tab from '@mui/material/Tab';
 import TabPanel from '@mui/lab/TabPanel';
 import TabContext from '@mui/lab/TabContext';
 import { Influencer } from '~/models';
+import { InfluencerCategoriesList } from '~/components/influencer/list/views/InfluencerCategoriesList';
 
 export const InfluencerList = () => {
   //
@@ -16,9 +21,8 @@ export const InfluencerList = () => {
   const activeInfluencers = useActiveInfluencers();
 
   const preActiveInfluencers = usePreActiveInfluencers();
-  const {
-    influencerCategories,
-  } = useInfluencerCategories();
+
+  const { influencerCategories } = useInfluencerCategories();
 
   const handleTabValueChange = (event: SyntheticEvent, newValue: string) => {
     //
@@ -31,8 +35,9 @@ export const InfluencerList = () => {
         <TabContext value={tabValue}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleTabValueChange} aria-label="lab API tabs example">
-              <Tab label="Influencers" value="1"/>
-              <Tab label="Requests" value="2"/>
+              <Tab label="Influencers" value="1" />
+              <Tab label="Requests" value="2" />
+              <Tab label="Category" value="3" />
             </TabList>
           </Box>
           <TabPanel value="1">
@@ -42,7 +47,7 @@ export const InfluencerList = () => {
               offset={activeInfluencers.offset}
               limit={activeInfluencers.limit}
               onPageChange={activeInfluencers.changeCurrentPage}
-              onDetail={influencer => setSelectedInfluencer(influencer)}
+              onDetail={(influencer) => setSelectedInfluencer(influencer)}
               categories={influencerCategories}
               onChangeSearchProperties={activeInfluencers.changeSearchProperties}
               onSearch={() => activeInfluencers.fetchByNewQuery()}
@@ -56,7 +61,7 @@ export const InfluencerList = () => {
               offset={preActiveInfluencers.offset}
               limit={preActiveInfluencers.limit}
               onPageChange={preActiveInfluencers.changeCurrentPage}
-              onDetail={influencer => setSelectedInfluencer(influencer)}
+              onDetail={(influencer) => setSelectedInfluencer(influencer)}
               categories={influencerCategories}
               onChangeSearchProperties={preActiveInfluencers.changeSearchProperties}
               onSearch={() => preActiveInfluencers.fetchByNewQuery()}
@@ -65,10 +70,14 @@ export const InfluencerList = () => {
               onReject={async (influencerId) => {}}
             />
           </TabPanel>
+          <TabPanel value={'3'}>
+            <InfluencerCategoriesList />
+          </TabPanel>
         </TabContext>
       </Paper>
-      {!!selectedInfluencer &&
-        <InfluencerDetailDialogView influencer={selectedInfluencer} onClose={() => setSelectedInfluencer(undefined)}/>}
+      {!!selectedInfluencer && (
+        <InfluencerDetailDialogView influencer={selectedInfluencer} onClose={() => setSelectedInfluencer(undefined)} />
+      )}
     </>
   );
 };

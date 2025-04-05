@@ -287,7 +287,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                             fullWidth
                             error={!!errors.description}
                             helperText={errors.description?.message}
-                            placeholder="Date format must be YYYY:MM:DD"
+                            placeholder="Date format must be YYYY-MM-DD"
                           />
                         )}
                       />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Chip,
@@ -11,18 +11,25 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import { EventInviteRequest, Influencer } from '~/models';
+import { EventInviteRequest, IdNameValue } from '~/models';
 import { InfluencerInviteModal } from '~/components';
 
 export const EventInviteList = ({ eventId, inviteRequests }: { eventId:number, inviteRequests: EventInviteRequest[] }) => {
   //
-  const [users, setUsers] = useState<Influencer[]>([]);
   const [open, setOpen] = useState(false);
+  const [alreadyInvited, setAlreadyInvited] = useState<IdNameValue[]>([]);
   
-  const addSelectedUsers = (selected: Influencer[]) => {
-    //
-    setUsers([...users, ...selected.filter(u => !users.some(existing => existing.id === u.id))]);
-  };
+  useEffect(() => {
+    if (inviteRequests.length > 0) {
+      const mapped = inviteRequests.map((value) => { return value.influencer});
+      setAlreadyInvited(mapped);
+    }
+  }, [inviteRequests]);
+  
+  function handleClose() {
+    return () => setOpen(false);
+  }
+  
   return (
     <Paper>
       <TableContainer>
@@ -60,7 +67,7 @@ export const EventInviteList = ({ eventId, inviteRequests }: { eventId:number, i
           + Invite Influencers
         </Button>
       </Stack>
-      <InfluencerInviteModal open={open} handleClose={() => setOpen(false)} eventId={eventId} />
+      <InfluencerInviteModal open={open} handleClose={handleClose()} eventId={eventId} invitedUsers={alreadyInvited} />
     </Paper>
   );
 };

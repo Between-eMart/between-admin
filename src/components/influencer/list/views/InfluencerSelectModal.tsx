@@ -11,11 +11,12 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Checkbox,
+  Checkbox, Chip,
 } from '@mui/material';
-import { useInfluencers, useInvolvementMutation } from '~/hooks';
-import { EventInviteRequestCdo, Influencer, QueryResponse } from '~/models';
-import { AxiosError } from 'axios';
+import { useInvolvementMutation } from '~/hooks';
+import { EventInviteRequestCdo, IdNameValue } from '~/models';
+
+import { useAllInfluencers } from '~/components';
 
 const modalStyle = {
   position: 'absolute',
@@ -29,16 +30,16 @@ const modalStyle = {
   borderRadius: 2,
 };
 
-export const InfluencerInviteModal = ({ eventId, open, handleClose }) => {
+export const InfluencerInviteModal = ({ eventId, invitedUsers, open, handleClose }) => {
   //
-  const [selectedInfluencers, setSelectedInfluencers] = useState<Influencer[]>([]);
+  const [selectedInfluencers, setSelectedInfluencers] = useState<IdNameValue[]>([]);
 
-  const { influencers } = useInfluencers();
+  const { influencers } = useAllInfluencers();
   const {
     mutation: { inviteToEvent },
   } = useInvolvementMutation();
 
-  const handleSelect = (influencer: Influencer) => {
+  const handleSelect = (influencer: IdNameValue) => {
     setSelectedInfluencers((prevSelected) =>
       prevSelected.some((u) => u.id === influencer.id)
         ? prevSelected.filter((u) => u.id !== influencer.id)
@@ -47,8 +48,9 @@ export const InfluencerInviteModal = ({ eventId, open, handleClose }) => {
   };
 
   const handleConfirm = () => {
+    //
     const cdos : EventInviteRequestCdo[] = [];
-    selectedInfluencers.forEach((value, index) => {
+    selectedInfluencers.forEach((value) => {
       const cdo = { influencerId: value.id, eventId: eventId } as unknown as EventInviteRequestCdo;
       cdos.push(cdo);
     });
@@ -58,12 +60,6 @@ export const InfluencerInviteModal = ({ eventId, open, handleClose }) => {
     }, {
       onSuccess: async () => {
         alert('Success');
-        
-      },
-      onError: async (error) => {
-        const errorMessage =
-          (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage || 'Error';
-        alert(errorMessage);
       },
     });
   };
@@ -82,7 +78,7 @@ export const InfluencerInviteModal = ({ eventId, open, handleClose }) => {
                 <TableCell>Select</TableCell>
                 <TableCell>SNS username</TableCell>
                 <TableCell>Name</TableCell>
-                <TableCell>Surname</TableCell>
+                <TableCell>Status</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -90,13 +86,18 @@ export const InfluencerInviteModal = ({ eventId, open, handleClose }) => {
                 <TableRow key={influencer.id}>
                   <TableCell>
                     <Checkbox
+                      disabled={invitedUsers.some((t) => t.id === influencer.id)}
                       checked={selectedInfluencers.some((u) => u.id === influencer.id)}
                       onChange={() => handleSelect(influencer)}
                     />
                   </TableCell>
-                  <TableCell>{influencer.snsUsername}</TableCell>
+                  <TableCell>{influencer.value}</TableCell>
                   <TableCell>{influencer.name}</TableCell>
-                  <TableCell>{influencer.surname}</TableCell>
+                  <TableCell>
+                    {invitedUsers.some((y) => y.id === influencer.id)
+                      ? <Chip label={'Invited'} variant="outlined" />
+                      : ''
+                    }</TableCell>
                 </TableRow>
               ))}
             </TableBody>

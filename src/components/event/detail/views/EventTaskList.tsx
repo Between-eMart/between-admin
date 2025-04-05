@@ -36,7 +36,7 @@ export const EventTaskList = ({ eventId, tasks }: { eventId: number; tasks: Even
     addTasksToEvent.mutate(
       {
         eventId: eventId,
-        eventTaskCdos: [{ ...data }],
+        eventTaskCdos: [{ ...data, eventId: eventId }],
       },
       {
         onSuccess: async () => {
