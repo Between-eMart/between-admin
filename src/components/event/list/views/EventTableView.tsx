@@ -18,7 +18,6 @@ const statusColors = {
   Archived: 'warning',
 };
 
-
 export const EventTableView = ({ events, onDetail }) => {
   //
   return (
@@ -27,25 +26,39 @@ export const EventTableView = ({ events, onDetail }) => {
         <Table>
           <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
             <TableRow>
-              <TableCell align={'center'}><b>Name</b></TableCell>
-              <TableCell align={'center'}><b>Description</b></TableCell>
-              <TableCell align={'center'}><b>Venue</b></TableCell>
-              <TableCell align={'center'}><b>Date</b></TableCell>
-              <TableCell align={'center'}><b>Time</b></TableCell>
-              <TableCell align={'center'}><b>Age Restriction</b></TableCell>
+              <TableCell align={'center'}>
+                <b>Name</b>
+              </TableCell>
+              <TableCell align={'center'}>
+                <b>Status</b>
+              </TableCell>
+              <TableCell align={'center'}>
+                <b>Description</b>
+              </TableCell>
+              <TableCell align={'center'}>
+                <b>Venue</b>
+              </TableCell>
+              <TableCell align={'center'}>
+                <b>Date</b>
+              </TableCell>
+              <TableCell align={'center'}>
+                <b>Time</b>
+              </TableCell>
+              <TableCell align={'center'}>
+                <b>Age Restriction</b>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {events.map((event, index) => (
               <TableRow key={index}>
                 <TableCell onClick={() => onDetail(event)} align={'center'}>
-                  <Box display="flex" alignItems="center" gap={2}>
-                    <Avatar sx={{ bgcolor: '#ccc' }}> </Avatar>
-                    <Box>
-                      <Typography color="primary" fontWeight="medium">{event.name}</Typography>
-                      <Chip label={event.status} color={statusColors[event.status]}/>
-                    </Box>
-                  </Box>
+                  <Typography color="primary" fontWeight="medium">
+                    {event.name}
+                  </Typography>
+                </TableCell>
+                <TableCell align={'center'}>
+                  <Chip label={event.status} color={statusColors[event.status]} />
                 </TableCell>
                 <TableCell align={'center'}>{event.description}</TableCell>
                 <TableCell align={'center'}>{event.venue}</TableCell>

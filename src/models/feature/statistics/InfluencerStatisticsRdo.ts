@@ -1,6 +1,7 @@
 export interface InfluencerStatisticsRdo {
-  confirmedQty: number;
-  bannedQty: number;
-  rejectedQty: number;
-  requestedQty: number;
+  //
+  confirmedCount: number;
+  bannedCount: number;
+  rejectedCount: number;
+  requestedCount: number;
 }

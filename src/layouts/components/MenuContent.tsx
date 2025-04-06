@@ -12,28 +12,35 @@ import BusinessCenterRoundedIcon from '@mui/icons-material/BusinessCenterRounded
 import SupportRoundedIcon from '@mui/icons-material/SupportRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const mainListItems = [
-  { text: 'Dashboard', path: '/dashboard', icon: <HomeRoundedIcon/> },
-  { text: 'Influencers', path: '/influencers', icon: <PeopleRoundedIcon/> },
-  { text: 'Organizations', path: '/organizations', icon: <BusinessCenterRoundedIcon/> },
-  { text: 'Events', path: '/events', icon: <EventRoundedIcon/> },
-  { text: 'Support', path: '/support', icon: <SupportRoundedIcon/> },
-  { text: 'Settings', path: '/settings', icon: <SettingsRoundedIcon/> },
+  { text: 'Dashboard', path: '/dashboard', icon: <HomeRoundedIcon /> },
+  { text: 'Influencers', path: '/influencers', icon: <PeopleRoundedIcon /> },
+  { text: 'Organizations', path: '/organizations', icon: <BusinessCenterRoundedIcon /> },
+  { text: 'Events', path: '/events', icon: <EventRoundedIcon /> },
+  { text: 'Support', path: '/support', icon: <SupportRoundedIcon /> },
+  { text: 'Settings', path: '/settings', icon: <SettingsRoundedIcon /> },
 ];
 
 export default function MenuContent() {
   //
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const navigate = useNavigate();
+
+  const handleListItemClick = (index, path) => {
+    setSelectedIndex(index);
+    navigate(path);
+  };
 
   return (
     <Stack sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}>
-      <List dense>
+      <List>
         {mainListItems.map((item, index) => (
           <ListItem key={index} disablePadding sx={{ display: 'block' }}>
-            <ListItemButton selected={index === 0} onClick={() => navigate(item.path)}>
+            <ListItemButton selected={index === selectedIndex} onClick={() => handleListItemClick(index, item.path)}>
               <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text}/>
+              <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
         ))}

@@ -2,19 +2,20 @@ import axios from 'axios';
 import {
   BrandDetailRdo,
   EstablishmentCategory,
-  EstablishmentDetailRdo,
+  EstablishmentDetailRdo, IdNameValue,
   Organization,
   OrganizationNestedRdo,
   QueryResponse,
 } from '~/models';
 import {
+  FindAllEstablishmentIdNamesQuery,
   FindBrandDetailRdoQuery,
   FindEstablishmentCategoriesQuery,
   FindEstablishmentDetailRdoQuery,
   FindEstablishmentDetailRdosQuery,
   FindOrganizationNestedRdosQuery,
   FindOrganizationQuery,
-} from '../query';
+} from '~/apis';
 
 const url = (path: string) => `/api/feature/business/${path}`;
 
@@ -41,6 +42,9 @@ const findEstablishmentDetailRdo = (query: FindEstablishmentDetailRdoQuery) =>
 const findEstablishmentCategories = (query: FindEstablishmentCategoriesQuery) =>
   sendQuery<FindEstablishmentCategoriesQuery, EstablishmentCategory[]>('find-establishment-categories/query', query);
 
+const findAllEstablishmentIdNames = (query: FindAllEstablishmentIdNamesQuery) =>
+  sendQuery<FindAllEstablishmentIdNamesQuery, IdNameValue[]>('find-all-establishments-id-names/query', query);
+
 export default {
   findOrganizationNestedRdos,
   findOrganization,
@@ -48,4 +52,5 @@ export default {
   findEstablishmentDetailRdos,
   findEstablishmentDetailRdo,
   findEstablishmentCategories,
+  findAllEstablishmentIdNames,
 };

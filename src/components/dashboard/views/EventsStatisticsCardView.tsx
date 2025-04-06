@@ -5,19 +5,19 @@ import Chart from 'react-apexcharts';
 
 export const EventsStatisticsCardView = (
   {
-    activeQty,
-    archivedQty,
-    upcomingQty,
+    draftedQty,
+    publishedQty,
+    postponedQty,
   }: {
-    activeQty: number;
-    archivedQty: number;
-    upcomingQty: number;
+    draftedQty: number;
+    publishedQty: number;
+    postponedQty: number;
   },
 ) => {
   //
-  const series = [activeQty, archivedQty, upcomingQty]; // Actual numbers for each category
+  const series = [draftedQty, publishedQty, postponedQty]; // Actual numbers for each category
   const totalEvents = series.reduce((a, b) => a + b, 0); // Calculate total sum
-  const labels = ['Actual', 'Archived', 'Upcoming']; // Custom labels
+  const labels = [ 'Drafted', 'Published', 'Postponed']; // Custom labels
   const colors = ['#D460CD', '#EBE420', '#2060EB']; // Colors for dots & chart
 
   const options: ApexOptions = {

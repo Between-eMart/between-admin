@@ -22,14 +22,14 @@ export const CustomDialog = () => {
 
   const handleClickOk = (dialog: IDialog) => async () => {
     if (dialog.onSuccess) {
-      await dialog.onSuccess();
+      dialog.onSuccess();
     }
     setIds((prev) => [...prev, dialog.id]);
   };
 
   const handleClickCancel = (dialog: IDialog) => async () => {
     if (dialog.onCancel) {
-      await dialog.onCancel();
+      dialog.onCancel();
     }
     setIds((prev) => [...prev, dialog.id]);
   };

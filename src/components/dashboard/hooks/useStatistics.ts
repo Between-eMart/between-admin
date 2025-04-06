@@ -1,28 +1,20 @@
-import {EventsStatisticsRdo, InfluencerStatisticsRdo, OverallStatisticsRdo} from '~/models';
+import { OverallStatisticsRdo, QueryResponse } from '~/models';
+import { FindOverallStatisticsRdoQuery, StatisticsSeekApi } from '~/apis';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+
 
 export const useStatistics = () => {
   //
-  const mockEventsStatisticsRdo:EventsStatisticsRdo = {
-    activeQty: Math.round(Math.random() * 100),
-    archivedQty: Math.round(Math.random() * 100),
-    upcomingQty: Math.round(Math.random() * 100),
-  };
-
-  const mockInfluencerStatisticsRdo: InfluencerStatisticsRdo = {
-    bannedQty: Math.round(Math.random() * 100),
-    confirmedQty: Math.round(Math.random() * 100),
-    rejectedQty: Math.round(Math.random() * 100),
-    requestedQty: Math.round(Math.random() * 100),
-
-  };
-
-  const mockStatisticsRdo: OverallStatisticsRdo = {
-    eventsStatisticsRdo: mockEventsStatisticsRdo,
-    influencerStatisticsRdo: mockInfluencerStatisticsRdo,
-    organizationsTotalQty: Math.round(Math.random() * 100),
-  };
-
+  const query: FindOverallStatisticsRdoQuery = {  };
+  const { data, isLoading, error, refetch }: UseQueryResult<QueryResponse<OverallStatisticsRdo>> = useQuery({
+    queryKey: ['statistics'],
+    queryFn: () => StatisticsSeekApi.findOverallStatisticsRdo(query),
+  });
+  
   return {
-    overallStatisticsRdo: mockStatisticsRdo,
+    overallStatData: data?.result,
+    isLoading,
+    error,
+    refetchData: refetch,
   };
 };
