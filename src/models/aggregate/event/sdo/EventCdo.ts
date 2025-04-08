@@ -3,7 +3,9 @@ export interface EventCdo {
   name: string;
   description: string;
   date: string;
-  time: string;
+  startTime: string;
+  endTime: string;
+  numberOfSeats: number;
   dressCode: string;
   adviceForAttenders: string;
   rules: string;

@@ -2,7 +2,8 @@ import {
   Avatar,
   Box,
   Button,
-  Chip, Pagination,
+  Chip,
+  Pagination,
   Table,
   TableBody,
   TableCell,
@@ -12,41 +13,49 @@ import {
   Typography,
 } from '@mui/material';
 import React from 'react';
-import { Influencer, InfluencerCategory } from '~/models';
+import { Influencer, InfluencerCategory, ProfileStatus } from '~/models';
 import { FindPreActiveInfluencersQuery } from '~/apis';
 import { PreActiveInfluencerSearchBoxView } from '~/components';
+import { useInfluencerMutation } from '~/hooks';
 
-export const PreActiveInfluencersTableView = (
-  {
-    influencers,
-    total,
-    offset,
-    limit,
-    onPageChange,
-    onDetail,
-    searchQuery,
-    onChangeSearchProperties,
-    onSearch,
-    categories,
-  }: {
-    influencers: Influencer[];
-    total: number;
-    offset: number;
-    limit: number;
-    onPageChange: (offset: number) => void;
-    onDetail: (influencer: Influencer) => void;
-    searchQuery: FindPreActiveInfluencersQuery;
-    onChangeSearchProperties: (
-      key: keyof FindPreActiveInfluencersQuery,
-      value: string | number | number[] | boolean | undefined
-    ) => void;
-    onSearch: () => void;
-    categories: InfluencerCategory[];
-    onAccept: (influencerId: string) => Promise<void>;
-    onReject: (influencerId: string) => Promise<void>;
-  },
-) => {
+export const PreActiveInfluencersTableView = ({
+  influencers,
+  total,
+  offset,
+  limit,
+  onPageChange,
+  onDetail,
+  searchQuery,
+  onChangeSearchProperties,
+  onSearch,
+  categories,
+}: {
+  influencers: Influencer[];
+  total: number;
+  offset: number;
+  limit: number;
+  onPageChange: (offset: number) => void;
+  onDetail: (influencer: Influencer) => void;
+  searchQuery: FindPreActiveInfluencersQuery;
+  onChangeSearchProperties: (
+    key: keyof FindPreActiveInfluencersQuery,
+    value: string | number | number[] | boolean | undefined,
+  ) => void;
+  onSearch: () => void;
+  categories: InfluencerCategory[];
+  onAccept: (influencerId: string) => Promise<void>;
+  onReject: (influencerId: string) => Promise<void>;
+}) => {
   //
+  const {
+    mutation: { modifyInfluencerStatus },
+  } = useInfluencerMutation();
+
+  const handleStatusChange = (influencerId: number, status: ProfileStatus) => {
+    //
+    modifyInfluencerStatus.mutate({ influencerId, status });
+  };
+
   return (
     <>
       <PreActiveInfluencerSearchBoxView
@@ -59,9 +68,13 @@ export const PreActiveInfluencersTableView = (
         <Table>
           <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
             <TableRow>
-              <TableCell><b>Name</b></TableCell>
-              <TableCell><b>Instagram</b></TableCell>
-              <TableCell/>
+              <TableCell>
+                <b>Name</b>
+              </TableCell>
+              <TableCell>
+                <b>Instagram</b>
+              </TableCell>
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -71,16 +84,36 @@ export const PreActiveInfluencersTableView = (
                   <Box display="flex" alignItems="center" gap={2}>
                     <Avatar sx={{ bgcolor: '#ccc' }}>{influencer.name[0]}</Avatar>
                     <Box>
-                      <Typography color="primary" fontWeight="medium">{influencer.name}</Typography>
-                      <Chip label={influencer.profileStatus} color={'secondary'}/>
+                      <Typography color="primary" fontWeight="medium">
+                        {influencer.name}
+                      </Typography>
+                      <Chip label={influencer.profileStatus} color={'secondary'} />
                     </Box>
                   </Box>
                 </TableCell>
                 <TableCell>{influencer.snsUsername}</TableCell>
                 <TableCell>
                   <Box display="flex" alignItems="center" gap={2}>
-                    <Button fullWidth variant={'contained'} color={'error'}>Reject</Button>
-                    <Button fullWidth variant={'contained'} color={'success'}>Accept</Button>
+                    <Button
+                      fullWidth
+                      variant={'contained'}
+                      color={'error'}
+                      onClick={() => {
+                        handleStatusChange(influencer.id, ProfileStatus.REJECTED);
+                      }}
+                    >
+                      Reject
+                    </Button>
+                    <Button
+                      fullWidth
+                      variant={'contained'}
+                      color={'success'}
+                      onClick={() => {
+                        handleStatusChange(influencer.id, ProfileStatus.VERIFIED);
+                      }}
+                    >
+                      Accept
+                    </Button>
                   </Box>
                 </TableCell>
               </TableRow>

@@ -16,15 +16,15 @@ export const useInfluencerCategoryMutation = () => {
     defaultInfluencerCategory,
     mutation: {
       registerInfluencerCategory: useMutation<
-      AxiosResponse<CommandResponse<any>>,
-      unknown,
-      FirstParameter<typeof InfluencerFlowApi.registerInfluencerCategory>
+        AxiosResponse<CommandResponse<any>>,
+        unknown,
+        FirstParameter<typeof InfluencerFlowApi.registerInfluencerCategory>
       >(InfluencerFlowApi.registerInfluencerCategory as any, {}),
-      
+
       removeInfluencerCategory: useMutation<
-      AxiosResponse<CommandResponse<any>>,
-      unknown,
-      FirstParameter<typeof InfluencerFlowApi.removeInfluencerCategory>
+        AxiosResponse<CommandResponse<any>>,
+        unknown,
+        FirstParameter<typeof InfluencerFlowApi.removeInfluencerCategory>
       >(InfluencerFlowApi.removeInfluencerCategory as any, {}),
     },
   };

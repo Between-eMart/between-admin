@@ -56,7 +56,9 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
       name: '',
       description: '',
       date: '',
-      time: '',
+      startTime: '',
+      endTime: '',
+      numberOfSeats: 0,
       dressCode: '',
       adviceForAttenders: '',
       rules: '',
@@ -272,7 +274,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                 </Typography>
 
                 <Grid container sx={{ mt: 0.5 }} spacing={1}>
-                  <Grid size={{ md: 6 }}>
+                  <Grid size={{ md: 4 }}>
                     <Controller
                       name="date"
                       control={control}
@@ -290,15 +292,15 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                     />
                   </Grid>
 
-                  <Grid size={{ md: 6 }}>
+                  <Grid size={{ md: 4 }}>
                     <Controller
-                      name="time"
+                      name="startTime"
                       control={control}
-                      rules={{ required: 'Time is required' }}
+                      rules={{ required: 'Start Time is required' }}
                       render={({ field }) => (
                         <TextField
                           {...field}
-                          label="Time"
+                          label="Start Time"
                           fullWidth
                           error={!!errors.description}
                           helperText={errors.description?.message}
@@ -307,8 +309,47 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                       )}
                     />
                   </Grid>
+                  
+                  <Grid size={{ md: 4 }}>
+                    <Controller
+                      name="endTime"
+                      control={control}
+                      rules={{ required: 'End Time is required' }}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          label="End Time"
+                          fullWidth
+                          error={!!errors.description}
+                          helperText={errors.description?.message}
+                          placeholder="Time format must be HH:mm:ss"
+                        />
+                      )}
+                    />
+                  </Grid>
+                  
+                  <Grid size={{ md: 4 }}>
+                    <Controller
+                      name="numberOfSeats"
+                      control={control}
+                      rules={{ required: 'Number of Seats is required' }}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          label="Number of Seats"
+                          fullWidth
+                          error={!!errors.description}
+                          helperText={errors.description?.message}
+                          onInput={(e) => {
+                            //@ts-ignore
+                            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                          }}
+                        />
+                      )}
+                    />
+                  </Grid>
 
-                  <Grid size={{ md: 12 }}>
+                  <Grid size={{ md: 4 }}>
                     <Controller
                       name="isRepeatable"
                       control={control}
