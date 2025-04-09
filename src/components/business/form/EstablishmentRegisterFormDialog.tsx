@@ -232,7 +232,7 @@ export const EstablishmentRegisterFormDialog = (
                     value={watch('virtualAddressCdo.timezone')}
                     onChange={(selected) => setValue('virtualAddressCdo.timezone', selected.value)}
                   />
-                  <TextField fullWidth label="Web URL" {...register('virtualAddressCdo.webUrl', { required: true })}
+                  <TextField fullWidth label="Web URL" {...register('virtualAddressCdo.webUrl', { required: addressTabValue === 'virtual' })}
                              margin="normal"/>
                 </CardContent>
               </Card>
