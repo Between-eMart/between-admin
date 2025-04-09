@@ -9,7 +9,7 @@ import { EventTaskList } from '~/components/event/detail/views/EventTaskList';
 import { EventInviteList } from '~/components/event/detail/views/EventInviteList';
 import { EventBannerList } from '~/components/event/detail/views/EventBannerList';
 import { AxiosError } from 'axios';
-import { QueryResponse } from '~/models';
+import { FailureResponse } from '~/models';
 
 export const EventDetail = ({ eventId, onBack }: { eventId: number; onBack: () => void }) => {
   //
@@ -46,12 +46,6 @@ export const EventDetail = ({ eventId, onBack }: { eventId: number; onBack: () =
         {
           onSuccess: async () => {
             onBack();
-          },
-          onError: (error) => {
-            const errorMessage =
-              (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage ||
-              'Error Occurred while deleting event.';
-            alert(errorMessage);
           },
         },
       );

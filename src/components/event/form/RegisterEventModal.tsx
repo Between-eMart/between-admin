@@ -1,34 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import {
+  Autocomplete,
+  Box,
   Button,
+  Checkbox,
+  Chip,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  TextField,
   FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  FormHelperText,
-  Checkbox,
   FormControlLabel,
-  CircularProgress,
-  Typography,
-  Autocomplete,
-  Chip,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
   Paper,
-  Box,
+  Select,
+  TextField,
+  Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import { EventCdo, QueryResponse } from '~/models';
+import { EventCdo } from '~/models';
 import Divider from '@mui/material/Divider';
 import { useEventCategories, useEventMutation } from '~/hooks';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { AxiosError } from 'axios';
-import dayjs from 'dayjs';
-import { useEstablishmentsIdNames } from '~/components';
+import { useDialog, useEstablishmentsIdNames } from '~/components';
 
 interface RegisterEventModalProps {
   open: boolean;
@@ -37,6 +35,7 @@ interface RegisterEventModalProps {
 
 const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }) => {
   //
+  const { alert } = useDialog();
   const [loading, setLoading] = useState(false);
   const { categories } = useEventCategories();
   const { establishmentIdNames } = useEstablishmentsIdNames();
@@ -89,12 +88,6 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
           reset();
           onClose();
         },
-        onError: (error) => {
-          const errorMessage =
-            (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage ||
-            'Error Occurred while saving event.';
-          alert(errorMessage);
-        },
       },
     );
   };
@@ -128,7 +121,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
           Register New Event
         </Typography>
       </DialogTitle>
-      <Divider />
+      <Divider/>
 
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <DialogContent sx={{ pt: 3 }}>
@@ -243,7 +236,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                     multiple
                   />
                   <label htmlFor="event-images-upload">
-                    <Button variant="outlined" component="span" startIcon={<CloudUploadIcon />} sx={{ mb: 1 }}>
+                    <Button variant="outlined" component="span" startIcon={<CloudUploadIcon/>} sx={{ mb: 1 }}>
                       Upload Banner Images
                     </Button>
                   </label>
@@ -309,7 +302,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                       )}
                     />
                   </Grid>
-                  
+
                   <Grid size={{ md: 4 }}>
                     <Controller
                       name="endTime"
@@ -327,7 +320,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                       )}
                     />
                   </Grid>
-                  
+
                   <Grid size={{ md: 4 }}>
                     <Controller
                       name="numberOfSeats"
@@ -588,7 +581,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
             Cancel
           </Button>
           <Button type="submit" variant="contained" color="primary" disabled={loading} sx={{ minWidth: 120 }}>
-            {loading ? <CircularProgress size={24} /> : 'Register Event'}
+            {loading ? <CircularProgress size={24}/> : 'Register Event'}
           </Button>
         </DialogActions>
       </form>

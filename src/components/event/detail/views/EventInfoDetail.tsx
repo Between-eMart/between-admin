@@ -17,14 +17,16 @@ import {
   Typography,
 } from '@mui/material';
 import * as React from 'react';
-import { EventCategory, Event, EventStatus , QueryResponse} from '~/models';
+import { EventCategory, Event, EventStatus, FailureResponse } from '~/models';
 import { Controller, useForm } from 'react-hook-form';
 import { useEventCategories, useEventMutation } from '~/hooks';
 import { useState } from 'react';
 import { AxiosError } from 'axios';
+import { useDialog } from '~/components';
 
 export const EventInfoDetail = ({ event, categories }: { event: Event; categories: EventCategory[] }) => {
   //
+  const { alert } = useDialog();
   const [loading, setLoading] = useState(false);
 
   const { categories: eventCategories } = useEventCategories();
@@ -54,12 +56,12 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
     await modifyEvent.mutateAsync({ event: data }, {
       onSuccess: async () => {
         setLoading(false);
-        alert("Changes have been saved.");
+        alert('Changes have been saved.');
       },
       onError: (error) => {
         setLoading(false);
         const errorMessage =
-          (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage ||
+          (error as AxiosError<FailureResponse>)?.response?.data?.failureMessage?.exceptionMessage ||
           'Error Occurred while saving event.';
         alert(errorMessage);
       },
@@ -179,6 +181,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
 
               <Grid size={2}>
                 <Controller
+                  //@ts-ignore
                   name="time"
                   control={control}
                   rules={{ required: 'Time is required' }}

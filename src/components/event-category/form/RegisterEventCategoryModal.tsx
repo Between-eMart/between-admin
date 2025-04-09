@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Modal, Box, TextField, Button, Typography } from '@mui/material';
 import { useEventCategoryMutation } from '~/hooks';
 import { AxiosError } from 'axios';
-import { QueryResponse } from '~/models';
+import { FailureResponse } from '~/models';
 
 const RegisterEventCategoryModal = ({ open, handleClose }) => {
   const { register, handleSubmit, reset } = useForm();
@@ -21,12 +21,6 @@ const RegisterEventCategoryModal = ({ open, handleClose }) => {
           //
           handleClose();
           reset();
-        },
-
-        onError: (error) => {
-          const errorMessage =
-            (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage || 'Error';
-          alert(errorMessage);
         },
       },
     );

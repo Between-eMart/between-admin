@@ -3,7 +3,8 @@ import {
   Box,
   Button,
   Modal,
-  Paper, Stack,
+  Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -13,13 +14,14 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { EventTask, QueryResponse } from '~/models';
+import { EventTask } from '~/models';
 import { useEventMutation } from '~/hooks';
 import { useForm } from 'react-hook-form';
-import { AxiosError } from 'axios';
+import { useDialog } from '~/components';
 
 export const EventTaskList = ({ eventId, tasks }: { eventId: number; tasks: EventTask[] }) => {
   //
+  const { alert } = useDialog();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { register, handleSubmit, reset } = useForm();
 
@@ -44,12 +46,6 @@ export const EventTaskList = ({ eventId, tasks }: { eventId: number; tasks: Even
           setIsOpen(false);
           reset();
         },
-
-        onError: (error) => {
-          const errorMessage =
-            (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage || 'Error';
-          alert(errorMessage);
-        },
       },
     );
   };
@@ -67,20 +63,14 @@ export const EventTaskList = ({ eventId, tasks }: { eventId: number; tasks: Even
             //
             alert('Task has been removed.');
           },
-          
-          onError: (error) => {
-            const errorMessage =
-              (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage || 'Error';
-            alert(errorMessage);
-          },
         },
       );
     }
   };
-  
+
   return (
     <Paper>
-      <TableContainer >
+      <TableContainer>
         <Table size="small">
           <TableHead>
             <TableRow style={{ backgroundColor: 'darkgrey' }}>
@@ -99,7 +89,9 @@ export const EventTaskList = ({ eventId, tasks }: { eventId: number; tasks: Even
                   {task.description || '--'}
                 </TableCell>
                 <TableCell align="center">
-                  <Button variant="outlined" color="error" size="small" onClick={() => {handleTaskRemoveClick(task.id)}}>
+                  <Button variant="outlined" color="error" size="small" onClick={() => {
+                    handleTaskRemoveClick(task.id);
+                  }}>
                     Delete
                   </Button>
                 </TableCell>
@@ -108,7 +100,7 @@ export const EventTaskList = ({ eventId, tasks }: { eventId: number; tasks: Even
           </TableBody>
         </Table>
       </TableContainer>
-      <Stack alignItems="center" style={{padding: 10}}>
+      <Stack alignItems="center" style={{ padding: 10 }}>
         <Button variant="contained" color="primary" onClick={handleAddRow}>
           Add New Task
         </Button>
@@ -132,10 +124,12 @@ export const EventTaskList = ({ eventId, tasks }: { eventId: number; tasks: Even
             Add Event Task
           </Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <TextField fullWidth label="Name" {...register('name', { required: true })} margin="normal" />
-            <TextField fullWidth label="Description" {...register('description')} margin="normal" />
+            <TextField fullWidth label="Name" {...register('name', { required: true })} margin="normal"/>
+            <TextField fullWidth label="Description" {...register('description')} margin="normal"/>
             <Box mt={2} display="flex" justifyContent="space-between">
-              <Button variant="outlined" onClick={() => {setIsOpen(false)}}>Cancel</Button>
+              <Button variant="outlined" onClick={() => {
+                setIsOpen(false);
+              }}>Cancel</Button>
               <Button type="submit" variant="contained" color="primary">
                 Save
               </Button>

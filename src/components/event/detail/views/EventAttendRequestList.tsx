@@ -14,9 +14,11 @@ import {
 
 import { EventAttendRequest, EventAttendRequestStatus } from '~/models';
 import { useInvolvementMutation } from '~/hooks';
+import { useDialog } from '~/components';
 
 export const EventAttendRequestList = ({ attendRequests }: { attendRequests: EventAttendRequest[] }) => {
   //
+  const { alert } = useDialog();
   const {
     mutation: { respondToJoin },
   } = useInvolvementMutation();
@@ -30,9 +32,6 @@ export const EventAttendRequestList = ({ attendRequests }: { attendRequests: Eve
         {
           onSuccess: async () => {
             alert('Successfully accepted.');
-          },
-          onError: async () => {
-            alert('Error occurred while accepting request.');
           },
         },
       );
@@ -49,14 +48,11 @@ export const EventAttendRequestList = ({ attendRequests }: { attendRequests: Eve
           onSuccess: async () => {
             alert('Successfully rejected.');
           },
-          onError: async () => {
-            alert('Error occurred while rejecting request.');
-          },
         },
       );
     }
   };
-  
+
   const handleRevokeClick = (requestId: number) => {
     //
     const confRes = confirm('Do you want to revoke it?');
@@ -66,9 +62,6 @@ export const EventAttendRequestList = ({ attendRequests }: { attendRequests: Eve
         {
           onSuccess: async () => {
             alert('Successfully revoked.');
-          },
-          onError: async () => {
-            alert('Error occurred while revoking request.');
           },
         },
       );

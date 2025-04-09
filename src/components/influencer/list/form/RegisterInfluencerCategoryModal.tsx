@@ -23,12 +23,6 @@ export const RegisterInfluencerCategoryModal = ({ open, handleClose }) => {
           handleClose();
           reset();
         },
-
-        onError: (error) => {
-          const errorMessage =
-            (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage || 'Error';
-          alert(errorMessage);
-        },
       },
     );
   };

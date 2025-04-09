@@ -6,24 +6,22 @@ import { SnackbarProvider } from 'notistack';
 import axios, { AxiosError } from 'axios';
 import { AuthProvider } from '~/context';
 import { CustomDialog, useDialog } from '~/components';
-import { QueryResponse } from '~/models';
+import { FailureResponse } from '~/models';
 
 const App = () => {
   //
   const { alert } = useDialog();
   const router = useMemo(() => browserRouter, []);
-  const queryClient = useMemo(() => new QueryClient({
-    defaultOptions: {
-      mutations: {
-        onError: (error) => {
-          console.error(error);
-          const errorMessage =
-            (error as AxiosError<QueryResponse<any>, any>)?.response?.data?.failureMessage?.exceptionMessage || 'Error';
-          alert(errorMessage);
-        },
-      },
-    },
-  }), []);
+  const queryClient = useMemo(() => {
+    const client = new QueryClient();
+    client.getQueryCache().config.onError = (error) => {
+      console.error(error);
+      const errorMessage =
+        (error as AxiosError<FailureResponse>)?.response?.data?.failureMessage?.exceptionMessage || 'Error';
+      alert(errorMessage);
+    };
+    return client;
+  }, []);
 
   axios.interceptors.request.use(
     config => {

@@ -16,7 +16,7 @@ import {
 import { useInvolvementMutation } from '~/hooks';
 import { EventInviteRequestCdo, IdNameValue } from '~/models';
 
-import { useAllInfluencers } from '~/components';
+import { useAllInfluencers, useDialog } from '~/components';
 
 const modalStyle = {
   position: 'absolute',
@@ -32,6 +32,7 @@ const modalStyle = {
 
 export const InfluencerInviteModal = ({ eventId, invitedUsers, open, handleClose }) => {
   //
+  const { alert } = useDialog();
   const [selectedInfluencers, setSelectedInfluencers] = useState<IdNameValue[]>([]);
 
   const { influencers } = useAllInfluencers();
@@ -54,7 +55,7 @@ export const InfluencerInviteModal = ({ eventId, invitedUsers, open, handleClose
       const cdo = { influencerId: value.id, eventId: eventId } as unknown as EventInviteRequestCdo;
       cdos.push(cdo);
     });
-    
+
     inviteToEvent.mutate({
       eventInviteRequestCdos: cdos,
     }, {
@@ -63,7 +64,7 @@ export const InfluencerInviteModal = ({ eventId, invitedUsers, open, handleClose
       },
     });
   };
-  
+
 
   return (
     <Modal open={open} onClose={handleClose}>
