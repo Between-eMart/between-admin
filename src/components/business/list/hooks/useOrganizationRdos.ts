@@ -15,7 +15,7 @@ export const useOrganizationRdos = () => {
   const [query, setQuery] = useState(initialQuery);
   const [searchQuery, setSearchQuery] = useState(initialQuery);
 
-  const { data, isLoading, error, refetch }: UseQueryResult<QueryResponse<OrganizationNestedRdo[]>> = useQuery({
+  const { data, refetch }: UseQueryResult<QueryResponse<OrganizationNestedRdo[]>> = useQuery({
     queryKey: ['BusinessSeekApi', 'findOrganizationNestedRdos', query],
     queryFn: () => BusinessSeekApi.findOrganizationNestedRdos(query),
   });
