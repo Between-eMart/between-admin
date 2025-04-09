@@ -10,8 +10,9 @@ import TabList from '@mui/lab/TabList';
 import Tab from '@mui/material/Tab';
 import TabPanel from '@mui/lab/TabPanel';
 import TabContext from '@mui/lab/TabContext';
-import { Influencer } from '~/models';
+import { Influencer, ProfileStatus } from '~/models';
 import { InfluencerCategoriesList } from '~/components/influencer/list/views/InfluencerCategoriesList';
+import { useInfluencerMutation } from '~/hooks';
 
 export const InfluencerList = () => {
   //
@@ -23,6 +24,20 @@ export const InfluencerList = () => {
   const preActiveInfluencers = usePreActiveInfluencers();
 
   const { influencerCategories } = useInfluencerCategories();
+
+  const {
+    mutation: { modifyInfluencerStatus },
+  } = useInfluencerMutation();
+
+  const handleStatusChange = (influencerId: number, status: ProfileStatus) => {
+    //
+    modifyInfluencerStatus.mutate({ influencerId, status }, {
+      onSuccess: async () => {
+        await activeInfluencers.refetchInfluencers();
+        await preActiveInfluencers.refetchInfluencers();
+      },
+    });
+  };
 
   const handleTabValueChange = (event: SyntheticEvent, newValue: string) => {
     //
@@ -66,8 +81,8 @@ export const InfluencerList = () => {
               onChangeSearchProperties={preActiveInfluencers.changeSearchProperties}
               onSearch={() => preActiveInfluencers.fetchByNewQuery()}
               searchQuery={preActiveInfluencers.query}
-              onAccept={async (influencerId) => {}}
-              onReject={async (influencerId) => {}}
+              onAccept={async (influencerId) => handleStatusChange(influencerId, ProfileStatus.VERIFIED)}
+              onReject={async (influencerId) => handleStatusChange(influencerId, ProfileStatus.REJECTED)}
             />
           </TabPanel>
           <TabPanel value={'3'}>

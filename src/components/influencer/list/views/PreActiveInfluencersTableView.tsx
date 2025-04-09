@@ -29,6 +29,8 @@ export const PreActiveInfluencersTableView = ({
   onChangeSearchProperties,
   onSearch,
   categories,
+  onAccept,
+  onReject,
 }: {
   influencers: Influencer[];
   total: number;
@@ -43,18 +45,10 @@ export const PreActiveInfluencersTableView = ({
   ) => void;
   onSearch: () => void;
   categories: InfluencerCategory[];
-  onAccept: (influencerId: string) => Promise<void>;
-  onReject: (influencerId: string) => Promise<void>;
+  onAccept: (influencerId: number) => Promise<void>;
+  onReject: (influencerId: number) => Promise<void>;
 }) => {
   //
-  const {
-    mutation: { modifyInfluencerStatus },
-  } = useInfluencerMutation();
-
-  const handleStatusChange = (influencerId: number, status: ProfileStatus) => {
-    //
-    modifyInfluencerStatus.mutate({ influencerId, status });
-  };
 
   return (
     <>
@@ -98,9 +92,7 @@ export const PreActiveInfluencersTableView = ({
                       fullWidth
                       variant={'contained'}
                       color={'error'}
-                      onClick={() => {
-                        handleStatusChange(influencer.id, ProfileStatus.REJECTED);
-                      }}
+                      onClick={() => onReject(influencer.id)}
                     >
                       Reject
                     </Button>
@@ -108,9 +100,7 @@ export const PreActiveInfluencersTableView = ({
                       fullWidth
                       variant={'contained'}
                       color={'success'}
-                      onClick={() => {
-                        handleStatusChange(influencer.id, ProfileStatus.VERIFIED);
-                      }}
+                      onClick={() => onAccept(influencer.id)}
                     >
                       Accept
                     </Button>
