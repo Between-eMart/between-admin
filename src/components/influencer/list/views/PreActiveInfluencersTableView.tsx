@@ -116,7 +116,7 @@ export const PreActiveInfluencersTableView = ({
         <Pagination
           count={Math.ceil(total / limit)}
           page={offset / limit + 1}
-          onChange={(_, value) => changeCurrentPage((value - 1) * limit)}
+          onChange={(_, value) => onPageChange((value - 1) * limit)}
           color="primary"
         />
       </Box>
