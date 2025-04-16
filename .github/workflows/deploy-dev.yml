@@ -16,15 +16,21 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
+          envs: GITHUB_TOKEN
           script: |
             cd /opt/projects/frontend/dev/between-admin
             
+            echo "Working directory:"
             pwd
-            ls -la
             
-            git remote set-url origin https://${{ secrets.GITHUB_PAT }}@github.com/Between-eMart/between-admin.git
+            echo "Setting git remote with token from env var"
+            git remote set-url origin https://${GITHUB_TOKEN}@github.com/Between-eMart/between-admin.git
+            
+            echo "Fetching latest code"
             git fetch
-            git reset --hard origin/main
+            
+            echo "Resetting to origin/deploy"
+            git reset --hard origin/deploy
             
             ls -la
             
