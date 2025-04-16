@@ -20,7 +20,8 @@ jobs:
             cd /opt/projects/frontend/dev/between-admin
             pwd
             ls -la
+            git remote set-url origin https://${{ secrets.GITHUB_PAT }}@github.com/Between-eMart/between-admin.git
             git fetch
-            git branch
-            git pull origin deploy
+            git reset --hard origin/deploy
+            ls -la
             docker compose -f docker-compose.dev.yml up --build -d
