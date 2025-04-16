@@ -1,0 +1,36 @@
+name: Deploy on Push to main
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          envs: GITHUB_TOKEN
+          script: |
+            cd /opt/projects/frontend/dev/between-admin
+            
+            echo "Working directory:"
+            pwd
+            
+            echo "Setting git remote with token from env var"
+            #git remote set-url origin https://${GITHUB_TOKEN}@github.com/Between-eMart/between-admin.git
+            
+            echo "Fetching latest code"
+            git fetch
+
+            git reset --hard origin/main
+            
+            ls -la
+            
+            #docker compose -f docker-compose.dev.yml up --build -d
