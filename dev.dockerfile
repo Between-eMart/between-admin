@@ -14,7 +14,6 @@ RUN yarn install --immutable --check-cache
 
 RUN yarn run build
 
-
 FROM nginx:stable-alpine
 
 COPY --from=builder /app/dist /usr/share/nginx/html
