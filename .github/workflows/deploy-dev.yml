@@ -17,6 +17,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            sudo /usr/bin/git --git-dir=cd /opt/projects/frontend/dev/between-admin/.git \
+            sudo /usr/bin/git --git-dir=/opt/projects/frontend/dev/between-admin/.git \
             --work-tree=/opt/projects/frontend/dev/between-admin pull && \
             sudo /usr/bin/docker compose -f /opt/projects/frontend/dev/between-admin/docker-compose.dev.yml up --build -d
