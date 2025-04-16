@@ -2,7 +2,7 @@ name: Deploy on Push to main
 on:
   push:
     branches:
-      - deploy
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -24,14 +24,13 @@ jobs:
             pwd
             
             echo "Setting git remote with token from env var"
-            git remote set-url origin https://${GITHUB_TOKEN}@github.com/Between-eMart/between-admin.git
+            #git remote set-url origin https://${GITHUB_TOKEN}@github.com/Between-eMart/between-admin.git
             
             echo "Fetching latest code"
             git fetch
-            
-            echo "Resetting to origin/deploy"
-            git reset --hard origin/deploy
+
+            git reset --hard origin/main
             
             ls -la
             
-            docker compose -f docker-compose.dev.yml up --build -d
+            #docker compose -f docker-compose.dev.yml up --build -d
