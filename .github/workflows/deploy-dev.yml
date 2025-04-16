@@ -21,7 +21,6 @@ jobs:
             pwd
             ls -la
             git fetch
-            git reset --hard origin/deploy
             git branch
-            git pull
+            git pull origin deploy
             docker compose -f docker-compose.dev.yml up --build -d
