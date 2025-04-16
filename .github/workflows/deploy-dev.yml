@@ -17,16 +17,6 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /opt/projects/frontend/dev/between-admin
-            ls -la
-            git remote set-url origin https://${{ secrets.GITHUB_PAT }}@github.com/Between-eMart/between-admin.git
-            git fetch
-            git reset --hard origin/main
-            ls -la
-
-            echo ${{ secrets.GITHUB_PAT }}
-            echo ${{ secrets.SSH_HOST }}
-            echo ${{ secrets.SSH_USER }}
-            echo ${{ secrets.SSH_KEY }}
-
-            #docker compose -f docker-compose.dev.yml up --build -d
+            sudo /usr/bin/git -  -git-dir=cd /opt/projects/frontend/dev/between-admin/.git \
+            --work-tree=/opt/projects/frontend/dev/between-admin pull && \
+            sudo /usr/bin/docker compose -f /opt/projects/frontend/dev/between-admin/docker-compose.dev.yml up --build -d
