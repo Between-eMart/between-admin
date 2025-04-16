@@ -17,9 +17,10 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /opt/projects/dev/between-service
+            cd /opt/projects/frontend/dev/between-admin
             echo "pwd..."
             pwd
+            ls -la
             # git remote set-url origin https://${{ secrets.GITHUB_PAT }}@github.com/Between-eMart/between-service.git
             # git fetch
             # git reset --hard origin/main
