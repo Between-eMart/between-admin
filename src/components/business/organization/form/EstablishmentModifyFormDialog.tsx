@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   Button,
   Card,
@@ -137,6 +138,11 @@ export const EstablishmentModifyFormDialog = (
       },
     });
   };
+  const watchCategoryIds = watch('establishmentRdo.establishment.categoryIds') || [];
+
+  const selectedCategories = establishmentCategories.filter(category =>
+    watchCategoryIds.includes(category.id),
+  );
 
   return (
     <Dialog open={true} onClose={onClose} maxWidth={'md'} fullWidth>
@@ -193,32 +199,38 @@ export const EstablishmentModifyFormDialog = (
             </TabPanel>
           </TabContext>
 
-          <FormControl fullWidth margin="normal">
-            <InputLabel>Categories</InputLabel>
-            <Select
-              multiple
-              value={watch('establishmentRdo.establishment.categoryIds') || []}
-              onChange={(e) => {
-                const targetCategoryIds = e.target.value as number[];
-                setValue('establishmentRdo.establishment.categoryIds', targetCategoryIds);
-              }}
-              input={<OutlinedInput label="Categories"/>}
-              renderValue={(selected) => {
-                const selectedCategories = establishmentCategories.filter(category => selected.includes(category.id));
-                return (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                    {selectedCategories.map((category) => (
-                      <Chip key={category.id} label={category.name}/>
-                    ))}
-                  </Box>
-                );
-              }}
-            >
-              {establishmentCategories.map((category) => (
-                <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <Autocomplete
+            multiple
+            id="establishment-categories"
+            options={establishmentCategories}
+            getOptionLabel={(option) => option.name}
+            value={selectedCategories}
+            onChange={(event, newValue) => {
+              const newCategoryIds = newValue.map(category => category.id);
+              setValue('establishmentRdo.establishment.categoryIds', newCategoryIds);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="outlined"
+                label="Categories"
+                placeholder="Search categories"
+                margin="normal"
+                fullWidth
+              />
+            )}
+            renderTags={(value, getTagProps) =>
+              value.map((option, index) => (
+                <Chip
+                  variant="outlined"
+                  label={option.name}
+                  {...getTagProps({ index })}
+                />
+              ))
+            }
+            filterSelectedOptions
+          />
+
           <Box mt={2} display="flex" justifyContent="space-between">
             <Button variant="outlined" onClick={onClose}>
               Cancel

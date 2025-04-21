@@ -9,7 +9,7 @@ import {
   Paper,
   Typography,
 } from '@mui/material';
-import { useEstablishmentCategories, useOrganizationRdos } from './hooks';
+import { useOrganizationRdos } from './hooks';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
@@ -21,8 +21,8 @@ import {
   OrganizationEditButtonView,
   OrganizationSearchBoxView,
 } from './views';
-import { useBusinessMutation } from '~/components/business/form/hooks';
-import { useDialog } from '~/components';
+import { useBusinessMutation } from '~/components/business/organization/form/hooks';
+import { useDialog, useEstablishmentCategories } from '~/components';
 
 export const OrganizationList = () => {
   //

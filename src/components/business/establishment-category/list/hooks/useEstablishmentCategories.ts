@@ -3,12 +3,12 @@ import { BusinessSeekApi, FindEstablishmentCategoriesQuery } from '~/apis';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useState } from 'react';
 
-export const useEstablishmentCategories = () => {
+export const useEstablishmentCategories = (limit?: number) => {
   //
   const initialQuery: FindEstablishmentCategoriesQuery = {
     offset: {
       offset: 0,
-      limit: 100,
+      limit: limit || 10,
     },
   };
 
@@ -67,7 +67,7 @@ export const useEstablishmentCategories = () => {
     setSearchQuery(prev => {
       let newSearchQuery = {
         ...searchQuery,
-        offset: { limit: prev.offset?.limit || 100, offset: 0 },
+        offset: { limit: prev.offset?.limit || 10, offset: 0 },
       };
       newSearchQuery = !!key ? { ...newSearchQuery, [key]: value } : newSearchQuery;
       setQuery(newSearchQuery);
@@ -79,7 +79,7 @@ export const useEstablishmentCategories = () => {
     //
     setSearchQuery(prev => {
       const newQuery = {
-        offset: { limit: prev.offset?.limit || 100, offset: 0 },
+        offset: { limit: prev.offset?.limit || 10, offset: 0 },
       };
       setQuery(newQuery);
       return newQuery;
@@ -87,16 +87,17 @@ export const useEstablishmentCategories = () => {
   };
 
   return {
+    isLoading,
     query: searchQuery,
     establishmentCategories: data?.result || [],
     total: data?.offset?.totalCount || 0,
     offset: data?.offset?.offset || 0,
-    limit: data?.offset?.limit || 100,
+    limit: data?.offset?.limit || 10,
     changeCurrentPage,
     changePageLimit,
     changeSearchProperties,
     fetchByNewQuery,
     resetQuery,
-    refetch,
+    refetchEstablishmentCategories: refetch,
   };
 };

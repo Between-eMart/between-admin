@@ -1,24 +1,20 @@
 import {
+  Autocomplete,
   Box,
   Button,
   Card,
   CardContent,
-  Chip,
+  Chip, CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  Select,
   TextField,
   Typography,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { CommandResponse, Establishment, EstablishmentCdo, PhysicalAddressCdo, VirtualAddressCdo } from '~/models';
 import { useBusinessMutation } from './hooks';
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent, useRef, useState, useEffect, useMemo } from 'react';
 import { useEstablishmentCategories, YandexLocationPicker } from '~/components';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import TimezoneSelect from 'react-timezone-select';
@@ -52,9 +48,7 @@ export const EstablishmentRegisterFormDialog = (
     },
   } = useBusinessMutation();
 
-  const {
-    establishmentCategories,
-  } = useEstablishmentCategories();
+  const { establishmentCategories } = useEstablishmentCategories(1000);
 
   const {
     watch,
@@ -103,9 +97,9 @@ export const EstablishmentRegisterFormDialog = (
         //
         const establishmentId = response.response?.id || 0;
         if (addressTabValue == 'physical') {
-          await handleRegisterPhysicalAddress({ ...data.physicalAddressCdo, establishmentId } );
+          await handleRegisterPhysicalAddress({ ...data.physicalAddressCdo, establishmentId });
         } else {
-          await handleRegisterVirtualAddress({ ...data.virtualAddressCdo, establishmentId } );
+          await handleRegisterVirtualAddress({ ...data.virtualAddressCdo, establishmentId });
         }
         onSuccess();
         onClose();
@@ -132,6 +126,11 @@ export const EstablishmentRegisterFormDialog = (
 
   const watchLogo = watch('establishmentCdo.logo');
   const watchPhotos = watch('establishmentCdo.photos');
+  const watchCategoryIds = watch('establishmentCdo.categoryIds') || [];
+
+  const selectedCategories = establishmentCategories.filter(category =>
+    watchCategoryIds.includes(category.id),
+  );
 
   return (
     <Dialog open={true} onClose={onClose} maxWidth={'md'} fullWidth>
@@ -232,39 +231,46 @@ export const EstablishmentRegisterFormDialog = (
                     value={watch('virtualAddressCdo.timezone')}
                     onChange={(selected) => setValue('virtualAddressCdo.timezone', selected.value)}
                   />
-                  <TextField fullWidth label="Web URL" {...register('virtualAddressCdo.webUrl', { required: addressTabValue === 'virtual' })}
+                  <TextField fullWidth
+                             label="Web URL" {...register('virtualAddressCdo.webUrl', { required: addressTabValue === 'virtual' })}
                              margin="normal"/>
                 </CardContent>
               </Card>
             </TabPanel>
           </TabContext>
 
-          <FormControl fullWidth margin="normal">
-            <InputLabel>Categories</InputLabel>
-            <Select
-              multiple
-              value={watch('establishmentCdo.categoryIds') || []}
-              onChange={(e) => {
-                const targetCategoryIds = e.target.value as number[];
-                setValue('establishmentCdo.categoryIds', targetCategoryIds);
-              }}
-              input={<OutlinedInput label="Categories"/>}
-              renderValue={(selected) => {
-                const selectedCategories = establishmentCategories.filter(category => selected.includes(category.id));
-                return (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                    {selectedCategories.map((category) => (
-                      <Chip key={category.id} label={category.name}/>
-                    ))}
-                  </Box>
-                );
-              }}
-            >
-              {establishmentCategories.map((category) => (
-                <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+          <Autocomplete
+            multiple
+            id="establishment-categories"
+            options={establishmentCategories}
+            getOptionLabel={(option) => option.name}
+            value={selectedCategories}
+            onChange={(event, newValue) => {
+              const newCategoryIds = newValue.map(category => category.id);
+              setValue('establishmentCdo.categoryIds', newCategoryIds);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="outlined"
+                label="Categories"
+                placeholder="Search categories"
+                margin="normal"
+                fullWidth
+              />
+            )}
+            renderTags={(value, getTagProps) =>
+              value.map((option, index) => (
+                <Chip
+                  variant="outlined"
+                  label={option.name}
+                  {...getTagProps({ index })}
+                />
+              ))
+            }
+            filterSelectedOptions
+          />
+
           <Box mt={2} display="flex" justifyContent="space-between">
             <Button variant="outlined" onClick={onClose}>
               Cancel
