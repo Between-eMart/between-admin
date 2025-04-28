@@ -39,7 +39,7 @@ export default function LoginForm() {
         type="password"
         {...register('password', { required: 'Password is required' })}
       />
-      <Button type="submit" variant="contained">Login</Button>
+      <Button type="submit" variant="contained">Log in</Button>
     </Box>
   );
 }
