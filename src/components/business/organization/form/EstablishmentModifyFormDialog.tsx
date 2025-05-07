@@ -171,7 +171,7 @@ export const EstablishmentModifyFormDialog = (
             </Box>
             <TabPanel value="physical">
               <YandexLocationPicker
-                initCoords={!!establishmentRdo?.physicalAddress.location ? LocationUtil.toCoords(establishmentRdo.physicalAddress.location) : undefined}
+                initCoords={!!establishmentRdo?.physicalAddress?.location ? LocationUtil.toCoords(establishmentRdo.physicalAddress.location) : undefined}
                 onSet={address => {
                   if (establishmentRdo?.physicalAddress) {
                     setValue('establishmentRdo.physicalAddress', {
