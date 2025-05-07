@@ -18,6 +18,7 @@ import {
   MenuItem,
   Paper,
   Select,
+  Stack,
   TextField,
   Typography,
 } from '@mui/material';
@@ -27,6 +28,9 @@ import Divider from '@mui/material/Divider';
 import { useEventCategories, useEventMutation } from '~/hooks';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useDialog, useEstablishmentsIdNames } from '~/components';
+import { DateTimePicker } from '@mui/x-date-pickers';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import dayjs from 'dayjs';
 
 interface RegisterEventModalProps {
   open: boolean;
@@ -54,9 +58,9 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
     defaultValues: {
       name: '',
       description: '',
-      date: '',
-      startTime: '',
-      endTime: '',
+      date: dayjs().format('YYYY-MM-DD'),
+      startTime: dayjs().format('HH:mm:ss'),
+      endTime: dayjs().add(2, 'hours').format('HH:mm:ss'),
       numberOfSeats: 0,
       dressCode: '',
       adviceForAttenders: '',
@@ -266,62 +270,34 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                   Date and Time
                 </Typography>
 
-                <Grid container sx={{ mt: 0.5 }} spacing={1}>
-                  <Grid size={{ md: 4 }}>
-                    <Controller
-                      name="date"
-                      control={control}
-                      rules={{ required: 'Date is required' }}
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          label="Date"
-                          fullWidth
-                          error={!!errors.description}
-                          helperText={errors.description?.message}
-                          placeholder="Date format must be YYYY-MM-DD"
-                        />
-                      )}
-                    />
-                  </Grid>
+                <Stack spacing={1}>
+                  <DemoContainer components={['DateTimePicker', 'DateTimePicker']}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 5 }}>
+                      <DateTimePicker
+                        sx={{ width: '100%' }}
+                        label="Start Date Time"
+                        value={dayjs(`${watch('date')} ${watch('startTime')}`)}
+                        onChange={newValue => {
+                          if (!!newValue) {
+                            setValue('date', newValue.format('YYYY-MM-DD'));
+                            setValue('startTime', newValue.format('HH:mm:ss'));
+                          }
+                        }}
+                      /> ~
+                      <DateTimePicker
+                        sx={{ width: '100%' }}
+                        label="End Date Time"
+                        value={dayjs(`${watch('date')} ${watch('endTime')}`)}
+                        onChange={newValue => {
+                          if (!!newValue) {
+                            setValue('endTime', newValue.format('HH:mm:ss'));
+                          }
+                        }}
+                      />
+                    </div>
+                  </DemoContainer>
 
-                  <Grid size={{ md: 4 }}>
-                    <Controller
-                      name="startTime"
-                      control={control}
-                      rules={{ required: 'Start Time is required' }}
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          label="Start Time"
-                          fullWidth
-                          error={!!errors.description}
-                          helperText={errors.description?.message}
-                          placeholder="Time format must be HH:mm:ss"
-                        />
-                      )}
-                    />
-                  </Grid>
-
-                  <Grid size={{ md: 4 }}>
-                    <Controller
-                      name="endTime"
-                      control={control}
-                      rules={{ required: 'End Time is required' }}
-                      render={({ field }) => (
-                        <TextField
-                          {...field}
-                          label="End Time"
-                          fullWidth
-                          error={!!errors.description}
-                          helperText={errors.description?.message}
-                          placeholder="Time format must be HH:mm:ss"
-                        />
-                      )}
-                    />
-                  </Grid>
-
-                  <Grid size={{ md: 4 }}>
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
                     <Controller
                       name="numberOfSeats"
                       control={control}
@@ -340,9 +316,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                         />
                       )}
                     />
-                  </Grid>
 
-                  <Grid size={{ md: 4 }}>
                     <Controller
                       name="isRepeatable"
                       control={control}
@@ -359,8 +333,8 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                         />
                       )}
                     />
-                  </Grid>
-                </Grid>
+                  </div>
+                </Stack>
               </Paper>
             </Grid>
 

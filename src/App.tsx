@@ -8,6 +8,9 @@ import { AuthProvider } from '~/context';
 import { CustomDialog, useDialog } from '~/components';
 import { FailureResponse } from '~/models';
 
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 const App = () => {
   //
   const { alert } = useDialog();
@@ -38,7 +41,9 @@ const App = () => {
       <AuthProvider>
         <QueryClientProvider client={queryClient}>
           <SnackbarProvider>
-            <RouterProvider router={router}/>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <RouterProvider router={router}/>
+            </LocalizationProvider>
             <CustomDialog/>
           </SnackbarProvider>
         </QueryClientProvider>
