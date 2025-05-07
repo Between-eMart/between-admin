@@ -13,7 +13,7 @@ import {
   DialogTitle,
   FormControl,
   FormControlLabel,
-  FormHelperText,
+  FormHelperText, IconButton, InputAdornment,
   InputLabel,
   MenuItem,
   Paper,
@@ -31,6 +31,8 @@ import { useDialog, useEstablishmentsIdNames } from '~/components';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import dayjs from 'dayjs';
+import MapIcon from '@mui/icons-material/Map';
+import { LocationPickerIconButtonView } from '~/components/event/form/views';
 
 interface RegisterEventModalProps {
   open: boolean;
@@ -385,6 +387,15 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                           helperText={errors.location?.message}
                           variant="outlined"
                           placeholder="City, Country or Address"
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <LocationPickerIconButtonView
+                                  onAddLinkSet={addressMapUrl => setValue('location', addressMapUrl)}
+                                />
+                              </InputAdornment>
+                            ),
+                          }}
                         />
                       )}
                     />
