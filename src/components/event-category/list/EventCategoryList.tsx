@@ -8,20 +8,21 @@ import RegisterEventCategoryModal from '~/components/event-category/form/Registe
 
 export const EventCategoryList = () => {
   //
-  const { categories } = useEventCategories();
+  const { categories, refetchCategories } = useEventCategories();
   const [isOpen, setIsOpen] = useState(false);
-  
+
   const handleClose = () => {
     //
+    refetchCategories();
     setIsOpen(false);
   };
-  
+
   return (
     <Paper sx={{ width: '100%', p: 3, borderRadius: 2 }}>
       <Box display="flex" gap={2} mt={2} mb={3}>
         <Button
           variant="contained" endIcon={<AddIcon />}
-          onClick={() => {setIsOpen(true)}}
+          onClick={() => {setIsOpen(true);}}
         >Add New Category</Button>
       </Box>
       <EventCategoryTableView eventCategories={categories} />
