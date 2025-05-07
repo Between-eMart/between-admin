@@ -14,9 +14,10 @@ import {
 import { EventInviteRequest, IdNameValue } from '~/models';
 import { InfluencerInviteModal } from '~/components';
 
-export const EventInviteList = ({ eventId, inviteRequests }: {
+export const EventInviteList = ({ eventId, inviteRequests, onRefresh }: {
   eventId: number,
-  inviteRequests: EventInviteRequest[]
+  inviteRequests: EventInviteRequest[];
+  onRefresh: () => void;
 }) => {
   //
   const [open, setOpen] = useState(false);
@@ -32,7 +33,10 @@ export const EventInviteList = ({ eventId, inviteRequests }: {
   }, [inviteRequests]);
 
   function handleClose() {
-    return () => setOpen(false);
+    return () => {
+      onRefresh();
+      setOpen(false);
+    };
   }
 
   return (

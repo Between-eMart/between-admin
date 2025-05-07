@@ -62,7 +62,7 @@ export const InfluencerInviteModal = ({ eventId, invitedUsers, open, handleClose
       eventInviteRequestCdos: cdos,
     }, {
       onSuccess: async () => {
-        alert('Success');
+        alert('Success', handleClose);
       },
     });
   };

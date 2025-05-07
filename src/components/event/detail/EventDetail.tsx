@@ -20,7 +20,7 @@ export const EventDetail = ({ eventId, onBack }: { eventId: number; onBack: () =
   const [attendListExpanded, setAttendListExpanded] = useState<boolean>(false);
   const [inviteListExpanded, setInviteListExpanded] = useState<boolean>(false);
 
-  const { eventInfo } = useEvent(eventId);
+  const { eventInfo, refetchEvent } = useEvent(eventId);
   const {
     mutation: { removeEvent },
   } = useEventMutation();
@@ -121,7 +121,9 @@ export const EventDetail = ({ eventId, onBack }: { eventId: number; onBack: () =
             <Typography variant="h6">Invitation List</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <EventInviteList inviteRequests={eventInfo.inviteRequests} eventId={eventId} />
+            <EventInviteList inviteRequests={eventInfo.inviteRequests} onRefresh={() => {
+              refetchEvent();
+            }} eventId={eventId} />
           </AccordionDetails>
         </Accordion>
       </Card>
