@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import {
-  Modal,
   Box,
   Button,
-  Typography,
+  Checkbox,
+  Chip,
+  Dialog,
+  DialogContent,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  Checkbox, Chip,
+  Typography,
 } from '@mui/material';
 import { useInvolvementMutation } from '~/hooks';
 import { EventInviteRequestCdo, IdNameValue } from '~/models';
@@ -50,7 +52,7 @@ export const InfluencerInviteModal = ({ eventId, invitedUsers, open, handleClose
 
   const handleConfirm = () => {
     //
-    const cdos : EventInviteRequestCdo[] = [];
+    const cdos: EventInviteRequestCdo[] = [];
     selectedInfluencers.forEach((value) => {
       const cdo = { influencerId: value.id, eventId: eventId } as unknown as EventInviteRequestCdo;
       cdos.push(cdo);
@@ -67,52 +69,57 @@ export const InfluencerInviteModal = ({ eventId, invitedUsers, open, handleClose
 
 
   return (
-    <Modal open={open} onClose={handleClose}>
-      <Box sx={modalStyle}>
-        <Typography variant="h6" mb={2}>
-          Select Users
-        </Typography>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Select</TableCell>
-                <TableCell>SNS username</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Status</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {influencers.map((influencer) => (
-                <TableRow key={influencer.id}>
-                  <TableCell>
-                    <Checkbox
-                      disabled={invitedUsers.some((t) => t.id === influencer.id)}
-                      checked={selectedInfluencers.some((u) => u.id === influencer.id)}
-                      onChange={() => handleSelect(influencer)}
-                    />
-                  </TableCell>
-                  <TableCell>{influencer.value}</TableCell>
-                  <TableCell>{influencer.name}</TableCell>
-                  <TableCell>
-                    {invitedUsers.some((y) => y.id === influencer.id)
-                      ? <Chip label={'Invited'} variant="outlined" />
-                      : ''
-                    }</TableCell>
+    <Dialog sx={{
+      height: '90%',
+      width: '90%',
+    }} open={open} onClose={handleClose}>
+      <DialogContent>
+        <Box>
+          <Typography variant="h6" mb={2}>
+            Select Users
+          </Typography>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Select</TableCell>
+                  <TableCell>SNS username</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Status</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
-          <Button variant="contained" onClick={handleConfirm}>
-            Invite Selected
-          </Button>
-          <Button variant="outlined" onClick={handleClose}>
-            Cancel
-          </Button>
+              </TableHead>
+              <TableBody sx={{ overflow: 'auto' }}>
+                {influencers.map((influencer) => (
+                  <TableRow key={influencer.id}>
+                    <TableCell>
+                      <Checkbox
+                        disabled={invitedUsers.some((t) => t.id === influencer.id)}
+                        checked={selectedInfluencers.some((u) => u.id === influencer.id)}
+                        onChange={() => handleSelect(influencer)}
+                      />
+                    </TableCell>
+                    <TableCell>{influencer.value}</TableCell>
+                    <TableCell>{influencer.name}</TableCell>
+                    <TableCell>
+                      {invitedUsers.some((y) => y.id === influencer.id)
+                        ? <Chip label={'Invited'} variant="outlined"/>
+                        : ''
+                      }</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+            <Button variant="contained" onClick={handleConfirm}>
+              Invite Selected
+            </Button>
+            <Button variant="outlined" onClick={handleClose}>
+              Cancel
+            </Button>
+          </Box>
         </Box>
-      </Box>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 };

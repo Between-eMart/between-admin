@@ -14,22 +14,27 @@ import {
 import { EventInviteRequest, IdNameValue } from '~/models';
 import { InfluencerInviteModal } from '~/components';
 
-export const EventInviteList = ({ eventId, inviteRequests }: { eventId:number, inviteRequests: EventInviteRequest[] }) => {
+export const EventInviteList = ({ eventId, inviteRequests }: {
+  eventId: number,
+  inviteRequests: EventInviteRequest[]
+}) => {
   //
   const [open, setOpen] = useState(false);
   const [alreadyInvited, setAlreadyInvited] = useState<IdNameValue[]>([]);
-  
+
   useEffect(() => {
     if (inviteRequests.length > 0) {
-      const mapped = inviteRequests.map((value) => { return value.influencer});
+      const mapped = inviteRequests.map((value) => {
+        return value.influencer;
+      });
       setAlreadyInvited(mapped);
     }
   }, [inviteRequests]);
-  
+
   function handleClose() {
     return () => setOpen(false);
   }
-  
+
   return (
     <Paper>
       <TableContainer>
@@ -55,7 +60,7 @@ export const EventInviteList = ({ eventId, inviteRequests }: { eventId:number, i
                   {request.influencer.value || '--'}
                 </TableCell>
                 <TableCell align="center" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <Chip key={request.id} label={request.status} variant="outlined" />
+                  <Chip key={request.id} label={request.status} variant="outlined"/>
                 </TableCell>
               </TableRow>
             ))}
@@ -63,11 +68,13 @@ export const EventInviteList = ({ eventId, inviteRequests }: { eventId:number, i
         </Table>
       </TableContainer>
       <Stack alignItems="center" style={{ padding: 10 }}>
-        <Button variant="contained" color="primary" onClick={() => {setOpen(true)}}>
+        <Button variant="contained" color="primary" onClick={() => {
+          setOpen(true);
+        }}>
           + Invite Influencers
         </Button>
       </Stack>
-      <InfluencerInviteModal open={open} handleClose={handleClose()} eventId={eventId} invitedUsers={alreadyInvited} />
+      <InfluencerInviteModal open={open} handleClose={handleClose()} eventId={eventId} invitedUsers={alreadyInvited}/>
     </Paper>
   );
 };
