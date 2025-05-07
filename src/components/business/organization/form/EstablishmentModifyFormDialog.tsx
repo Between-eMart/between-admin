@@ -18,7 +18,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { EstablishmentDetailRdo, PhysicalAddressCdo, VirtualAddressCdo } from '~/models';
 import { useBusinessMutation, useEstablishmentRdo } from './hooks';
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { LocationUtil, useEstablishmentCategories, YandexLocationPicker } from '~/components';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -38,7 +38,7 @@ export const EstablishmentModifyFormDialog = (
   },
 ) => {
   //
-  const [addressTabValue, setAddressTabValue] = useState('physical');
+  const [addressTabValue, setAddressTabValue] = useState<string>('');
 
   const {
     defaultPhysicalAddressCdo,
@@ -61,6 +61,10 @@ export const EstablishmentModifyFormDialog = (
   const {
     establishmentCategories,
   } = useEstablishmentCategories();
+
+  useEffect(() => {
+    setAddressTabValue(!!establishmentRdo?.physicalAddress ? 'physical' : !!establishmentRdo?.virtualAddress ? 'virtual' : '');
+  }, [establishmentRdo]);
 
   const {
     watch,
