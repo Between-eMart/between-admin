@@ -7,11 +7,12 @@ import { RegisterInfluencerCategoryModal } from '~/components/influencer/list/fo
 
 export const InfluencerCategoriesList = () => {
   //
-  const { influencerCategories } = useInfluencerCategories();
+  const { influencerCategories, refetch } = useInfluencerCategories();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => {
     //
+    refetch();
     setIsOpen(false);
   };
 

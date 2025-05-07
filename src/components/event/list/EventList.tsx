@@ -10,7 +10,7 @@ import { useEvents } from '~/hooks';
 export const EventList = ({ onDetail }: { onDetail: (eventId: string) => void }) => {
   //
   const { search, setSearch, page, setPage, paginatedEvents, totalPages, applyFilters, clearFilters } = useEventRdos();
-  const { events } = useEvents();
+  const { events, refetchEvents } = useEvents(); //TODO: search & filter
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -51,6 +51,7 @@ export const EventList = ({ onDetail }: { onDetail: (eventId: string) => void })
       <RegisterEventModal
         open={isOpen}
         onClose={() => {
+          refetchEvents();
           setIsOpen(false);
         }}
       />
