@@ -54,9 +54,28 @@ export const OrganizationModifyFormDialog = (
       <DialogTitle>Modify Organization</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <TextField fullWidth label="Name" {...register('name', { required: true })} margin="normal"/>
-          <TextField disabled fullWidth label="Phone" {...register('phone', { required: true })} margin="normal"/>
-          <TextField fullWidth label="Email" {...register('email')} margin="normal"/>
+          <TextField
+            fullWidth
+            label="Name"
+            margin="normal"
+            slotProps={{ inputLabel: { shrink: true } }}
+            {...register('name', { required: true })}
+          />
+          <TextField
+            disabled
+            fullWidth
+            label="Phone"
+            margin="normal"
+            slotProps={{ inputLabel: { shrink: true } }}
+            {...register('phone', { required: true })}
+          />
+          <TextField
+            fullWidth
+            label="Email"
+            margin="normal"
+            slotProps={{ inputLabel: { shrink: true } }}
+            {...register('email', { required: true })}
+          />
           <Box mt={2} display="flex" justifyContent="space-between">
             <Button variant="outlined" onClick={onClose}>
               Cancel

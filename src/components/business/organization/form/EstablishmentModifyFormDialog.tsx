@@ -154,15 +154,19 @@ export const EstablishmentModifyFormDialog = (
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField fullWidth
+                     slotProps={{ inputLabel: { shrink: true } }}
                      label="Instagram" {...register('establishmentRdo.establishment.instagramUsername', { required: true })}
                      margin="normal"/>
           <TextField fullWidth
+                     slotProps={{ inputLabel: { shrink: true } }}
                      label="Description" {...register('establishmentRdo.establishment.description', { required: true })}
                      margin="normal"/>
           <TextField fullWidth
+                     slotProps={{ inputLabel: { shrink: true } }}
                      label="Contact Name" {...register('establishmentRdo.establishment.contactName', { required: true })}
                      margin="normal"/>
           <TextField fullWidth
+                     slotProps={{ inputLabel: { shrink: true } }}
                      label="Contact Phone" {...register('establishmentRdo.establishment.contactPhone', { required: true })}
                      margin="normal"/>
 
@@ -196,6 +200,7 @@ export const EstablishmentModifyFormDialog = (
                     onChange={(selected) => setValue(!!establishmentRdo?.virtualAddress ? 'establishmentRdo.virtualAddress.timezone' : 'virtualAddressCdo.timezone', selected.value)}
                   />
                   <TextField fullWidth
+                             slotProps={{ inputLabel: { shrink: true } }}
                              label="Web URL" {...register(!!establishmentRdo?.virtualAddress ? 'establishmentRdo.virtualAddress.webUrl' : 'virtualAddressCdo.webUrl', { required: addressTabValue == 'virtual' })}
                              margin="normal"/>
                 </CardContent>
@@ -217,6 +222,7 @@ export const EstablishmentModifyFormDialog = (
               <TextField
                 {...params}
                 variant="outlined"
+                slotProps={{ inputLabel: { shrink: true } }}
                 label="Categories"
                 placeholder="Search categories"
                 margin="normal"

@@ -51,7 +51,7 @@ export const BrandRegisterFormDialog = (
       <DialogTitle>Register Brand</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <TextField fullWidth label="Name" {...register('name', { required: true })} margin="normal"/>
+          <TextField fullWidth label="Name" slotProps={{ inputLabel: { shrink: true } }} {...register('name', { required: true })} margin="normal"/>
           <Box mt={2} display="flex" justifyContent="space-between">
             <Button variant="outlined" onClick={onClose}>
               Cancel

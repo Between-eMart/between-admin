@@ -137,13 +137,21 @@ export const EstablishmentRegisterFormDialog = (
       <DialogTitle>Register Establishment</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <TextField fullWidth label="Instagram" {...register('establishmentCdo.instagramUsername', { required: true })}
+          <TextField fullWidth
+                     slotProps={{ inputLabel: { shrink: true } }}
+                     label="Instagram" {...register('establishmentCdo.instagramUsername', { required: true })}
                      margin="normal"/>
-          <TextField fullWidth label="Description" {...register('establishmentCdo.description', { required: true })}
+          <TextField fullWidth
+                     slotProps={{ inputLabel: { shrink: true } }}
+                     label="Description" {...register('establishmentCdo.description', { required: true })}
                      margin="normal"/>
-          <TextField fullWidth label="Contact Name" {...register('establishmentCdo.contactName', { required: true })}
+          <TextField fullWidth
+                     slotProps={{ inputLabel: { shrink: true } }}
+                     label="Contact Name" {...register('establishmentCdo.contactName', { required: true })}
                      margin="normal"/>
-          <TextField fullWidth label="Contact Phone" {...register('establishmentCdo.contactPhone', { required: true })}
+          <TextField fullWidth
+                     slotProps={{ inputLabel: { shrink: true } }}
+                     label="Contact Phone" {...register('establishmentCdo.contactPhone', { required: true })}
                      margin="normal"/>
           <Box
             sx={{
@@ -232,6 +240,7 @@ export const EstablishmentRegisterFormDialog = (
                     onChange={(selected) => setValue('virtualAddressCdo.timezone', selected.value)}
                   />
                   <TextField fullWidth
+                             slotProps={{ inputLabel: { shrink: true } }}
                              label="Web URL" {...register('virtualAddressCdo.webUrl', { required: addressTabValue === 'virtual' })}
                              margin="normal"/>
                 </CardContent>
@@ -253,6 +262,7 @@ export const EstablishmentRegisterFormDialog = (
               <TextField
                 {...params}
                 variant="outlined"
+                slotProps={{ inputLabel: { shrink: true } }}
                 label="Categories"
                 placeholder="Search categories"
                 margin="normal"
