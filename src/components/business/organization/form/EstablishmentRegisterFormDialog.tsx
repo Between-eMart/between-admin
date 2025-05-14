@@ -4,7 +4,7 @@ import {
   Button,
   Card,
   CardContent,
-  Chip, CircularProgress,
+  Chip,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -14,7 +14,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { CommandResponse, Establishment, EstablishmentCdo, PhysicalAddressCdo, VirtualAddressCdo } from '~/models';
 import { useBusinessMutation } from './hooks';
-import React, { SyntheticEvent, useRef, useState, useEffect, useMemo } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import { useEstablishmentCategories, YandexLocationPicker } from '~/components';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import TimezoneSelect from 'react-timezone-select';
@@ -22,6 +22,68 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import Tab from '@mui/material/Tab';
 import TabPanel from '@mui/lab/TabPanel';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+
+const establishmentCdoSchema = Yup.object().shape({
+  logo: Yup.mixed()
+    .required('Logo is required')
+    .test('is-file', 'Logo must be a file', value => value instanceof File),
+  photos: Yup.array()
+    .of(Yup.mixed().test('is-file', 'Each photo must be a file', value => value instanceof File))
+    .min(1, 'At least one photo is required'),
+  brandId: Yup.number()
+    .required('Brand ID is required'),
+  categoryIds: Yup.array()
+    .of(Yup.number())
+    .min(1, 'At least one category is required'),
+  contactName: Yup.string()
+    .required('Contact name is required'),
+  contactPhone: Yup.string()
+    .required('Contact phone is required')
+    .matches(
+      /^(\+?\d{1,3})?\s*\d{2,3}\s*\d{2,3}\s*\d{2,3}\s*\d{2,3}$/,
+      'Invalid phone number format (example: 998 XX XXX XX XX)',
+    ),
+  instagramUsername: Yup.string()
+    .required('Instagram username is required'),
+  description: Yup.string()
+    .required('Description is required'),
+});
+
+const physicalAddressCdoSchema = Yup.object().shape({
+  mapUrl: Yup.string().required('Map URL is required'),
+  country: Yup.string().required('Country is required'),
+  addressLine1: Yup.string().required('Address Line 1 is required'),
+  addressLine2: Yup.string(), // optional
+  postIndex: Yup.string().required('Post index is required'),
+  city: Yup.string().required('City is required'),
+  location: Yup.string().required('Location is required'),
+  establishmentId: Yup.number().required('Establishment ID is required'),
+});
+
+const virtualAddressCdoSchema = Yup.object().shape({
+  timezone: Yup.string().required('Timezone is required'),
+  webUrl: Yup.string()
+    .url('Web URL must be a valid URL')
+    .required('Web URL is required'),
+  establishmentId: Yup.number().required('Establishment ID is required'),
+});
+
+
+const formSchema = Yup.object().shape({
+  establishmentCdo: establishmentCdoSchema.required('establishmentCdo is required'),
+  physicalAddressCdo: physicalAddressCdoSchema.nullable(),
+  virtualAddressCdo: virtualAddressCdoSchema.nullable(),
+})
+  .required()
+  .test(
+    'at-least-one-address',
+    'Either physicalAddressCdo or virtualAddressCdo is required',
+    function (value) {
+      return !!(value.physicalAddressCdo || value.virtualAddressCdo);
+    },
+  );
 
 export const EstablishmentRegisterFormDialog = (
   {
@@ -56,6 +118,7 @@ export const EstablishmentRegisterFormDialog = (
     handleSubmit,
     reset,
     setValue,
+    formState: { errors },
   } = useForm<{
     establishmentCdo: EstablishmentCdo;
     physicalAddressCdo: PhysicalAddressCdo;
@@ -66,6 +129,7 @@ export const EstablishmentRegisterFormDialog = (
       physicalAddressCdo: defaultPhysicalAddressCdo,
       virtualAddressCdo: defaultVirtualAddressCdo,
     },
+    resolver: yupResolver(formSchema),
   });
 
   const handleAddressTabValueChange = (event: SyntheticEvent, newValue: string) => {
@@ -137,22 +201,46 @@ export const EstablishmentRegisterFormDialog = (
       <DialogTitle>Register Establishment</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <TextField fullWidth
-                     slotProps={{ inputLabel: { shrink: true } }}
-                     label="Instagram" {...register('establishmentCdo.instagramUsername', { required: true })}
-                     margin="normal"/>
-          <TextField fullWidth
-                     slotProps={{ inputLabel: { shrink: true } }}
-                     label="Description" {...register('establishmentCdo.description', { required: true })}
-                     margin="normal"/>
-          <TextField fullWidth
-                     slotProps={{ inputLabel: { shrink: true } }}
-                     label="Contact Name" {...register('establishmentCdo.contactName', { required: true })}
-                     margin="normal"/>
-          <TextField fullWidth
-                     slotProps={{ inputLabel: { shrink: true } }}
-                     label="Contact Phone" {...register('establishmentCdo.contactPhone', { required: true })}
-                     margin="normal"/>
+          <TextField
+            required
+            fullWidth
+            label="Instagram"
+            slotProps={{ inputLabel: { shrink: true } }}
+            error={!!errors.establishmentCdo?.instagramUsername}
+            helperText={errors.establishmentCdo?.instagramUsername?.message}
+            {...register('establishmentCdo.instagramUsername')}
+            margin="normal"
+          />
+          <TextField
+            required
+            fullWidth
+            label="Description"
+            slotProps={{ inputLabel: { shrink: true } }}
+            error={!!errors.establishmentCdo?.description}
+            helperText={errors.establishmentCdo?.description?.message}
+            {...register('establishmentCdo.description')}
+            margin="normal"
+          />
+          <TextField
+            required
+            fullWidth
+            label="Contact Name"
+            slotProps={{ inputLabel: { shrink: true } }}
+            error={!!errors.establishmentCdo?.contactName}
+            helperText={errors.establishmentCdo?.contactName?.message}
+            {...register('establishmentCdo.contactName')}
+            margin="normal"
+          />
+          <TextField
+            required
+            fullWidth
+            label="Contact Phone"
+            slotProps={{ inputLabel: { shrink: true } }}
+            error={!!errors.establishmentCdo?.contactPhone}
+            helperText={errors.establishmentCdo?.contactPhone?.message}
+            {...register('establishmentCdo.contactPhone')}
+            margin="normal"
+          />
           <Box
             sx={{
               border: '2px dashed',
@@ -177,7 +265,7 @@ export const EstablishmentRegisterFormDialog = (
               </Button>
             </label>
             <Typography variant="body2" color="textSecondary" sx={{ mb: 1 }}>
-              Upload high-quality Logo (JPEG, PNG)
+              Upload high-quality Logo (JPEG, PNG) <span style={{ color: 'red' }}>*</span>
             </Typography>
 
             {watchLogo && (
@@ -211,7 +299,7 @@ export const EstablishmentRegisterFormDialog = (
               </Button>
             </label>
             <Typography variant="body2" color="textSecondary" sx={{ mb: 1 }}>
-              Upload high-quality photos (JPEG, PNG)
+              Upload high-quality photos (JPEG, PNG) <span style={{ color: 'red' }}>*</span>
             </Typography>
 
             {watchPhotos?.map(photo => (
@@ -235,14 +323,21 @@ export const EstablishmentRegisterFormDialog = (
               <Card>
                 <CardContent>
                   <TimezoneSelect
+                    required
                     placeholder={'Select Timezone'}
                     value={watch('virtualAddressCdo.timezone')}
                     onChange={(selected) => setValue('virtualAddressCdo.timezone', selected.value)}
                   />
-                  <TextField fullWidth
-                             slotProps={{ inputLabel: { shrink: true } }}
-                             label="Web URL" {...register('virtualAddressCdo.webUrl', { required: addressTabValue === 'virtual' })}
-                             margin="normal"/>
+                  <TextField
+                    required
+                    fullWidth
+                    label="Web URL"
+                    slotProps={{ inputLabel: { shrink: true } }}
+                    error={!!errors.virtualAddressCdo?.webUrl}
+                    helperText={errors.virtualAddressCdo?.webUrl?.message}
+                    {...register('virtualAddressCdo.webUrl', { required: addressTabValue === 'virtual' })}
+                    margin="normal"
+                  />
                 </CardContent>
               </Card>
             </TabPanel>
@@ -261,11 +356,14 @@ export const EstablishmentRegisterFormDialog = (
             renderInput={(params) => (
               <TextField
                 {...params}
+                required
                 variant="outlined"
                 slotProps={{ inputLabel: { shrink: true } }}
                 label="Categories"
                 placeholder="Search categories"
                 margin="normal"
+                error={!!errors.establishmentCdo?.categoryIds}
+                helperText={errors.establishmentCdo?.categoryIds?.message}
                 fullWidth
               />
             )}

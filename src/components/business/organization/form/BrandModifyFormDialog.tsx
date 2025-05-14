@@ -3,6 +3,17 @@ import { useForm } from 'react-hook-form';
 import { Brand } from '~/models';
 import { useBrandRdo, useBusinessMutation } from './hooks';
 import React from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+
+const brandSchema = Yup.object().shape({
+  name: Yup.string()
+    .required('Name is required'),
+  organizationId: Yup.string()
+    .required('OrganizationID is required'),
+});
+
+const formSchema = brandSchema.required('Brand is required');
 
 export const BrandModifyFormDialog = (
   {
@@ -30,8 +41,10 @@ export const BrandModifyFormDialog = (
     register,
     handleSubmit,
     reset,
+    formState: { errors },
   } = useForm<Brand>({
     values: brandRdo?.brand,
+    resolver: yupResolver(formSchema),
   });
 
   const onSubmit = async (data: Brand) => {
@@ -54,7 +67,16 @@ export const BrandModifyFormDialog = (
       <DialogTitle>Modify Brand</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <TextField fullWidth label="Name" slotProps={{ inputLabel: { shrink: true } }} {...register('name', { required: true })} margin="normal"/>
+          <TextField
+            required
+            fullWidth
+            label="Name"
+            slotProps={{ inputLabel: { shrink: true } }}
+            error={!!errors.name}
+            helperText={errors.name?.message}
+            {...register('name')}
+            margin="normal"
+          />
           <Box mt={2} display="flex" justifyContent="space-between">
             <Button variant="outlined" onClick={onClose}>
               Cancel

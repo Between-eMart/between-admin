@@ -2,6 +2,17 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Box, Button, Modal, TextField, Typography } from '@mui/material';
 import { useBusinessMutation, useDialog } from '~/components';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+import { EstablishmentCategoryCdo } from '~/models';
+
+const establishmentCategoryCdoSchema = Yup.object().shape({
+  name: Yup.string()
+    .required('Name is required'),
+  note: Yup.string(), // optional
+});
+
+const formSchema = establishmentCategoryCdoSchema.required('EstablishmentCategoryCdo is required');
 
 export const RegisterEstablishmentCategoryModal = ({ open, handleClose }) => {
   //
@@ -9,7 +20,18 @@ export const RegisterEstablishmentCategoryModal = ({ open, handleClose }) => {
     alert,
   } = useDialog();
 
-  const { register, handleSubmit, reset } = useForm();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<EstablishmentCategoryCdo>({
+    defaultValues: {
+      name: '',
+      note: '',
+    },
+    resolver: yupResolver(formSchema),
+  });
   const {
     mutation: {
       registerEstablishmentCategory,
@@ -51,8 +73,23 @@ export const RegisterEstablishmentCategoryModal = ({ open, handleClose }) => {
           Add Establishment Category
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <TextField fullWidth label="Name" {...register('name', { required: true })} margin="normal"/>
-          <TextField fullWidth label="Note" {...register('note')} margin="normal"/>
+          <TextField
+            required
+            fullWidth
+            label="Name"
+            error={!!errors.name}
+            helperText={errors.name?.message}
+            {...register('name')}
+            margin="normal"
+          />
+          <TextField
+            fullWidth
+            label="Note"
+            error={!!errors.note}
+            helperText={errors.note?.message}
+            {...register('note')}
+            margin="normal"
+          />
           <Box mt={2} display="flex" justifyContent="space-between">
             <Button variant="outlined" onClick={handleClose}>
               Cancel
