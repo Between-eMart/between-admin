@@ -77,6 +77,7 @@ export const RegisterEstablishmentCategoryModal = ({ open, handleClose }) => {
             required
             fullWidth
             label="Name"
+            slotProps={{ inputLabel: { shrink: true } }}
             error={!!errors.name}
             helperText={errors.name?.message}
             {...register('name')}
@@ -85,6 +86,7 @@ export const RegisterEstablishmentCategoryModal = ({ open, handleClose }) => {
           <TextField
             fullWidth
             label="Note"
+            slotProps={{ inputLabel: { shrink: true } }}
             error={!!errors.note}
             helperText={errors.note?.message}
             {...register('note')}

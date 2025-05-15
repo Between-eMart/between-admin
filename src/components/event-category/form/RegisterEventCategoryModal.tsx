@@ -1,12 +1,40 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Modal, Box, TextField, Button, Typography } from '@mui/material';
+import { Box, Button, Modal, TextField, Typography } from '@mui/material';
 import { useEventCategoryMutation } from '~/hooks';
-import { AxiosError } from 'axios';
-import { FailureResponse } from '~/models';
+import { EventCategoryCdo } from '~/models';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+import { useDialog } from '~/components';
+
+const eventCategoryCdoSchema = Yup.object().shape({
+  name: Yup.string().required('Name is required'),
+  description: Yup.string(), // optional
+  code: Yup.string().required('Code is required'),
+});
+
+const formSchema = eventCategoryCdoSchema.required('EventCategoryCdo is required');
 
 const RegisterEventCategoryModal = ({ open, handleClose }) => {
-  const { register, handleSubmit, reset } = useForm();
+  //
+  const {
+    alert,
+  } = useDialog();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<EventCategoryCdo>({
+    defaultValues: {
+      name: '',
+      description: '',
+      code: '',
+    },
+    resolver: yupResolver(formSchema),
+  });
+
   const {
     mutation: { registerEventCategory },
   } = useEventCategoryMutation();
@@ -19,6 +47,7 @@ const RegisterEventCategoryModal = ({ open, handleClose }) => {
       {
         onSuccess: async () => {
           //
+          alert('Event category registered successfully.');
           handleClose();
           reset();
         },
@@ -45,9 +74,35 @@ const RegisterEventCategoryModal = ({ open, handleClose }) => {
           Add Event Category
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <TextField fullWidth label="Name" {...register('name', { required: true })} margin="normal" />
-          <TextField fullWidth label="Description" {...register('description')} margin="normal" />
-          <TextField fullWidth label="Code" {...register('code', { required: true })} margin="normal" />
+          <TextField
+            required
+            fullWidth
+            label="Name"
+            slotProps={{ inputLabel: { shrink: true } }}
+            error={!!errors.name}
+            helperText={errors.name?.message}
+            {...register('name')}
+            margin="normal"
+          />
+          <TextField
+            fullWidth
+            label="Description"
+            slotProps={{ inputLabel: { shrink: true } }}
+            error={!!errors.description}
+            helperText={errors.description?.message}
+            {...register('description')}
+            margin="normal"
+          />
+          <TextField
+            required
+            fullWidth
+            label="Code"
+            slotProps={{ inputLabel: { shrink: true } }}
+            error={!!errors.code}
+            helperText={errors.code?.message}
+            {...register('code')}
+            margin="normal"
+          />
           <Box mt={2} display="flex" justifyContent="space-between">
             <Button variant="outlined" onClick={handleClose}>
               Cancel
