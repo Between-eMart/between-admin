@@ -1,6 +1,7 @@
 export * from './FindAllEventCategoriesQuery';
 export * from './FindAllEventsQuery';
 export * from './FindEventByIdQuery';
+export * from './FindEventDetailQuery';
 export * from './FindEventCategoryByIdQuery';
 export * from './FindEventsByCategoryQuery';
 export * from './FindEventsByEstablishmentQuery';

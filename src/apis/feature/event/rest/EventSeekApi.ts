@@ -3,6 +3,7 @@ import { QueryResponse } from '~/models';
 import {
   FindAllEventsQuery,
   FindEventByIdQuery,
+  FindEventDetailQuery,
   FindEventsByCategoryQuery,
   FindEventsByEstablishmentQuery,
   FindEventsByLocationQuery,
@@ -21,6 +22,12 @@ const findAllEvents = async (query: FindAllEventsQuery): Promise<QueryResponse<E
 const findEventById = async (query: FindEventByIdQuery): Promise<QueryResponse<EventRdo>> => {
   //
   const response = await axios.post<QueryResponse<EventRdo>>(url('find-event-by-id/query'), query);
+  return response.data;
+};
+
+const findEventDetail = async (query: FindEventDetailQuery): Promise<QueryResponse<EventRdo>> => {
+  //
+  const response = await axios.post<QueryResponse<EventRdo>>(url('find-event-detail/query'), query);
   return response.data;
 };
 
@@ -52,6 +59,7 @@ const findEventsByEstablishment = async (query: FindEventsByEstablishmentQuery):
 export default {
   findAllEvents,
   findEventById,
+  findEventDetail,
   findEventsByCategory,
   findEventsByLocation,
   findEventsByName,
