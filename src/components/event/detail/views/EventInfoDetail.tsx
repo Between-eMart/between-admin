@@ -26,8 +26,60 @@ import { useDialog } from '~/components';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+
+export const eventSchema = yup.object({
+  name: yup.string().required('Event name is required'),
+  description: yup.string().required('Description is required'),
+  organizers: yup.string().required('Organizers are required'),
+
+  startDateTime: yup
+    .string()
+    .required('Start date and time is required')
+    .test('valid-start', 'Invalid start date format', (value) =>
+      dayjs(value, DATE_FORMAT, true).isValid(),
+    ),
+
+  endDateTime: yup
+    .string()
+    .required('End date and time is required')
+    .test('valid-end', 'Invalid end date format', (value) =>
+      dayjs(value, DATE_FORMAT, true).isValid(),
+    )
+    .test('end-after-start', 'End date must be after start date', function (value) {
+      const { startDateTime } = this.parent;
+      const start = dayjs(startDateTime, DATE_FORMAT, true);
+      const end = dayjs(value, DATE_FORMAT, true);
+      return start.isValid() && end.isValid() && end.isAfter(start);
+    }),
+
+  numberOfSeats: yup
+    .number()
+    .required('Number of seats is required')
+    .min(1, 'Must be at least 1 seat'),
+
+  dressCode: yup.string().required('Dress code is required'),
+  adviceForAttenders: yup.string().required('Advice is required'),
+  rules: yup.string().required('Rules are required'),
+  venue: yup.string().required('Venue is required'),
+  location: yup.string().required('Location is required'),
+  ageRestriction: yup.string().required('Age restriction is required'),
+  isRepeatable: yup.boolean().required('Repeatable field is required'),
+
+  status: yup
+    .mixed<EventStatus>()
+    .oneOf(Object.values(EventStatus))
+    .required('Status is required'),
+
+  categoryIds: yup
+    .array()
+    .of(yup.number().required())
+    .min(1, 'Select at least one category'),
+});
+
 
 export const EventInfoDetail = ({ event, categories }: { event: Event; categories: EventCategory[] }) => {
   //
@@ -51,6 +103,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
       categoryIds: categories.map((cat) => cat.id),
       isRepeatable: event.isRepeatable,
     },
+    resolver: yupResolver(eventSchema),
   });
 
   const statusOptions: string[] = Object.keys(EventStatus);
@@ -97,6 +150,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
                   rules={{ required: 'Event name is required' }}
                   render={({ field }) => (
                     <TextField
+                      required
                       {...field}
                       label="Name"
                       fullWidth
@@ -114,6 +168,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
                   rules={{ required: 'At least one category is required' }}
                   render={({ field }) => (
                     <FormControl fullWidth error={!!errors.categoryIds}>
+                      <InputLabel shrink required>Categories</InputLabel>
                       <Autocomplete
                         multiple
                         options={eventCategories}
@@ -137,7 +192,6 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            label="Categories"
                             error={!!errors.categoryIds}
                             helperText={errors.categoryIds?.message}
                             variant="outlined"
@@ -156,6 +210,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
                   rules={{ required: 'Event description is required' }}
                   render={({ field }) => (
                     <TextField
+                      required
                       {...field}
                       label="Description"
                       fullWidth
@@ -207,6 +262,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
                           color="primary"
                         />
                       }
+                      required
                       label="Repeatable event"
                     />
                   )}
@@ -236,6 +292,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
                   rules={{ required: 'Venue is required' }}
                   render={({ field }) => (
                     <TextField
+                      required
                       {...field}
                       label="Venue"
                       fullWidth
@@ -253,6 +310,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
                   rules={{ required: 'Location is required' }}
                   render={({ field }) => (
                     <TextField
+                      required
                       {...field}
                       label="Location"
                       fullWidth
@@ -286,6 +344,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
                   control={control}
                   render={({ field }) => (
                     <TextField
+                      required
                       {...field}
                       label="Dress Code"
                       fullWidth
@@ -304,6 +363,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
                   control={control}
                   render={({ field }) => (
                     <TextField
+                      required
                       {...field}
                       label="Age Restriction"
                       fullWidth
@@ -322,6 +382,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
                   control={control}
                   render={({ field }) => (
                     <TextField
+                      required
                       {...field}
                       label="Advice For Attendees"
                       fullWidth
@@ -342,6 +403,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
                   control={control}
                   render={({ field }) => (
                     <TextField
+                      required
                       {...field}
                       label="Event Rules"
                       fullWidth
@@ -377,7 +439,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
                   rules={{ required: 'Please select an option' }}
                   render={({ field }) => (
                     <FormControl fullWidth error={!!errors.status} sx={{ mb: 3 }}>
-                      <InputLabel id="select-label">Select an option</InputLabel>
+                      <InputLabel shrink required>Select an option</InputLabel>
                       <Select {...field} labelId="select-label" label="Select an option">
                         {statusOptions.map((option) => (
                           <MenuItem key={option} value={option}>
@@ -396,6 +458,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
                   control={control}
                   render={({ field }) => (
                     <TextField
+                      required
                       {...field}
                       label="Event organizer(s)"
                       fullWidth

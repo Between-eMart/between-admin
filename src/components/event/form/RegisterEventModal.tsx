@@ -197,9 +197,9 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                     <Controller
                       name="name"
                       control={control}
-                      rules={{ required: 'Event name is required' }}
                       render={({ field }) => (
                         <TextField
+                          required
                           {...field}
                           label="Event Name"
                           fullWidth
@@ -215,10 +215,9 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                       <Controller
                         name="establishmentId"
                         control={control}
-                        rules={{ required: 'Establishment is required' }}
                         render={({ field }) => (
                           <>
-                            <InputLabel>Establishment</InputLabel>
+                            <InputLabel required>Establishment</InputLabel>
                             <Select {...field} label="Establishment" value={field.value || ''}>
                               {establishmentIdNames?.map((est) => (
                                 <MenuItem key={est.id} value={est.id}>
@@ -239,9 +238,9 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                     <Controller
                       name="description"
                       control={control}
-                      rules={{ required: 'Description is required' }}
                       render={({ field }) => (
                         <TextField
+                          required
                           {...field}
                           label="Description"
                           fullWidth
@@ -294,7 +293,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                     </Button>
                   </label>
                   <Typography variant="body2" color="textSecondary" sx={{ mb: 1 }}>
-                    Upload high-quality banner images for your event (JPEG, PNG)
+                    Upload high-quality banner images for your event (JPEG, PNG) <span style={{ color: 'red' }}>*</span>
                   </Typography>
 
                   {watchBannerImages && watchBannerImages.length > 0 && (
@@ -351,6 +350,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                       rules={{ required: 'Number of Seats is required' }}
                       render={({ field }) => (
                         <TextField
+                          required
                           {...field}
                           label="Number of Seats"
                           fullWidth
@@ -406,6 +406,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                       rules={{ required: 'Venue is required' }}
                       render={({ field }) => (
                         <TextField
+                          required
                           {...field}
                           label="Venue"
                           fullWidth
@@ -424,6 +425,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                       rules={{ required: 'Location is required' }}
                       render={({ field }) => (
                         <TextField
+                          required
                           {...field}
                           label="Location"
                           fullWidth
@@ -468,6 +470,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                       control={control}
                       render={({ field }) => (
                         <TextField
+                          required
                           {...field}
                           label="Dress Code"
                           fullWidth
@@ -486,6 +489,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                       control={control}
                       render={({ field }) => (
                         <TextField
+                          required
                           {...field}
                           label="Age Restriction"
                           fullWidth
@@ -504,6 +508,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                       control={control}
                       render={({ field }) => (
                         <TextField
+                          required
                           {...field}
                           label="Advice For Attendees"
                           fullWidth
@@ -524,6 +529,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                       control={control}
                       render={({ field }) => (
                         <TextField
+                          required
                           {...field}
                           label="Event Rules"
                           fullWidth
@@ -562,6 +568,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                       rules={{ required: 'At least one category is required' }}
                       render={({ field }) => (
                         <FormControl fullWidth error={!!errors.categoryIds}>
+                          <InputLabel shrink required>Categories</InputLabel>
                           <Autocomplete
                             multiple
                             options={categories}
@@ -585,7 +592,6 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                             renderInput={(params) => (
                               <TextField
                                 {...params}
-                                label="Categories"
                                 error={!!errors.categoryIds}
                                 helperText={errors.categoryIds?.message}
                                 variant="outlined"

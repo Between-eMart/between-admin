@@ -78,7 +78,9 @@ export const EventDetail = ({ eventId, onBack }: { eventId: number; onBack: () =
             <Typography variant="h6">Event Tasks </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <EventTaskList eventId={eventInfo.event.id} tasks={eventInfo.event.tasks || []}/>
+            <EventTaskList eventId={eventInfo.event.id} tasks={eventInfo.event.tasks || []} onRegisterSuccess={() => {
+              refetchEvent();
+            }}/>
           </AccordionDetails>
         </Accordion>
       </Card>
@@ -103,7 +105,9 @@ export const EventDetail = ({ eventId, onBack }: { eventId: number; onBack: () =
             <Typography variant="h6">Event Attend Requests</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <EventAttendRequestList attendRequests={eventInfo.attendRequests}/>
+            <EventAttendRequestList attendRequests={eventInfo.attendRequests} onRefresh={() => {
+              refetchEvent();
+            }}/>
           </AccordionDetails>
         </Accordion>
       </Card>

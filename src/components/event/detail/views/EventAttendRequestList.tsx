@@ -16,7 +16,7 @@ import { EventAttendRequest, EventAttendRequestStatus } from '~/models';
 import { useInvolvementMutation } from '~/hooks';
 import { useDialog } from '~/components';
 
-export const EventAttendRequestList = ({ attendRequests }: { attendRequests: EventAttendRequest[] }) => {
+export const EventAttendRequestList = ({ attendRequests, onRefresh }: { attendRequests: EventAttendRequest[], onRefresh: () => void }) => {
   //
   const { alert } = useDialog();
   const {
@@ -31,6 +31,7 @@ export const EventAttendRequestList = ({ attendRequests }: { attendRequests: Eve
         { requestId: requestId, status: EventAttendRequestStatus.APPROVED },
         {
           onSuccess: async () => {
+            onRefresh();
             alert('Successfully accepted.');
           },
         },
@@ -46,6 +47,7 @@ export const EventAttendRequestList = ({ attendRequests }: { attendRequests: Eve
         { requestId: requestId, status: EventAttendRequestStatus.REJECTED },
         {
           onSuccess: async () => {
+            onRefresh();
             alert('Successfully rejected.');
           },
         },
@@ -61,6 +63,7 @@ export const EventAttendRequestList = ({ attendRequests }: { attendRequests: Eve
         { requestId: requestId, status: EventAttendRequestStatus.REQUESTED },
         {
           onSuccess: async () => {
+            onRefresh();
             alert('Successfully revoked.');
           },
         },

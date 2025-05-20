@@ -19,7 +19,7 @@ import { useEventMutation } from '~/hooks';
 import { useForm } from 'react-hook-form';
 import { useDialog } from '~/components';
 
-export const EventTaskList = ({ eventId, tasks }: { eventId: number; tasks: EventTask[] }) => {
+export const EventTaskList = ({ eventId, tasks, onRegisterSuccess }: { eventId: number; tasks: EventTask[], onRegisterSuccess: () => void }) => {
   //
   const { alert } = useDialog();
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -43,6 +43,7 @@ export const EventTaskList = ({ eventId, tasks }: { eventId: number; tasks: Even
       {
         onSuccess: async () => {
           //
+          onRegisterSuccess();
           setIsOpen(false);
           reset();
         },

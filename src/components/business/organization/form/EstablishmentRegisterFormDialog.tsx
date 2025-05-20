@@ -8,6 +8,8 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  FormControl,
+  InputLabel,
   TextField,
   Typography,
 } from '@mui/material';
@@ -56,7 +58,7 @@ const physicalAddressCdoSchema = Yup.object().shape({
   country: Yup.string().required('Country is required'),
   addressLine1: Yup.string().required('Address Line 1 is required'),
   addressLine2: Yup.string(), // optional
-  postIndex: Yup.string().required('Post index is required'),
+  postIndex: Yup.string(), // optional
   city: Yup.string().required('City is required'),
   location: Yup.string().required('Location is required'),
   establishmentId: Yup.number().required('Establishment ID is required'),
@@ -316,68 +318,73 @@ export const EstablishmentRegisterFormDialog = (
               </TabList>
             </Box>
             <TabPanel value="physical">
+              {addressTabValue === 'physical' && (
               <YandexLocationPicker
                 onSet={address => setValue('physicalAddressCdo', { ...address } as PhysicalAddressCdo)}/>
+              )}
             </TabPanel>
             <TabPanel value="virtual">
-              <Card>
-                <CardContent>
-                  <TimezoneSelect
-                    required
-                    placeholder={'Select Timezone'}
-                    value={watch('virtualAddressCdo.timezone')}
-                    onChange={(selected) => setValue('virtualAddressCdo.timezone', selected.value)}
-                  />
-                  <TextField
-                    required
-                    fullWidth
-                    label="Web URL"
-                    slotProps={{ inputLabel: { shrink: true } }}
-                    error={!!errors.virtualAddressCdo?.webUrl}
-                    helperText={errors.virtualAddressCdo?.webUrl?.message}
-                    {...register('virtualAddressCdo.webUrl', { required: addressTabValue === 'virtual' })}
-                    margin="normal"
-                  />
-                </CardContent>
-              </Card>
+              {addressTabValue === 'virtual' && (
+                <Card>
+                  <CardContent>
+                    <TimezoneSelect
+                      required
+                      placeholder={'Select Timezone'}
+                      value={watch('virtualAddressCdo.timezone')}
+                      onChange={(selected) => setValue('virtualAddressCdo.timezone', selected.value)}
+                    />
+                    <TextField
+                      required
+                      fullWidth
+                      label="Web URL"
+                      slotProps={{ inputLabel: { shrink: true } }}
+                      error={!!errors.virtualAddressCdo?.webUrl}
+                      helperText={errors.virtualAddressCdo?.webUrl?.message}
+                      {...register('virtualAddressCdo.webUrl', { required: addressTabValue === 'virtual' })}
+                      margin="normal"
+                    />
+                  </CardContent>
+                </Card>
+              )}
             </TabPanel>
           </TabContext>
 
-          <Autocomplete
-            multiple
-            id="establishment-categories"
-            options={establishmentCategories}
-            getOptionLabel={(option) => option.name}
-            value={selectedCategories}
-            onChange={(event, newValue) => {
-              const newCategoryIds = newValue.map(category => category.id);
-              setValue('establishmentCdo.categoryIds', newCategoryIds);
-            }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                required
-                variant="outlined"
-                slotProps={{ inputLabel: { shrink: true } }}
-                label="Categories"
-                placeholder="Search categories"
-                margin="normal"
-                error={!!errors.establishmentCdo?.categoryIds}
-                helperText={errors.establishmentCdo?.categoryIds?.message}
-                fullWidth
-              />
-            )}
-            renderTags={(value, getTagProps) =>
-              value.map((option, index) => (
-                <Chip
+          <FormControl fullWidth error={!!errors.establishmentCdo?.categoryIds}>
+            <InputLabel shrink required>Categories</InputLabel>
+            <Autocomplete
+              multiple
+              id="establishment-categories"
+              options={establishmentCategories}
+              getOptionLabel={(option) => option.name}
+              value={selectedCategories}
+              onChange={(event, newValue) => {
+                const newCategoryIds = newValue.map(category => category.id);
+                setValue('establishmentCdo.categoryIds', newCategoryIds);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
                   variant="outlined"
-                  label={option.name}
-                  {...getTagProps({ index })}
+                  slotProps={{ inputLabel: { shrink: true } }}
+                  placeholder="Search categories"
+                  margin="normal"
+                  error={!!errors.establishmentCdo?.categoryIds}
+                  helperText={errors.establishmentCdo?.categoryIds?.message}
+                  fullWidth
                 />
-              ))
-            }
-            filterSelectedOptions
-          />
+              )}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    variant="outlined"
+                    label={option.name}
+                    {...getTagProps({ index })}
+                  />
+                ))
+              }
+              filterSelectedOptions
+            />
+          </FormControl>
 
           <Box mt={2} display="flex" justifyContent="space-between">
             <Button variant="outlined" onClick={onClose}>

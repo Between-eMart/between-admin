@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
-import ColorModeIconDropdown from '~/theme/ColorModeIconDropdown';
+import ColorModeIconDropdown from '~/theme/ColorModeToggleButton';
 import { AvatarIconDropdown, NavbarBreadcrumbs } from '~/layouts';
 
 export default function Header() {
