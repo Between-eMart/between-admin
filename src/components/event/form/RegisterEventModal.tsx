@@ -263,7 +263,6 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                 elevation={0}
                 sx={{
                   p: 2,
-                  backgroundColor: (theme) => theme.palette.grey[50],
                   borderRadius: 2,
                 }}
               >
@@ -312,7 +311,6 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                 elevation={0}
                 sx={{
                   p: 2,
-                  backgroundColor: (theme) => theme.palette.grey[50],
                   borderRadius: 2,
                 }}
               >
@@ -393,7 +391,6 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                 elevation={0}
                 sx={{
                   p: 2,
-                  backgroundColor: (theme) => theme.palette.grey[50],
                   borderRadius: 2,
                 }}
               >
@@ -457,7 +454,6 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                 elevation={0}
                 sx={{
                   p: 2,
-                  backgroundColor: (theme) => theme.palette.grey[50],
                   borderRadius: 2,
                 }}
               >
@@ -551,7 +547,6 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                 elevation={0}
                 sx={{
                   p: 2,
-                  backgroundColor: (theme) => theme.palette.grey[50],
                   borderRadius: 2,
                 }}
               >

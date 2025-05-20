@@ -21,7 +21,7 @@ export const EventCategoryTableView = ({ eventCategories }) => {
     <>
       <TableContainer>
         <Table>
-          <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
+          <TableHead>
             <TableRow>
               <TableCell align={'center'}>
                 <b>Code</b>

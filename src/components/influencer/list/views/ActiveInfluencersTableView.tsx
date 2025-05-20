@@ -64,7 +64,7 @@ export const ActiveInfluencersTableView = (
       />
       <TableContainer>
         <Table>
-          <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
+          <TableHead>
             <TableRow>
               <TableCell><b>Name</b></TableCell>
               <TableCell><b>Instagram</b></TableCell>

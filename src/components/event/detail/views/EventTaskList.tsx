@@ -73,7 +73,7 @@ export const EventTaskList = ({ eventId, tasks }: { eventId: number; tasks: Even
       <TableContainer>
         <Table size="small">
           <TableHead>
-            <TableRow style={{ backgroundColor: 'darkgrey' }}>
+            <TableRow>
               <TableCell align="center">Name</TableCell>
               <TableCell align="center">Description</TableCell>
               <TableCell align="center">Operation</TableCell>

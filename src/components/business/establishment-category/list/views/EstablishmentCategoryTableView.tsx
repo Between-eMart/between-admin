@@ -18,7 +18,7 @@ export const EstablishmentCategoryTableView = (
     <>
       <TableContainer>
         <Table>
-          <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
+          <TableHead>
             <TableRow>
               <TableCell align={'center'}>
                 <b>Name</b>

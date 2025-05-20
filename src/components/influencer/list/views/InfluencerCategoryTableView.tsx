@@ -9,7 +9,7 @@ export const InfluencerCategoryTableView = ({ categories }) => {
   const {
     mutation: { removeInfluencerCategory },
   } = useInfluencerCategoryMutation();
-  
+
   const handleDeleteIconClick = async (influencerCategoryId: number) => {
     //
     const confirmResult = confirm('Are you sure to delete this category?');
@@ -17,12 +17,12 @@ export const InfluencerCategoryTableView = ({ categories }) => {
       removeInfluencerCategory.mutate({ influencerCategoryId });
     }
   };
-  
+
   return (
     <>
       <TableContainer>
         <Table>
-          <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
+          <TableHead>
             <TableRow>
               <TableCell align={'center'}>
                 <b>Code</b>

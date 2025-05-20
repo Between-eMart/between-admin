@@ -221,7 +221,6 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
             elevation={0}
             sx={{
               p: 2,
-              backgroundColor: (theme) => theme.palette.grey[50],
               borderRadius: 2,
             }}
           >
@@ -273,7 +272,6 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
             elevation={0}
             sx={{
               p: 2,
-              backgroundColor: (theme) => theme.palette.grey[50],
               borderRadius: 2,
             }}
           >
@@ -365,7 +363,6 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
             elevation={0}
             sx={{
               p: 2,
-              backgroundColor: (theme) => theme.palette.grey[50],
               borderRadius: 2,
             }}
           >
