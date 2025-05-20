@@ -23,6 +23,11 @@ import { useEventCategories, useEventMutation } from '~/hooks';
 import { useState } from 'react';
 import { AxiosError } from 'axios';
 import { useDialog } from '~/components';
+import { DateTimePicker } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+
+const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 
 export const EventInfoDetail = ({ event, categories }: { event: Event; categories: EventCategory[] }) => {
   //
@@ -35,7 +40,9 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
   } = useEventMutation();
 
   const {
+    watch,
     control,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<Event>({
@@ -161,41 +168,31 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
                   )}
                 />
               </Grid>
-              <Grid size={2}>
-                <Controller
-                  name="date"
-                  control={control}
-                  rules={{ required: 'Date is required' }}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Date"
-                      fullWidth
-                      error={!!errors.description}
-                      helperText={errors.description?.message}
-                      placeholder="Date format must be YYYY:MM:DD"
+              <Grid size={4}>
+                <DemoContainer components={['DateTimePicker', 'DateTimePicker']}>
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 5 }}>
+                    <DateTimePicker
+                      sx={{ width: '100%' }}
+                      label="Start Date Time"
+                      value={dayjs(watch('startDateTime'))}
+                      onChange={newValue => {
+                        if (!!newValue) {
+                          setValue('startDateTime', newValue.format(DATE_FORMAT));
+                        }
+                      }}
+                    /> ~
+                    <DateTimePicker
+                      sx={{ width: '100%' }}
+                      label="End Date Time"
+                      value={dayjs(watch('endDateTime'))}
+                      onChange={newValue => {
+                        if (!!newValue) {
+                          setValue('endDateTime', newValue.format(DATE_FORMAT));
+                        }
+                      }}
                     />
-                  )}
-                />
-              </Grid>
-
-              <Grid size={2}>
-                <Controller
-                  //@ts-ignore
-                  name="time"
-                  control={control}
-                  rules={{ required: 'Time is required' }}
-                  render={({ field }) => (
-                    <TextField
-                      {...field}
-                      label="Time"
-                      fullWidth
-                      error={!!errors.description}
-                      helperText={errors.description?.message}
-                      placeholder="Time format must be HH:mm:ss"
-                    />
-                  )}
-                />
+                  </div>
+                </DemoContainer>
               </Grid>
               <Grid size={2}>
                 <Controller

@@ -13,7 +13,8 @@ import {
   DialogTitle,
   FormControl,
   FormControlLabel,
-  FormHelperText, IconButton, InputAdornment,
+  FormHelperText,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Paper,
@@ -31,13 +32,61 @@ import { useDialog, useEstablishmentsIdNames } from '~/components';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import dayjs from 'dayjs';
-import MapIcon from '@mui/icons-material/Map';
 import { LocationPickerIconButtonView } from '~/components/event/form/views';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface RegisterEventModalProps {
   open: boolean;
   onClose: () => void;
 }
+
+const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+
+export const eventSchema = yup.object().shape({
+  name: yup.string().required('Name is required'),
+  description: yup.string().required('Description is required'),
+
+  startDateTime: yup
+    .string()
+    .required('Start date and time is required')
+    .test('valid-format', `Date must be in format ${DATE_FORMAT}`, (value) =>
+      dayjs(value, DATE_FORMAT, true).isValid(),
+    ),
+
+  endDateTime: yup
+    .string()
+    .required('End date and time is required')
+    .test('valid-format', `Date must be in format ${DATE_FORMAT}`, (value) =>
+      dayjs(value, DATE_FORMAT, true).isValid(),
+    )
+    .test('is-after-start', 'End date must be after start date', function (value) {
+      const { startDateTime } = this.parent;
+      if (!startDateTime || !value) return true;
+
+      const start = dayjs(startDateTime, DATE_FORMAT, true);
+      const end = dayjs(value, DATE_FORMAT, true);
+
+      return end.isAfter(start);
+    }),
+
+  numberOfSeats: yup.number().required().min(1, 'Minimum 1 seat required'),
+  dressCode: yup.string().required('Dress code is required'),
+  adviceForAttenders: yup.string().required('Advice is required'),
+  rules: yup.string().required('Rules are required'),
+  venue: yup.string().required('Venue is required'),
+  location: yup.string().required('Location is required'),
+  ageRestriction: yup.string().required('Age restriction is required'),
+  isRepeatable: yup.boolean().required(),
+  categoryIds: yup.array().of(yup.number()).min(1, 'Select at least one category'),
+  establishmentId: yup.number().required('Establishment is required'),
+  banners: yup
+    .mixed()
+    .required('Banners are required')
+    .test('is-file-list', 'Must be an array of files', (value) => {
+      return value instanceof Array && value.every((file) => file instanceof File);
+    }),
+});
 
 const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }) => {
   //
@@ -60,9 +109,8 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
     defaultValues: {
       name: '',
       description: '',
-      date: dayjs().format('YYYY-MM-DD'),
-      startTime: dayjs().format('HH:mm:ss'),
-      endTime: dayjs().add(2, 'hours').format('HH:mm:ss'),
+      startDateTime: dayjs().format(DATE_FORMAT),
+      endDateTime: dayjs().add(2, 'hours').format(DATE_FORMAT),
       numberOfSeats: 0,
       dressCode: '',
       adviceForAttenders: '',
@@ -75,6 +123,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
       establishmentId: 0,
       banners: [],
     },
+    resolver: yupResolver(eventSchema),
   });
 
   // Reset form when modal is opened
@@ -117,7 +166,6 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
     }
   };
 
-  const establishments = [{ id: 1, name: 'Maxima' }];
   const watchBannerImages = watch('banners');
 
   return (
@@ -278,21 +326,20 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                       <DateTimePicker
                         sx={{ width: '100%' }}
                         label="Start Date Time"
-                        value={dayjs(`${watch('date')} ${watch('startTime')}`)}
+                        value={dayjs(watch('startDateTime'))}
                         onChange={newValue => {
                           if (!!newValue) {
-                            setValue('date', newValue.format('YYYY-MM-DD'));
-                            setValue('startTime', newValue.format('HH:mm:ss'));
+                            setValue('startDateTime', newValue.format(DATE_FORMAT));
                           }
                         }}
                       /> ~
                       <DateTimePicker
                         sx={{ width: '100%' }}
                         label="End Date Time"
-                        value={dayjs(`${watch('date')} ${watch('endTime')}`)}
+                        value={dayjs(watch('endDateTime'))}
                         onChange={newValue => {
                           if (!!newValue) {
-                            setValue('endTime', newValue.format('HH:mm:ss'));
+                            setValue('endDateTime', newValue.format(DATE_FORMAT));
                           }
                         }}
                       />

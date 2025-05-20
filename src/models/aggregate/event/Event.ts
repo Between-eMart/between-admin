@@ -7,9 +7,8 @@ export interface Event extends DomainEntity {
   name: string;
   description: string;
   organizers: string;
-  date: string;
-  startTime: string;
-  endTime: string;
+  startDateTime: string;
+  endDateTime: string;
   numberOfSeats: number;
   dressCode: string;
   adviceForAttenders: string;

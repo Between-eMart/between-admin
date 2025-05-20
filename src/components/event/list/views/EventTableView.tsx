@@ -11,6 +11,10 @@ import {
   Typography,
 } from '@mui/material';
 import React from 'react';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+
+dayjs.extend(duration);
 
 const statusColors = {
   Actual: 'success',
@@ -39,10 +43,10 @@ export const EventTableView = ({ events, onDetail }) => {
                 <b>Venue</b>
               </TableCell>
               <TableCell align={'center'}>
-                <b>Date</b>
+                <b>Start</b>
               </TableCell>
               <TableCell align={'center'}>
-                <b>Time</b>
+                <b>Duration</b>
               </TableCell>
               <TableCell align={'center'}>
                 <b>Age Restriction</b>
@@ -62,8 +66,8 @@ export const EventTableView = ({ events, onDetail }) => {
                 </TableCell>
                 <TableCell align={'center'}>{event.description}</TableCell>
                 <TableCell align={'center'}>{event.venue}</TableCell>
-                <TableCell align={'center'}>{event.date}</TableCell>
-                <TableCell align={'center'}>{event.time}</TableCell>
+                <TableCell align={'center'}>{event.startDateTime}</TableCell>
+                <TableCell align={'center'}>{dayjs.duration(dayjs(event.endDateTime).diff(event.startDateTime)).asHours()}h</TableCell>
                 <TableCell align={'center'}>{event.ageRestriction}</TableCell>
               </TableRow>
             ))}

@@ -1,15 +1,13 @@
-import { Accordion, Box, Button, Card, AccordionSummary, Stack, AccordionDetails, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Card, Stack, Typography } from '@mui/material';
 import * as React from 'react';
+import { useState } from 'react';
 import { useEvent, useEventMutation } from '~/hooks';
 import { ExpandMore } from '@mui/icons-material';
 import { EventInfoDetail } from '~/components/event/detail/views';
 import { EventAttendRequestList } from '~/components/event/detail/views/EventAttendRequestList';
-import { useState } from 'react';
 import { EventTaskList } from '~/components/event/detail/views/EventTaskList';
 import { EventInviteList } from '~/components/event/detail/views/EventInviteList';
 import { EventBannerList } from '~/components/event/detail/views/EventBannerList';
-import { AxiosError } from 'axios';
-import { FailureResponse } from '~/models';
 
 export const EventDetail = ({ eventId, onBack }: { eventId: number; onBack: () => void }) => {
   //
@@ -55,7 +53,7 @@ export const EventDetail = ({ eventId, onBack }: { eventId: number; onBack: () =
   return (
     <Stack spacing={2}>
       <Card variant="outlined" sx={{ borderLeft: '4px solid #1976d2', p: 2 }}>
-        <EventInfoDetail event={eventInfo.event} categories={eventInfo.categories} />
+        <EventInfoDetail event={eventInfo.event} categories={eventInfo.categories}/>
       </Card>
 
       <Card variant="outlined" sx={{ borderLeft: '4px solid #1976d2', p: 2 }}>
@@ -65,22 +63,22 @@ export const EventDetail = ({ eventId, onBack }: { eventId: number; onBack: () =
             setBannersExpanded(!bannersExpanded);
           }}
         >
-          <AccordionSummary expandIcon={<ExpandMore />}>
+          <AccordionSummary expandIcon={<ExpandMore/>}>
             <Typography variant="h6">Banners</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <EventBannerList banners={eventInfo.event.banners || []} />
+            <EventBannerList banners={eventInfo.event.banners || []}/>
           </AccordionDetails>
         </Accordion>
       </Card>
 
       <Card variant="outlined" sx={{ borderLeft: '4px solid #1976d2', p: 2 }}>
         <Accordion expanded={tasksExpanded} onChange={handleTasksExpand}>
-          <AccordionSummary expandIcon={<ExpandMore />}>
+          <AccordionSummary expandIcon={<ExpandMore/>}>
             <Typography variant="h6">Event Tasks </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <EventTaskList eventId={eventInfo.event.id} tasks={eventInfo.event.tasks || []} />
+            <EventTaskList eventId={eventInfo.event.id} tasks={eventInfo.event.tasks || []}/>
           </AccordionDetails>
         </Accordion>
       </Card>
@@ -92,7 +90,7 @@ export const EventDetail = ({ eventId, onBack }: { eventId: number; onBack: () =
             setCompTasksExpanded(!compTasksExpanded);
           }}
         >
-          <AccordionSummary expandIcon={<ExpandMore />}>
+          <AccordionSummary expandIcon={<ExpandMore/>}>
             <Typography variant="h6">Completed Tasks</Typography>
           </AccordionSummary>
           <AccordionDetails></AccordionDetails>
@@ -101,11 +99,11 @@ export const EventDetail = ({ eventId, onBack }: { eventId: number; onBack: () =
 
       <Card variant="outlined" sx={{ borderLeft: '4px solid #1976d2', p: 2 }}>
         <Accordion expanded={attendListExpanded} onChange={handleAttendListExpand}>
-          <AccordionSummary expandIcon={<ExpandMore />}>
+          <AccordionSummary expandIcon={<ExpandMore/>}>
             <Typography variant="h6">Event Attend Requests</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <EventAttendRequestList attendRequests={eventInfo.attendRequests} />
+            <EventAttendRequestList attendRequests={eventInfo.attendRequests}/>
           </AccordionDetails>
         </Accordion>
       </Card>
@@ -117,13 +115,13 @@ export const EventDetail = ({ eventId, onBack }: { eventId: number; onBack: () =
             setInviteListExpanded(!inviteListExpanded);
           }}
         >
-          <AccordionSummary expandIcon={<ExpandMore />}>
+          <AccordionSummary expandIcon={<ExpandMore/>}>
             <Typography variant="h6">Invitation List</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <EventInviteList inviteRequests={eventInfo.inviteRequests} onRefresh={() => {
               refetchEvent();
-            }} eventId={eventId} />
+            }} eventId={eventId}/>
           </AccordionDetails>
         </Accordion>
       </Card>
