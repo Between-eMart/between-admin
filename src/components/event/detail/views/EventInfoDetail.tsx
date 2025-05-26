@@ -67,7 +67,7 @@ export const eventSchema = yup.object({
   venue: yup.string().required('Venue is required'),
   location: yup.string().required('Location is required'),
   ageRestriction: yup.string().required('Age restriction is required'),
-  isRepeatable: yup.boolean().required('Repeatable field is required'),
+  isRepeatable: yup.boolean().default(false),
 
   status: yup
     .mixed<EventStatus>()
