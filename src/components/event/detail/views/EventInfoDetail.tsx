@@ -106,7 +106,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
     resolver: yupResolver(eventSchema),
   });
 
-  const statusOptions: string[] = Object.keys(EventStatus);
+  const statusOptions: string[] = Object.values(EventStatus);
 
 
   const handleFormSubmit = async (data: Event) => {
