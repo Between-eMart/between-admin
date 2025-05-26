@@ -34,7 +34,7 @@ const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const eventSchema = yup.object({
   name: yup.string().required('Event name is required'),
   description: yup.string().required('Description is required'),
-  organizers: yup.string().required('Organizers are required'),
+  organizers: yup.string().optional(),
 
   startDateTime: yup
     .string()
@@ -71,7 +71,7 @@ export const eventSchema = yup.object({
 
   status: yup
     .mixed<EventStatus>()
-    .oneOf(Object.values(EventStatus))
+    .oneOf(Object.keys(EventStatus) as EventStatus[], 'Invalid status')
     .required('Status is required'),
 
   categoryIds: yup
@@ -106,7 +106,7 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
     resolver: yupResolver(eventSchema),
   });
 
-  const statusOptions: string[] = Object.values(EventStatus);
+  const statusOptions: string[] = Object.keys(EventStatus);
 
 
   const handleFormSubmit = async (data: Event) => {
@@ -262,7 +262,6 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
                           color="primary"
                         />
                       }
-                      required
                       label="Repeatable event"
                     />
                   )}
@@ -458,7 +457,6 @@ export const EventInfoDetail = ({ event, categories }: { event: Event; categorie
                   control={control}
                   render={({ field }) => (
                     <TextField
-                      required
                       {...field}
                       label="Event organizer(s)"
                       fullWidth

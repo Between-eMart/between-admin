@@ -77,7 +77,7 @@ export const eventSchema = yup.object().shape({
   venue: yup.string().required('Venue is required'),
   location: yup.string().required('Location is required'),
   ageRestriction: yup.string().required('Age restriction is required'),
-  isRepeatable: yup.boolean().required(),
+  isRepeatable: yup.boolean().default(false),
   categoryIds: yup.array().of(yup.number()).min(1, 'Select at least one category'),
   establishmentId: yup.number().required('Establishment is required'),
   banners: yup
