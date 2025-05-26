@@ -34,7 +34,7 @@ const DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const eventSchema = yup.object({
   name: yup.string().required('Event name is required'),
   description: yup.string().required('Description is required'),
-  organizers: yup.string().optional(),
+  organizers: yup.string().optional().nullable(),
 
   startDateTime: yup
     .string()
