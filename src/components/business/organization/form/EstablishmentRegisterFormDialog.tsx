@@ -16,7 +16,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { CommandResponse, Establishment, EstablishmentCdo, PhysicalAddressCdo, VirtualAddressCdo } from '~/models';
 import { useBusinessMutation } from './hooks';
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { useEstablishmentCategories, YandexLocationPicker } from '~/components';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import TimezoneSelect from 'react-timezone-select';
@@ -61,7 +61,7 @@ const physicalAddressCdoSchema = Yup.object().shape({
   postIndex: Yup.string(), // optional
   city: Yup.string().required('City is required'),
   location: Yup.string().required('Location is required'),
-  establishmentId: Yup.number().required('Establishment ID is required'),
+  // establishmentId: Yup.number().required('Establishment ID is required'),
 });
 
 const virtualAddressCdoSchema = Yup.object().shape({
@@ -69,14 +69,14 @@ const virtualAddressCdoSchema = Yup.object().shape({
   webUrl: Yup.string()
     .url('Web URL must be a valid URL')
     .required('Web URL is required'),
-  establishmentId: Yup.number().required('Establishment ID is required'),
+  // establishmentId: Yup.number().required('Establishment ID is required'),
 });
 
 
-const formSchema = Yup.object().shape({
+const formSchema = (isPhysical: boolean) => Yup.object().shape({
   establishmentCdo: establishmentCdoSchema.required('establishmentCdo is required'),
-  physicalAddressCdo: physicalAddressCdoSchema.nullable(),
-  virtualAddressCdo: virtualAddressCdoSchema.nullable(),
+  physicalAddressCdo: isPhysical ? physicalAddressCdoSchema.nullable() : Yup.mixed().nullable(),
+  virtualAddressCdo: !isPhysical ? virtualAddressCdoSchema.nullable() : Yup.mixed().nullable(),
 })
   .required()
   .test(
@@ -131,7 +131,7 @@ export const EstablishmentRegisterFormDialog = (
       physicalAddressCdo: defaultPhysicalAddressCdo,
       virtualAddressCdo: defaultVirtualAddressCdo,
     },
-    resolver: yupResolver(formSchema),
+    resolver: yupResolver(formSchema(addressTabValue == 'physical')),
   });
 
   const handleAddressTabValueChange = (event: SyntheticEvent, newValue: string) => {
@@ -216,6 +216,8 @@ export const EstablishmentRegisterFormDialog = (
           <TextField
             required
             fullWidth
+            multiline
+            rows={3}
             label="Description"
             slotProps={{ inputLabel: { shrink: true } }}
             error={!!errors.establishmentCdo?.description}
@@ -319,8 +321,8 @@ export const EstablishmentRegisterFormDialog = (
             </Box>
             <TabPanel value="physical">
               {addressTabValue === 'physical' && (
-              <YandexLocationPicker
-                onSet={address => setValue('physicalAddressCdo', { ...address } as PhysicalAddressCdo)}/>
+                <YandexLocationPicker
+                  onSet={address => setValue('physicalAddressCdo', { ...address } as PhysicalAddressCdo)}/>
               )}
             </TabPanel>
             <TabPanel value="virtual">

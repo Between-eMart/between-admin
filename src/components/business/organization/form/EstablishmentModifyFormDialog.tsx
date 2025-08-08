@@ -276,10 +276,6 @@ export const EstablishmentModifyFormDialog = (
     watchCategoryIds.includes(category.id),
   );
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
-
   return (
     <Dialog open={true} onClose={onClose} maxWidth={'md'} fullWidth>
       <DialogTitle>Modify Establishment</DialogTitle>
@@ -297,6 +293,8 @@ export const EstablishmentModifyFormDialog = (
             margin="normal"/>
           <TextField
             required
+            multiline
+            rows={3}
             fullWidth
             slotProps={{ inputLabel: { shrink: true } }}
             error={!!errors.establishmentRdo?.establishment?.description}
@@ -377,6 +375,10 @@ export const EstablishmentModifyFormDialog = (
               onChange={(event, newValue) => {
                 const newCategoryIds = newValue.map(category => category.id);
                 setValue('establishmentRdo.establishment.categoryIds', newCategoryIds);
+                setValue('establishmentRdo.categories', newValue.map(category => ({
+                  id: category.id,
+                  name: category.name,
+                })));
               }}
               renderInput={(params) => (
                 <TextField
