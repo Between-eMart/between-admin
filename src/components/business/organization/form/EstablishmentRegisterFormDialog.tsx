@@ -127,7 +127,7 @@ export const EstablishmentRegisterFormDialog = (
     virtualAddressCdo: VirtualAddressCdo;
   }>({
     defaultValues: {
-      establishmentCdo: defaultEstablishmentCdo,
+      establishmentCdo: { ...defaultEstablishmentCdo, brandId },
       physicalAddressCdo: defaultPhysicalAddressCdo,
       virtualAddressCdo: defaultVirtualAddressCdo,
     },
