@@ -10,6 +10,7 @@ import {
 export interface EventRdo {
   //
   event: Event;
+  numberOfAvailableSeats: number;
   establishment: Establishment;
   categories: EventCategory[];
   inviteRequests: EventInviteRequest[];

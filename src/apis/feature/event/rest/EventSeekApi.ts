@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { QueryResponse } from '~/models';
+import { EventRdo, QueryResponse } from '~/models';
 import {
   FindAllEventsQuery,
   FindEventByIdQuery,
@@ -10,12 +10,11 @@ import {
   FindEventsByNameQuery,
   FindIncomingEventsQuery,
 } from '~/apis';
-import { EventRdo } from '~/models/feature/event/rdo/EventRdo';
 
 const url = (path: string) => `/api/feature/event/${path}`;
 
-const findAllEvents = async (query: FindAllEventsQuery): Promise<QueryResponse<Event[]>> => {
-  const response = await axios.post<QueryResponse<Event[]>>(url('find-all-events/query'), query);
+const findAllEvents = async (query: FindAllEventsQuery): Promise<QueryResponse<EventRdo[]>> => {
+  const response = await axios.post<QueryResponse<EventRdo[]>>(url('find-all-events/query'), query);
   return response.data;
 };
 
@@ -31,28 +30,28 @@ const findEventDetail = async (query: FindEventDetailQuery): Promise<QueryRespon
   return response.data;
 };
 
-const findEventsByCategory = async (query: FindEventsByCategoryQuery): Promise<QueryResponse<Event[]>> => {
-  const response = await axios.post<QueryResponse<Event[]>>(url('find-event-by-category/query'), query);
+const findEventsByCategory = async (query: FindEventsByCategoryQuery): Promise<QueryResponse<EventRdo[]>> => {
+  const response = await axios.post<QueryResponse<EventRdo[]>>(url('find-event-by-category/query'), query);
   return response.data;
 };
 
-const findEventsByLocation = async (query: FindEventsByLocationQuery): Promise<QueryResponse<Event[]>> => {
-  const response = await axios.post<QueryResponse<Event[]>>(url('find-event-by-location/query'), query);
+const findEventsByLocation = async (query: FindEventsByLocationQuery): Promise<QueryResponse<EventRdo[]>> => {
+  const response = await axios.post<QueryResponse<EventRdo[]>>(url('find-event-by-location/query'), query);
   return response.data;
 };
 
-const findEventsByName = async (query: FindEventsByNameQuery): Promise<QueryResponse<Event[]>> => {
-  const response = await axios.post<QueryResponse<Event[]>>(url('find-event-by-name/query'), query);
+const findEventsByName = async (query: FindEventsByNameQuery): Promise<QueryResponse<EventRdo[]>> => {
+  const response = await axios.post<QueryResponse<EventRdo[]>>(url('find-event-by-name/query'), query);
   return response.data;
 };
 
-const findIncomingEvents = async (query: FindIncomingEventsQuery): Promise<QueryResponse<Event[]>> => {
-  const response = await axios.post<QueryResponse<Event[]>>(url('find-incoming-events/query'), query);
+const findIncomingEvents = async (query: FindIncomingEventsQuery): Promise<QueryResponse<EventRdo[]>> => {
+  const response = await axios.post<QueryResponse<EventRdo[]>>(url('find-incoming-events/query'), query);
   return response.data;
 };
 
-const findEventsByEstablishment = async (query: FindEventsByEstablishmentQuery): Promise<QueryResponse<Event[]>> => {
-  const response = await axios.post<QueryResponse<Event[]>>(url('find-events-by-establishment/query'), query);
+const findEventsByEstablishment = async (query: FindEventsByEstablishmentQuery): Promise<QueryResponse<EventRdo[]>> => {
+  const response = await axios.post<QueryResponse<EventRdo[]>>(url('find-events-by-establishment/query'), query);
   return response.data;
 };
 

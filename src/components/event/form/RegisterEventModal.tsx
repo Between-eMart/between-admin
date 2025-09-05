@@ -221,7 +221,7 @@ const RegisterEventModal: React.FC<RegisterEventModalProps> = ({ open, onClose }
                             <Select {...field} label="Establishment" value={field.value || ''}>
                               {establishmentIdNames?.map((est) => (
                                 <MenuItem key={est.id} value={est.id}>
-                                  {est.name} - {est.value}
+                                  {est.id} - {est.id}
                                 </MenuItem>
                               ))}
                             </Select>
