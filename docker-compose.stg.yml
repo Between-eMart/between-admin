@@ -1,9 +1,9 @@
 services:
   between-admin-dev:
-    container_name: between-admin-dev
+    container_name: between-admin-stg
     build:
       context: .
       dockerfile: dev.dockerfile
     command: ["nginx", "-g", "daemon off;"]
     ports:
-      - "127.0.0.1:1050:80"
+      - "127.0.0.1:1051:80"
