@@ -1,6 +1,6 @@
 services:
-  between-admin-dev:
-    container_name: between-admin-dev
+  between-admin-prod:
+    container_name: between-admin-prod
     build:
       context: .
       dockerfile: dev.dockerfile
