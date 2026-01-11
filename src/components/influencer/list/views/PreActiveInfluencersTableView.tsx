@@ -4,6 +4,7 @@ import {
   Button,
   Chip,
   Pagination,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -24,6 +25,7 @@ export const PreActiveInfluencersTableView = ({
   offset,
   limit,
   onPageChange,
+  onPageLimitChange,
   onDetail,
   searchQuery,
   onChangeSearchProperties,
@@ -37,6 +39,7 @@ export const PreActiveInfluencersTableView = ({
   offset: number;
   limit: number;
   onPageChange: (offset: number) => void;
+  onPageLimitChange: (limit: number) => void;
   onDetail: (influencer: Influencer) => void;
   searchQuery: FindPreActiveInfluencersQuery;
   onChangeSearchProperties: (
@@ -49,6 +52,7 @@ export const PreActiveInfluencersTableView = ({
   onReject: (influencerId: number) => Promise<void>;
 }) => {
   //
+  const perPageOptions = [10, 25, 50, 100];
 
   return (
     <>
@@ -111,14 +115,65 @@ export const PreActiveInfluencersTableView = ({
           </TableBody>
         </Table>
       </TableContainer>
-      {/* Pagination */}
-      <Box display="flex" justifyContent="center" mt={3}>
+      {/* Pagination Controls */}
+      <Box display="flex" justifyContent="space-between" alignItems="center" mt={3}>
+        {/* Per Page Selector */}
+        <Stack direction="row" spacing={1} alignItems="center">
+          <Typography variant="body2" color="text.secondary">
+            Per page:
+          </Typography>
+          {perPageOptions.map((option) => (
+            <Button
+              key={option}
+              size="small"
+              variant={limit === option ? 'contained' : 'outlined'}
+              onClick={() => onPageLimitChange(option)}
+              sx={{
+                minWidth: '48px',
+                fontWeight: limit === option ? 'bold' : 'normal',
+              }}
+            >
+              {option}
+            </Button>
+          ))}
+        </Stack>
+
+        {/* Pagination */}
         <Pagination
           count={Math.ceil(total / limit)}
           page={offset / limit + 1}
           onChange={(_, value) => onPageChange((value - 1) * limit)}
           color="primary"
+          showFirstButton
+          showLastButton
+          siblingCount={3}
+          boundaryCount={2}
+          sx={{
+            '& .MuiPaginationItem-root': {
+              fontSize: '0.875rem',
+              fontWeight: 500,
+              minWidth: '36px',
+              height: '36px',
+            },
+            '& .MuiPaginationItem-root.Mui-selected': {
+              backgroundColor: 'primary.main',
+              color: 'white',
+              fontWeight: 700,
+              fontSize: '1rem',
+              '&:hover': {
+                backgroundColor: 'primary.dark',
+              },
+            },
+            '& .MuiPaginationItem-ellipsis': {
+              fontSize: '1rem',
+            },
+          }}
         />
+
+        {/* Total Count */}
+        <Typography variant="body2" color="text.secondary" sx={{ minWidth: '120px', textAlign: 'right' }}>
+          Total: {total}
+        </Typography>
       </Box>
     </>
   );

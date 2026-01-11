@@ -2,6 +2,7 @@ import { Influencer, QueryResponse } from '~/models';
 import { FindActiveInfluencersQuery, InfluencerSeekApi } from '~/apis';
 import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useState } from 'react';
+import { exportInfluencersToExcel } from '~/utils/excelExport';
 
 export const useActiveInfluencers = () => {
   //
@@ -22,7 +23,7 @@ export const useActiveInfluencers = () => {
 
   const changeCurrentPage = (offset: number) => {
     //
-    setQuery((prev) => {
+    const updateFn = (prev: FindActiveInfluencersQuery) => {
       if (prev.offset) {
         return {
           ...prev,
@@ -30,12 +31,14 @@ export const useActiveInfluencers = () => {
         };
       }
       return prev;
-    });
+    };
+    setQuery(updateFn);
+    setSearchQuery(updateFn);
   };
 
   const changePageLimit = (limit: number) => {
     //
-    setQuery((prev) => {
+    const updateFn = (prev: FindActiveInfluencersQuery) => {
       if (prev.offset) {
         return {
           ...prev,
@@ -43,7 +46,9 @@ export const useActiveInfluencers = () => {
         };
       }
       return prev;
-    });
+    };
+    setQuery(updateFn);
+    setSearchQuery(updateFn);
   };
 
   const changeSearchProperties = (
@@ -86,6 +91,29 @@ export const useActiveInfluencers = () => {
     });
   };
 
+  const downloadAllInfluencers = async () => {
+    try {
+      // Fetch all influencers with a high limit
+      const allInfluencersQuery: FindActiveInfluencersQuery = {
+        ...searchQuery,
+        offset: {
+          offset: 0,
+          limit: 10000,
+        },
+      };
+
+      const response = await InfluencerSeekApi.findActiveInfluencers(allInfluencersQuery);
+      const allInfluencers = response.result || [];
+
+      // Export to Excel
+      const timestamp = new Date().toISOString().split('T')[0];
+      exportInfluencersToExcel(allInfluencers, `influencers_${timestamp}.xlsx`);
+    } catch (error) {
+      console.error('Error downloading influencers:', error);
+      throw error;
+    }
+  };
+
   return {
     query: searchQuery,
     influencers: data?.result || [],
@@ -98,5 +126,6 @@ export const useActiveInfluencers = () => {
     fetchByNewQuery,
     resetQuery,
     refetchInfluencers: refetch,
+    downloadAllInfluencers,
   };
 };

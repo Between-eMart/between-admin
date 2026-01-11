@@ -22,7 +22,7 @@ export const usePreActiveInfluencers = () => {
 
   const changeCurrentPage = (offset: number) => {
     //
-    setQuery((prev) => {
+    const updateFn = (prev: FindPreActiveInfluencersQuery) => {
       if (prev.offset) {
         return {
           ...prev,
@@ -30,12 +30,14 @@ export const usePreActiveInfluencers = () => {
         };
       }
       return prev;
-    });
+    };
+    setQuery(updateFn);
+    setSearchQuery(updateFn);
   };
 
   const changePageLimit = (limit: number) => {
     //
-    setQuery((prev) => {
+    const updateFn = (prev: FindPreActiveInfluencersQuery) => {
       if (prev.offset) {
         return {
           ...prev,
@@ -43,7 +45,9 @@ export const usePreActiveInfluencers = () => {
         };
       }
       return prev;
-    });
+    };
+    setQuery(updateFn);
+    setSearchQuery(updateFn);
   };
 
   const changeSearchProperties = (

@@ -62,11 +62,13 @@ export const InfluencerList = () => {
               offset={activeInfluencers.offset}
               limit={activeInfluencers.limit}
               onPageChange={activeInfluencers.changeCurrentPage}
+              onPageLimitChange={activeInfluencers.changePageLimit}
               onDetail={(influencer) => setSelectedInfluencer(influencer)}
               categories={influencerCategories}
               onChangeSearchProperties={activeInfluencers.changeSearchProperties}
               onSearch={() => activeInfluencers.fetchByNewQuery()}
               searchQuery={activeInfluencers.query}
+              onDownloadAll={activeInfluencers.downloadAllInfluencers}
             />
           </TabPanel>
           <TabPanel value="2">
@@ -76,6 +78,7 @@ export const InfluencerList = () => {
               offset={preActiveInfluencers.offset}
               limit={preActiveInfluencers.limit}
               onPageChange={preActiveInfluencers.changeCurrentPage}
+              onPageLimitChange={preActiveInfluencers.changePageLimit}
               onDetail={(influencer) => setSelectedInfluencer(influencer)}
               categories={influencerCategories}
               onChangeSearchProperties={preActiveInfluencers.changeSearchProperties}
